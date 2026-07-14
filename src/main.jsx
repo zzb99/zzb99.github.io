@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   BrowserRouter,
+  HashRouter,
   Link,
   Route,
   Routes,
@@ -125,10 +126,12 @@ function App() {
   );
 }
 
+const Router = import.meta.env.VITE_GITHUB_PAGES === 'true' ? HashRouter : BrowserRouter;
+
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
+  <Router>
     <ExhibitionProvider>
       <App />
     </ExhibitionProvider>
-  </BrowserRouter>,
+  </Router>,
 );
