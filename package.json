@@ -11,7 +11,8 @@
     "test:links": "node scripts/check-links.mjs",
     "test:static": "node scripts/check-static-site.mjs",
     "test:e2e": "node scripts/e2e.mjs",
-    "audit:lighthouse": "node scripts/lighthouse.mjs"
+    "audit:lighthouse": "node scripts/lighthouse.mjs",
+    "content:new": "node scripts/new-content.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
