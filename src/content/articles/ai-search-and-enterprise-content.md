@@ -4,6 +4,7 @@ slug: ai-search-and-enterprise-content
 description: 当答案由多个来源组织而成，企业内容首先要做到的是清楚、具体且可核验。
 category: GEO 与内容
 pubDate: 2026-07-01
+updatedDate: 2026-07-15
 relatedProject: housekeeping-geo
 ---
 过去，内容建设常被理解为“写更多页面”。现在，搜索结果、问答系统和 AI 回答会同时判断一个页面是否能回答具体问题。这不是替代传统 SEO，而是把内容质量的要求推得更前面。

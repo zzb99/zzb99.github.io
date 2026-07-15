@@ -4,6 +4,7 @@ slug: from-idea-to-project
 description: 想法变成项目，通常不是一次跳跃，而是一连串更具体的判断和验证。
 category: 项目方法
 pubDate: 2026-06-12
+updatedDate: 2026-07-15
 relatedProject: postal-sorting-robot
 ---
 一个想法刚出现时，往往带着很强的直觉。它可能准确，也可能还没有说清楚。项目工作的第一步不是急着证明它正确，而是找到它究竟在解决谁的什么问题。

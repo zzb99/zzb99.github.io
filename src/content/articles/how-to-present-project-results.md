@@ -4,6 +4,7 @@ slug: how-to-present-project-results
 description: 好的成果表达不是把数字放大，而是让人看见它在什么条件下形成、能够说明什么。
 category: 项目方法
 pubDate: 2026-05-02
+updatedDate: 2026-07-15
 relatedProject: ecommerce-growth
 ---
 项目结束时，人们常常急着寻找一个最醒目的数字。数字当然重要，但如果没有项目背景、时间范围和验证方式，它很快会变成脱离语境的装饰。

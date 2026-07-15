@@ -2,13 +2,14 @@
 import '../styles/site.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-const { title = '张智博', description = '关注人工智能、产品创新与项目实践。', image, type = 'website' } = Astro.props;
+const { title = '张智博', description = '关注人工智能、产品创新与项目实践。', image = '/og-default.svg', type = 'website', structuredData } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const jsonLd = { '@context': 'https://schema.org', '@type': type === 'article' ? 'Article' : 'Person', name: '张智博', url: Astro.site, description };
+const person = { '@context': 'https://schema.org', '@type': 'Person', name: '张智博', url: Astro.site, description: '关注人工智能、产品创新与项目实践。' };
+const jsonLd = structuredData ? [person, ...(Array.isArray(structuredData) ? structuredData : [structuredData])] : [person];
 ---
 <!doctype html><html lang="zh-CN"><head>
 <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{title} · 张智博</title><meta name="description" content={description} /><link rel="canonical" href={canonical} />
-<meta property="og:type" content={type} /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical} />
-{image && <meta property="og:image" content={new URL(image, Astro.site)} />}<meta name="robots" content="index,follow" /><script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+<meta property="og:type" content={type} /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical} /><meta property="og:image" content={new URL(image, Astro.site)} />
+<meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} /><meta name="twitter:image" content={new URL(image, Astro.site)} /><link rel="manifest" href="/site.webmanifest" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><meta name="robots" content="index,follow" /><script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </head><body><Header /><main><slot /></main><Footer /></body></html>

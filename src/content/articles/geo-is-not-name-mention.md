@@ -4,6 +4,7 @@ slug: geo-is-not-name-mention
 description: 被提及是结果，不是目标；真正重要的是信息是否足以支撑一次可靠的回答。
 category: GEO 与内容
 pubDate: 2026-05-28
+updatedDate: 2026-07-15
 relatedProject: housekeeping-geo
 ---
 当人们讨论 GEO 时，很容易把注意力放在“能不能被 AI 提到”。但如果页面本身没有回答能力，一次提及也很难带来长期价值。

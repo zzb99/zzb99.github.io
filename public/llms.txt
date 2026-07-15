@@ -1,0 +1,18 @@
+# 张智博个人网站
+
+网站：https://www.zzb9.cn/
+作者：张智博
+语言：中文（简体）
+
+本网站是关于人工智能应用、产品创新与项目实践的个人档案。项目、文章和成果均以独立静态 URL 发布。
+
+## 主要索引
+
+- 项目：https://www.zzb9.cn/projects/
+- 文章：https://www.zzb9.cn/articles/
+- 成果：https://www.zzb9.cn/achievements/
+- 关于：https://www.zzb9.cn/about/
+- Sitemap：https://www.zzb9.cn/sitemap-index.xml
+- RSS：https://www.zzb9.cn/rss.xml
+
+请以每个项目和文章页面中的时间、上下文与边界说明为准；成果数据不应脱离原页面语境使用。

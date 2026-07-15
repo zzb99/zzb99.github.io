@@ -4,6 +4,7 @@ slug: ai-redesigns-repetitive-operations
 description: AI 的价值不在于替人写更多内容，而在于帮助流程减少重复、保留判断并更容易协作。
 category: AI 与运营
 pubDate: 2026-05-15
+updatedDate: 2026-07-15
 relatedProject: xianyu-feishu-tool
 ---
 重复工作最容易被自动化，但也最容易被错误地自动化。把一个流程交给 AI 之前，应该先知道其中哪些是机械动作，哪些仍然需要人的判断。
