@@ -1,0 +1,5 @@
+---
+const { article } = Astro.props;
+const date = article.data.pubDate.toLocaleDateString('zh-CN', { year:'numeric', month:'long', day:'numeric' });
+---
+<a class="article-card" href={`/articles/${article.data.slug}/`}><span>{article.data.category} · {date}</span><h3>{article.data.title}</h3><p>{article.data.description}</p><b>阅读全文 <i>→</i></b></a>

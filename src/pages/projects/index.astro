@@ -1,0 +1,4 @@
+---
+import { getCollection } from 'astro:content'; import BaseLayout from '../../layouts/BaseLayout.astro'; import ProjectCard from '../../components/ProjectCard.astro'; const projects = await getCollection('projects');
+---
+<BaseLayout title="项目" description="张智博参与和持续推进的项目档案。"><header class="page-hero"><p class="eyebrow">PROJECTS</p><h1>项目</h1><p>从具体问题出发，逐步梳理、构建并留下可以复盘的结果。</p></header><section class="content-wrap"><div class="project-grid project-grid--list">{projects.map(p=><ProjectCard project={p}/>)}</div></section></BaseLayout>

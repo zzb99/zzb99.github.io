@@ -1,0 +1,2 @@
+import rss from '@astrojs/rss'; import { getCollection } from 'astro:content';
+export async function GET(context) { const articles = await getCollection('articles'); return rss({ title:'张智博 · 文章', description:'关于人工智能、产品创新与项目实践的记录。', site:context.site, items:articles.map(article=>({ title:article.data.title, pubDate:article.data.pubDate, description:article.data.description, link:`/articles/${article.data.slug}/` })) }); }

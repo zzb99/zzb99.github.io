@@ -1,0 +1,4 @@
+---
+const { project, featured = false } = Astro.props;
+---
+<a class:list={['project-card', { 'project-card--featured': featured }]} href={`/projects/${project.data.slug}/`}><img src={project.data.hero} alt={`${project.data.title}项目主视觉`} loading="lazy" /><div class="project-card__body"><span>{project.data.category} · {project.data.year}</span><h3>{project.data.title}</h3><p>{project.data.summary}</p><b>查看项目 <i>→</i></b></div></a>
