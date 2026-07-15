@@ -1,0 +1,15 @@
+import { access, readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const dist = fileURLToPath(new URL('../dist/', import.meta.url));
+const required = ['index.html','404.html','projects/index.html','articles/index.html','achievements/index.html','about/index.html','rss.xml','robots.txt','sitemap-index.xml','CNAME'];
+const projectSlugs = ['postal-sorting-robot','jingjie','ecommerce-growth','housekeeping-geo','panxiu-archive','xianyu-feishu-tool'];
+const articleSlugs = ['ai-search-and-enterprise-content','why-personal-site-matters','from-idea-to-project','geo-is-not-name-mention','ai-redesigns-repetitive-operations','how-to-present-project-results'];
+for (const file of required) await access(join(dist,file));
+for (const slug of projectSlugs) await access(join(dist,'projects',slug,'index.html'));
+for (const slug of articleSlugs) await access(join(dist,'articles',slug,'index.html'));
+const home = await readFile(join(dist,'index.html'),'utf8'); const robots = await readFile(join(dist,'robots.txt'),'utf8'); const rss = await readFile(join(dist,'rss.xml'),'utf8');
+if (!home.includes('application/ld+json') || !home.includes('canonical')) throw new Error('Home metadata is incomplete.');
+if (!robots.includes('sitemap-index.xml')) throw new Error('robots.txt does not expose the sitemap.');
+if (!rss.includes('<rss')) throw new Error('RSS is malformed.');
+console.log(`Verified ${required.length + projectSlugs.length + articleSlugs.length} required static artifacts.`);

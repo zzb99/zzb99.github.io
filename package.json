@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview --host 127.0.0.1",
     "check": "astro check",
-    "test:links": "node scripts/check-links.mjs"
+    "test:links": "node scripts/check-links.mjs",
+    "test:static": "node scripts/check-static-site.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",

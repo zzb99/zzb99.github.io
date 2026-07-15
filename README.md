@@ -1,64 +1,39 @@
-# 张智博个人作品集
+# 张智博个人网站
 
-一个使用 React 与 Vite 构建的个人作品集网站，用于展示个人介绍、研究经历、项目作品、奖项荣誉和联系方式。
-
-## 功能
-
-- 响应式单页作品集布局
-- 个人介绍与研究方向展示
-- 项目、成果及荣誉陈列
-- 联系方式与页面导航
-- 自定义交互动效与视觉组件
+一个以 Astro 构建的纯静态个人网站。项目、文章和成果会在构建时输出为独立 HTML，适合 GitHub Pages 与自定义域名部署。
 
 ## 技术栈
 
-- React 19
-- Vite 7
-- CSS
-- Inter Variable Font
+- Astro 7 与 TypeScript
+- Markdown 内容集合
+- GitHub Pages 静态部署
 
-## 本地运行
+## 安装与启动
 
-需要安装 Node.js，并启用 pnpm。
-
-```bash
+```powershell
 pnpm install
-pnpm dev
+./scripts/start-local.ps1
 ```
 
-启动后访问 `http://127.0.0.1:5173`。
+默认访问 `http://127.0.0.1:4321/`。也可用 `pnpm dev` 启动。
 
-## 构建
+## 构建与验证
 
-```bash
-pnpm build
+```powershell
+./scripts/build.ps1
 ```
 
-构建结果会生成在 `dist` 目录中。
+该脚本会执行类型检查、静态构建、链接检查和静态产物检查。构建结果在 `dist/`。
 
-## 项目结构
+## 内容与部署
 
-```text
-public/                 静态资源
-src/
-  components/           可复用组件
-  data/                 页面内容数据
-  hooks/                页面交互逻辑
-  sections/             页面区块
-  main.jsx              应用入口
-  style.css             全局样式
-index.html              HTML 入口
-vite.config.js          Vite 配置
-```
+- 项目：`src/content/projects/`
+- 文章：`src/content/articles/`
+- 内容维护：[CONTENT_GUIDE.md](CONTENT_GUIDE.md)
+- SEO/GEO：[SEO_GEO_GUIDE.md](SEO_GEO_GUIDE.md)
+- 部署与回滚：[DEPLOYMENT.md](DEPLOYMENT.md)
+- 内容核验：[CONTENT_REVIEW.md](CONTENT_REVIEW.md)
 
-## 常用命令
+## 备份与发布
 
-| 命令 | 说明 |
-| --- | --- |
-| `pnpm dev` | 启动本地开发服务器 |
-| `pnpm build` | 构建生产版本 |
-| `pnpm preview` | 预览生产构建 |
-
-## 许可
-
-本项目内容与设计用于个人作品展示。未经许可，请勿直接复制或用于商业用途。
+`./scripts/backup.ps1` 创建 Git bundle 和源码归档；`./scripts/deploy.ps1` 在本地质量检查通过且工作区干净时推送 `main`，触发 GitHub Pages 发布。
