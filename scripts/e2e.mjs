@@ -3,7 +3,9 @@ import AxeBuilder from '@axe-core/playwright';
 
 const baseURL = process.env.SITE_URL ?? 'http://127.0.0.1:4321';
 const chrome = process.env.CHROME_PATH ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const routes = ['/', '/projects/', '/projects/postal-sorting-robot/', '/articles/', '/articles/ai-search-and-enterprise-content/', '/achievements/', '/about/', '/not-found/'];
+const projectSlugs = ['postal-sorting-robot', 'jingjie', 'ecommerce-growth', 'housekeeping-geo', 'panxiu-archive', 'xianyu-feishu-tool'];
+const articleSlugs = ['ai-search-and-enterprise-content', 'why-personal-site-matters', 'from-idea-to-project', 'geo-is-not-name-mention', 'ai-redesigns-repetitive-operations', 'how-to-present-project-results'];
+const routes = ['/', '/projects/', ...projectSlugs.map(slug => `/projects/${slug}/`), '/articles/', ...articleSlugs.map(slug => `/articles/${slug}/`), '/achievements/', '/about/', '/rss.xml', '/robots.txt', '/sitemap-index.xml', '/llms.txt', '/not-found/'];
 const browser = await chromium.launch({ headless: true, executablePath: chrome });
 const desktopContext = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 const page = await desktopContext.newPage();
@@ -13,7 +15,7 @@ for (const route of routes) {
   const response = await page.goto(`${baseURL}${route}`, { waitUntil: 'networkidle' });
   const expectedStatus = route === '/not-found/' ? 404 : 200;
   if (!response || response.status() !== expectedStatus) throw new Error(`${route} returned ${response?.status()}`);
-  if (await page.locator('main h1').count() !== 1) throw new Error(`${route} must have exactly one main H1.`);
+  if (!['/rss.xml', '/robots.txt', '/sitemap-index.xml', '/llms.txt'].includes(route) && await page.locator('main h1').count() !== 1) throw new Error(`${route} must have exactly one main H1.`);
 }
 await page.goto(baseURL, { waitUntil: 'networkidle' });
 const desktopAxe = await new AxeBuilder({ page }).analyze();
