@@ -23,7 +23,7 @@ pnpm install
 ./scripts/build.ps1
 ```
 
-该脚本会执行类型检查、静态构建、链接检查和静态产物检查。构建结果在 `dist/`。
+该脚本会执行类型检查、静态构建、链接检查、静态产物检查，以及在临时生产预览服务器上的 Playwright、axe 与 Lighthouse 验收。构建结果在 `dist/`。
 
 ## 内容与部署
 
