@@ -2,9 +2,12 @@
 const path = Astro.url.pathname;
 const links = [['/','首页'],['/projects/','项目'],['/articles/','文章'],['/achievements/','成果'],['/about/','关于']];
 ---
-<header class="site-header"><div class="nav-wrap"><a class="brand" href="/">张智博</a><button class="menu-button" aria-label="打开导航菜单" aria-expanded="false">菜单</button><nav aria-label="主导航">{links.map(([href,label]) => <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>)}</nav><a class="quiet-contact" href="mailto:zzb9999@outlook.com">联系</a></div></header>
+<a class="skip-link" href="#main-content">跳至正文</a><header class="site-header"><div class="nav-wrap"><a class="brand" href="/">张智博</a><button class="menu-button" aria-label="打开导航菜单" aria-controls="main-navigation" aria-expanded="false">菜单</button><nav id="main-navigation" aria-label="主导航">{links.map(([href,label]) => <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>)}</nav><a class="quiet-contact" href="mailto:zzb9999@outlook.com">联系</a></div></header>
 <script>
- const button = document.querySelector('.menu-button'); const nav = document.querySelector('.site-header nav');
- button?.addEventListener('click', () => { const open = button.getAttribute('aria-expanded') === 'true'; button.setAttribute('aria-expanded', String(!open)); nav?.classList.toggle('open', !open); document.body.classList.toggle('menu-open', !open); });
- document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { button?.setAttribute('aria-expanded','false'); nav?.classList.remove('open'); document.body.classList.remove('menu-open'); } });
+ const button = document.querySelector<HTMLButtonElement>('.menu-button'); const nav = document.querySelector<HTMLElement>('.site-header nav');
+ const close = () => { button?.setAttribute('aria-expanded', 'false'); button?.setAttribute('aria-label', '打开导航菜单'); nav?.classList.remove('open'); document.body.classList.remove('menu-open'); };
+ const open = () => { button?.setAttribute('aria-expanded', 'true'); button?.setAttribute('aria-label', '关闭导航菜单'); nav?.classList.add('open'); document.body.classList.add('menu-open'); nav?.querySelector<HTMLAnchorElement>('a')?.focus(); };
+ button?.addEventListener('click', () => button.getAttribute('aria-expanded') === 'true' ? close() : open());
+ nav?.addEventListener('click', event => { if ((event.target as HTMLElement).closest('a')) close(); });
+ document.addEventListener('keydown', event => { if (event.key === 'Escape') { close(); button?.focus(); } if (event.key === 'Tab' && button?.getAttribute('aria-expanded') === 'true' && nav) { const focusable = [...nav.querySelectorAll<HTMLAnchorElement>('a')]; const first = focusable[0]; const last = focusable.at(-1); if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); } } });
 </script>

@@ -12,4 +12,4 @@ const jsonLd = structuredData ? [person, ...(Array.isArray(structuredData) ? str
 <title>{title} · 张智博</title><meta name="description" content={description} /><link rel="canonical" href={canonical} />
 <meta property="og:type" content={type} /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical} /><meta property="og:image" content={new URL(image, Astro.site)} />
 <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} /><meta name="twitter:image" content={new URL(image, Astro.site)} /><link rel="manifest" href="/site.webmanifest" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><meta name="robots" content="index,follow" /><script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-</head><body><Header /><main><slot /></main><Footer /></body></html>
+</head><body><Header /><main id="main-content" tabindex="-1"><slot /></main><Footer /></body></html>
