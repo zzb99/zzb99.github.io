@@ -6,7 +6,7 @@ const required = ['index.html','404.html','projects/index.html','articles/index.
 const projectSlugs = ['postal-sorting-robot','jingjie','ecommerce-growth','housekeeping-geo','panxiu-archive','xianyu-feishu-tool'];
 const articleSlugs = ['ai-search-and-enterprise-content','why-personal-site-matters','from-idea-to-project','geo-is-not-name-mention','ai-redesigns-repetitive-operations','how-to-present-project-results'];
 for (const file of required) await access(join(dist,file));
-for (const slug of projectSlugs) await access(join(dist,'projects',slug,'index.html'));
+for (const slug of projectSlugs) { const page = join(dist,'projects',slug,'index.html'); await access(page); const html = await readFile(page,'utf8'); if (!html.includes('"@type":"CreativeWork"') || !html.includes('"@type":"BreadcrumbList"')) throw new Error(`Project metadata is incomplete: ${slug}`); }
 for (const slug of articleSlugs) { const page = join(dist,'articles',slug,'index.html'); await access(page); const html = await readFile(page,'utf8'); if (!html.includes('"@type":"Article"') || !html.includes('"@type":"BreadcrumbList"') || !html.includes('dateModified')) throw new Error(`Article metadata is incomplete: ${slug}`); }
 const home = await readFile(join(dist,'index.html'),'utf8'); const robots = await readFile(join(dist,'robots.txt'),'utf8'); const rss = await readFile(join(dist,'rss.xml'),'utf8');
 if (!home.includes('application/ld+json') || !home.includes('canonical') || !home.includes('"@type":"Person"') || !home.includes('twitter:card')) throw new Error('Home metadata is incomplete.');

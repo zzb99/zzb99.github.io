@@ -1,12 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-const entries = [
- ['robotics','2025 · 中邮智能分拣机器人','99.2% 抓取成功率','在邮政包裹分拣场景的测试与验证中形成的关键记录；包裹破损率控制在不高于 0.5‰ 的目标范围。','/projects/postal-sorting-robot/'],
- ['commerce','2024–2025 · 多平台电商增长实践','双十一单日 GMV 300 万元','在多平台协同运营的关键节点中形成的业务实践结果，关联选品、页面承接、活动节奏与复盘。','/projects/ecommerce-growth/'],
- ['ip','成果沉淀 · 知识产权','国家专利成果 11 项','围绕结构设计、产品构想和成果表达形成的知识产权记录，具体名称与证书可在后续核验后补入。','/projects/jingjie/'],
- ['award','项目表达 · 竞赛与荣誉','全国级铜奖 1 项','在创新项目的方案表达、材料整理与答辩呈现过程中取得的全国级竞赛成果。','/projects/jingjie/'],
- ['content','内容实践 · 本地生活','单条内容传播量 50 万以上','内容策划和运营实践中形成的传播记录；它被视为阶段性反馈，而不是脱离语境的宣传数字。','/articles/ai-redesigns-repetitive-operations/'],
- ['ota','酒店运营 · 体验维护','OTA 评分 4.5 提升至 4.8','围绕服务呈现和内容运营的阶段性观察，后续建议以对应平台后台记录进行核验。','/projects/jingjie/'],
-];
+const entries = [['robotics','2025 · 中邮智能分拣机器人','99.2% 抓取成功率','在邮政包裹分拣场景的测试与验证中形成的关键记录；包裹破损率控制在不高于 0.5‰ 的目标范围。','/projects/postal-sorting-robot/'],['commerce','2024–2025 · 多平台电商增长实践','双十一单日 GMV 300 万元','在多平台协同运营的关键节点中形成的业务实践结果，关联选品、页面承接、活动节奏与复盘。','/projects/ecommerce-growth/'],['ip','成果沉淀 · 知识产权','国家专利成果 11 项','围绕结构设计、产品构想和成果表达形成的知识产权记录，具体名称与证书可在后续核验后补入。','/projects/jingjie/'],['award','项目表达 · 竞赛与荣誉','全国级铜奖 1 项','在创新项目的方案表达、材料整理与答辩呈现过程中取得的全国级竞赛成果。','/projects/jingjie/'],['content','内容实践 · 本地生活','单条内容传播量 50 万以上','内容策划和运营实践中形成的传播记录；它被视为阶段性反馈，而不是脱离语境的宣传数字。','/articles/ai-redesigns-repetitive-operations/'],['ota','酒店运营 · 体验维护','OTA 评分 4.5 提升至 4.8','围绕服务呈现和内容运营的阶段性观察，后续建议以对应平台后台记录进行核验。','/projects/jingjie/']];
+const structuredData = { '@context':'https://schema.org', '@type':'ItemList', name:'张智博的成果记录', itemListElement:entries.map(([,,title,copy,href], index) => ({ '@type':'ListItem', position:index+1, name:title, description:copy, url:new URL(href, Astro.site).href })) };
 ---
-<BaseLayout title="成果" description="项目推进过程中逐渐形成的记录。"><header class="page-hero"><p class="eyebrow">RECORDS</p><h1>成果</h1><p>一些在项目推进过程中逐渐形成的记录。</p></header><section class="content-wrap"><div class="achievement-list">{entries.map(([id,kicker,title,copy,href])=><article id={id} class="achievement"><span>{kicker}</span><strong>{title}</strong><p>{copy}<br/><a class="text-link" href={href}>查看关联内容 <i>→</i></a></p></article>)}</div></section></BaseLayout>
+<BaseLayout title="成果" description="项目推进过程中逐渐形成的记录。" structuredData={structuredData}><header class="page-hero"><p class="eyebrow">RECORDS</p><h1>成果</h1><p>一些在项目推进过程中逐渐形成的记录。</p></header><section class="content-wrap"><div class="achievement-list">{entries.map(([id,kicker,title,copy,href])=><article id={id} class="achievement"><span>{kicker}</span><strong>{title}</strong><p>{copy}<br/><a class="text-link" href={href}>查看关联内容 <i>→</i></a></p></article>)}</div></section></BaseLayout>
