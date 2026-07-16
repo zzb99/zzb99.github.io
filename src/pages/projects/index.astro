@@ -7,4 +7,62 @@ declare global { interface EventTarget { parentElement?: HTMLElement; } }
 const allProjects = await getCollection('projects');
 const projects = projectOrder.map((slug) => allProjects.find((project) => project.data.slug === slug)).filter(Boolean);
 ---
-<BaseLayout title="项目" description="张智博参与和持续推进的项目档案。"><main class="projects-store-page"><section class="store-section" aria-labelledby="project-showcase-title"><h1 id="project-showcase-title" class="store-heading">项目在此，<span>持续推进与不断打磨。</span></h1><div class="store-rail"><div class="store-track" data-store-track>{projects.map((project) => <a class="store-project-card" data-slug={project.data.slug} href={`/projects/${project.data.slug}/`}><div class="store-project-card__copy"><span class="store-project-card__meta">{project.data.category} · {project.data.year}</span><h2>{project.data.title}</h2><p>{project.data.summary}</p></div><img src={project.data.hero} alt={`${project.data.title}项目主视觉`} loading="eager" /></a>)}</div><button class="rail-arrow" type="button" aria-label="向右查看更多项目" data-rail-next><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></button></div></section><section class="store-section achievements" aria-labelledby="achievement-title"><h2 id="achievement-title" class="store-heading">成果与荣誉，<span>持续沉淀与积累。</span></h2><div class="store-track" data-store-track>{achievementCards.map((card) => <article class={`achievement-card achievement-card--${card.accent}`}><div class="achievement-card__icon"><img src={card.icon} alt="" /></div><h3>{card.title}</h3><p>{card.description}</p><span class="achievement-arrow" aria-hidden="true"><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></span></article>)}</div></section></main><script>const tracks=[...document.querySelectorAll<HTMLElement>('[data-store-track]')];tracks.forEach(track=>{let dragging=false;let startX=0;let startScroll=0;const sync=()=>{const button=track.parentElement?.querySelector<HTMLButtonElement>('[data-rail-next]');if(button)button.hidden=track.scrollLeft+track.clientWidth>=track.scrollWidth-8};track.addEventListener('wheel',event=>{if(Math.abs(event.deltaY)>Math.abs(event.deltaX)&&track.scrollWidth>track.clientWidth){event.preventDefault();track.scrollLeft+=event.deltaY}},{passive:false});track.addEventListener('pointerdown',event=>{dragging=true;startX=event.clientX;startScroll=track.scrollLeft;track.classList.add('is-dragging');track.setPointerCapture(event.pointerId)});track.addEventListener('pointermove',event=>{if(!dragging)return;track.scrollLeft=startScroll-(event.clientX-startX)});['pointerup','pointercancel'].forEach(type=>track.addEventListener(type,()=>{dragging=false;track.classList.remove('is-dragging')}));track.addEventListener('scroll',sync,{passive:true});sync()});document.querySelector<HTMLButtonElement>('[data-rail-next]')?.addEventListener('click',event=>{const track=(event.currentTarget.parentElement?.querySelector<HTMLElement>('[data-store-track]'));track?.scrollBy({left:track.clientWidth*.82,behavior:'smooth'})});</script></BaseLayout>
+<style is:global>
+  .rail-arrow--previous { left: max(18px, calc((100vw - 1320px) / 2)); right: auto; }
+  .rail-arrow--previous img { transform: rotate(180deg); }
+</style>
+<BaseLayout title="项目" description="张智博参与和持续推进的项目档案。"><main class="projects-store-page"><section class="store-section" aria-labelledby="project-showcase-title"><h1 id="project-showcase-title" class="store-heading">项目在此，<span>持续推进与不断打磨。</span></h1><div class="store-rail"><div class="store-track" data-store-track>{projects.map((project) => <a class="store-project-card" data-slug={project.data.slug} href={`/projects/${project.data.slug}/`}><div class="store-project-card__copy"><span class="store-project-card__meta">{project.data.category} · {project.data.year}</span><h2>{project.data.title}</h2><p>{project.data.summary}</p></div><img src={project.data.hero} alt={`${project.data.title}项目主视觉`} loading="eager" /></a>)}</div><button class="rail-arrow rail-arrow--previous" type="button" aria-label="向左查看项目" data-rail-previous hidden><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></button><button class="rail-arrow" type="button" aria-label="向右查看更多项目" data-rail-next><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></button></div></section><section class="store-section achievements" aria-labelledby="achievement-title"><h2 id="achievement-title" class="store-heading">成果与荣誉，<span>持续沉淀与积累。</span></h2><div class="store-track" data-store-track>{achievementCards.map((card) => <article class={`achievement-card achievement-card--${card.accent}`}><div class="achievement-card__icon"><img src={card.icon} alt="" /></div><h3>{card.title}</h3><p>{card.description}</p><span class="achievement-arrow" aria-hidden="true"><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></span></article>)}</div></section></main><script>
+  const tracks = [...document.querySelectorAll<HTMLElement>('[data-store-track]')];
+  tracks.forEach((track) => {
+    let pointerActive = false;
+    let dragging = false;
+    let suppressClick = false;
+    let startX = 0;
+    let startScroll = 0;
+    const sync = () => {
+      const previous = track.parentElement?.querySelector<HTMLButtonElement>('[data-rail-previous]');
+      const next = track.parentElement?.querySelector<HTMLButtonElement>('[data-rail-next]');
+      if (previous) previous.hidden = track.scrollLeft <= 8;
+      if (next) next.hidden = track.scrollLeft + track.clientWidth >= track.scrollWidth - 8;
+    };
+    track.addEventListener('pointerdown', (event) => {
+      if (event.pointerType !== 'mouse') return;
+      pointerActive = true;
+      dragging = false;
+      startX = event.clientX;
+      startScroll = track.scrollLeft;
+    });
+    track.addEventListener('pointermove', (event) => {
+      if (!pointerActive || event.pointerType !== 'mouse') return;
+      const distance = event.clientX - startX;
+      if (!dragging && Math.abs(distance) > 6) {
+        dragging = true;
+        track.setPointerCapture(event.pointerId);
+        track.classList.add('is-dragging');
+      }
+      if (dragging) track.scrollLeft = startScroll - distance;
+    });
+    ['pointerup', 'pointercancel'].forEach((type) => track.addEventListener(type, () => {
+      if (dragging) suppressClick = true;
+      pointerActive = false;
+      dragging = false;
+      track.classList.remove('is-dragging');
+    }));
+    track.addEventListener('click', (event) => {
+      if (!suppressClick) return;
+      suppressClick = false;
+      event.preventDefault();
+      event.stopPropagation();
+    }, true);
+    track.addEventListener('scroll', sync, { passive: true });
+    sync();
+  });
+  document.querySelector<HTMLButtonElement>('[data-rail-next]')?.addEventListener('click', (event) => {
+    const track = event.currentTarget.parentElement?.querySelector<HTMLElement>('[data-store-track]');
+    track?.scrollBy({ left: track.clientWidth * .82, behavior: 'smooth' });
+  });
+  document.querySelector<HTMLButtonElement>('[data-rail-previous]')?.addEventListener('click', (event) => {
+    const track = event.currentTarget.parentElement?.querySelector<HTMLElement>('[data-store-track]');
+    track?.scrollBy({ left: -track.clientWidth * .82, behavior: 'smooth' });
+  });
+</script></BaseLayout>

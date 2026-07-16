@@ -5,6 +5,12 @@ backup/
 
 .codex/
 .agents/
+.codex-remote-attachments/
+artifacts/
+assets-source/
+*_AUDIT.md
+PRODUCT_REVIEW.md
+UI_PRODUCT_REVIEW.md
 
 *.zip
 figma-*.png

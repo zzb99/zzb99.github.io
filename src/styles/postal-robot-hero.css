@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+body:has(.postal-robot-hero) { background: #fefefe; }
+body:has(.postal-robot-hero) main,
+body:has(.postal-robot-hero) .project-case,
+body:has(.postal-robot-hero) .site-footer { background: #fefefe; }
+
+.postal-robot-hero { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 100vh; min-height: 100svh; overflow: hidden; isolation: isolate; background: #fefefe; color: #111; font-family: Inter, sans-serif; }
+.postal-robot-hero__video { position: absolute; inset: 0; z-index: 0; display: grid; place-items: center; overflow: hidden; pointer-events: none; background: #fefefe; }
+.postal-robot-hero__video video { width: 100%; height: 100%; object-fit: cover; }
+.postal-robot-hero::after { position: absolute; inset: auto 0 0; z-index: 10; height: min(62%, 580px); content: ''; pointer-events: none; background: linear-gradient(to top, #fefefe 0%, rgba(254,254,254,.8) 50%, transparent 100%); }
+.postal-robot-hero__footer { position: relative; z-index: 30; display: flex; width: 100%; align-items: end; justify-content: space-between; gap: 36px; padding: 160px 7vw 52px; margin-top: auto; }
+.postal-robot-hero__intro { max-width: 790px; }
+.postal-robot-hero__eyebrow { display: flex; align-items: center; gap: 8px; margin: 0 0 18px; font-size: 12px; font-weight: 500; }
+.postal-robot-hero__eyebrow i { width: 8px; height: 8px; border-radius: 50%; background: #111; }
+.postal-robot-hero h1 { margin: 0; font-size: clamp(2.5rem, 5.5vw, 4.5rem); font-weight: 300; letter-spacing: -.03em; line-height: 1; }
+.postal-robot-hero__summary { max-width: 590px; margin: 22px 0 0; color: #4c4c4c; font-size: 14px; line-height: 1.8; }
+.postal-robot-hero__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.postal-robot-hero__actions button { min-height: 40px; padding: 0 17px; border-radius: 999px; font: 500 13px/1 Inter, sans-serif; cursor: pointer; }
+.postal-robot-hero__primary { border: 1px solid #111; background: #111; color: #fff; }
+.postal-robot-hero__secondary { border: 1px solid rgba(0,0,0,.35); background: transparent; color: #111; }
+.postal-robot-hero__outcomes { display: flex; max-width: 330px; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.postal-robot-hero__outcomes span { padding: 9px 11px; border: 1px solid rgba(0,0,0,.12); border-radius: 999px; background: rgba(255,255,255,.9); font-size: 11px; line-height: 1; white-space: nowrap; }
+
+@media (max-width: 767px) {
+  .postal-robot-hero__video { inset: 10%; }
+  .postal-robot-hero__footer { display: block; padding: 145px 24px 28px; }
+  .postal-robot-hero h1 { font-size: clamp(2rem, 8vw, 4.5rem); }
+  .postal-robot-hero__summary { margin-top: 18px; font-size: 13px; line-height: 1.7; }
+  .postal-robot-hero__actions { margin-top: 23px; }
+  .postal-robot-hero__actions button { flex: 1 1 145px; }
+  .postal-robot-hero__outcomes { max-width: none; justify-content: flex-start; margin-top: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) { .postal-robot-hero *, .postal-robot-hero *::before, .postal-robot-hero *::after { scroll-behavior: auto !important; transition: none !important; } }
