@@ -1,22 +1,63 @@
 ---
 const path = Astro.url.pathname;
-const links = [['/','首页'],['/projects/','项目'],['/articles/','文章'],['/achievements/','成果'],['/about/','关于']];
+const links = [
+  ['/', '首页'],
+  ['/projects/', '项目'],
+  ['/articles/', '文章'],
+  ['/achievements/', '成果'],
+  ['/about/', '关于'],
+];
+const isCurrent = (href: string) => href === '/' ? path === '/' : path.startsWith(href);
 ---
-<a class="skip-link" href="#main-content">跳至正文</a><header class="site-header"><div class="nav-wrap"><a class="brand" href="/" aria-label="张智博首页"><img class="brand__logo" src="/brand/logo.png" alt="" /></a><button class="menu-button" aria-label="打开导航菜单" aria-controls="main-navigation" aria-expanded="false">菜单</button><nav id="main-navigation" aria-label="主导航">{links.map(([href,label]) => <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>)}</nav><a class="quiet-contact" href="mailto:zzb9999@outlook.com">联系</a></div></header>
-<style>
-  .brand { display: inline-flex; align-items: center; height: 40px; }
-  .brand__logo { display: block; width: 36px; height: 36px; object-fit: contain; }
-  .brand::after { display: none !important; content: none !important; }
-  @media (max-width: 760px) { .brand { height: 34px; } .brand__logo { width: 30px; height: 30px; } }
-</style>
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="/" aria-label="张智博首页"><img class="brand__logo" src="/brand/logo.png" width="36" height="36" alt="" /></a>
+    <button class="menu-button" type="button" aria-label="打开导航菜单" aria-controls="main-navigation" aria-expanded="false"><span>菜单</span></button>
+    <nav id="main-navigation" aria-label="主导航">
+      {links.map(([href, label]) => <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>)}
+      <a class="mobile-contact" href="mailto:zzb9999@outlook.com">联系</a>
+    </nav>
+    <a class="quiet-contact" href="mailto:zzb9999@outlook.com">联系</a>
+  </div>
+</header>
 <script>
- const button = document.querySelector<HTMLButtonElement>('.menu-button'); const nav = document.querySelector<HTMLElement>('.site-header nav');
- const syncHomeHeader = () => document.body.classList.toggle('home-header-scrolled', Boolean(document.querySelector('.hero--editorial')) && window.scrollY > 12);
- const close = () => { button?.setAttribute('aria-expanded', 'false'); button?.setAttribute('aria-label', '打开导航菜单'); nav?.classList.remove('open'); document.body.classList.remove('menu-open'); };
- const open = () => { button?.setAttribute('aria-expanded', 'true'); button?.setAttribute('aria-label', '关闭导航菜单'); nav?.classList.add('open'); document.body.classList.add('menu-open'); nav?.querySelector<HTMLAnchorElement>('a')?.focus(); };
- button?.addEventListener('click', () => button.getAttribute('aria-expanded') === 'true' ? close() : open());
- nav?.addEventListener('click', event => { if ((event.target as HTMLElement).closest('a')) close(); });
- document.addEventListener('keydown', event => { if (event.key === 'Escape') { close(); button?.focus(); } if (event.key === 'Tab' && button?.getAttribute('aria-expanded') === 'true' && nav) { const focusable = [...nav.querySelectorAll<HTMLAnchorElement>('a')]; const first = focusable[0]; const last = focusable.at(-1); if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); } } });
- syncHomeHeader();
- window.addEventListener('scroll', syncHomeHeader, { passive: true });
+  const button = document.querySelector<HTMLButtonElement>('.menu-button');
+  const nav = document.querySelector<HTMLElement>('#main-navigation');
+  const main = document.querySelector<HTMLElement>('#main-content');
+  const footer = document.querySelector<HTMLElement>('.site-footer');
+  const setBackgroundInert = (value: boolean) => {
+    if (value) { main?.setAttribute('inert', ''); footer?.setAttribute('inert', ''); }
+    else { main?.removeAttribute('inert'); footer?.removeAttribute('inert'); }
+  };
+  const closeMenu = (restoreFocus = false) => {
+    button?.setAttribute('aria-expanded', 'false');
+    button?.setAttribute('aria-label', '打开导航菜单');
+    nav?.classList.remove('open');
+    document.body.classList.remove('menu-open');
+    setBackgroundInert(false);
+    if (restoreFocus) button?.focus();
+  };
+  const openMenu = () => {
+    button?.setAttribute('aria-expanded', 'true');
+    button?.setAttribute('aria-label', '关闭导航菜单');
+    nav?.classList.add('open');
+    document.body.classList.add('menu-open');
+    setBackgroundInert(true);
+    nav?.querySelector<HTMLAnchorElement>('a')?.focus();
+  };
+  button?.addEventListener('click', () => button.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu());
+  nav?.addEventListener('click', (event) => { if ((event.target as HTMLElement).closest('a')) closeMenu(); });
+  document.addEventListener('keydown', (event) => {
+    if (button?.getAttribute('aria-expanded') !== 'true' || !nav) return;
+    if (event.key === 'Escape') { closeMenu(true); return; }
+    if (event.key !== 'Tab') return;
+    const focusable = [button, ...nav.querySelectorAll<HTMLAnchorElement>('a')];
+    const first = focusable[0]; const last = focusable.at(-1);
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+  });
+  const syncHomeHeader = () => document.body.classList.toggle('home-header-scrolled', Boolean(document.querySelector('.hero--editorial')) && window.scrollY > 12);
+  syncHomeHeader();
+  window.addEventListener('scroll', syncHomeHeader, { passive: true });
 </script>

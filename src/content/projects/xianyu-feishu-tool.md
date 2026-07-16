@@ -6,8 +6,16 @@ category: 工具与工作流
 year: '2025'
 status: 工具迭代中
 role: 工作流梳理、数据字段设计与使用场景整理
-hero: /assets/coinops-hero.png
+hero: /assets/optimized/coinops-hero.webp
 featured: false
+featuredRank: 11
+seoTitle: 闲鱼商品采集与飞书同步工具
+seoDescription: 张智博围绕商品信息采集、字段标准化和飞书同步设计可重复的协作工作流，并明确平台规则与人工确认边界。
+updatedDate: 2026-07-17
+organizations: []
+locations: []
+evidenceNote: 页面不公开需要登录或可能涉及平台规则的实现细节，只展示脱敏流程和字段设计。
+relatedProjects: [ecommerce-growth, warehouse-intelligent-robot]
 metrics:
   - { label: 信息来源, value: 商品页面 }
   - { label: 协作目标, value: 飞书同步 }

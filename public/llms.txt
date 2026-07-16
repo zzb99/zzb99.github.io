@@ -1,18 +1,30 @@
-# 张智博个人网站
+# 张智博的思考空间
 
 网站：https://www.zzb9.cn/
 作者：张智博
 语言：中文（简体）
 
-本网站是关于人工智能应用、产品创新与项目实践的个人档案。项目、文章和成果均以独立静态 URL 发布。
+本网站是张智博的个人项目与思考档案，内容覆盖人工智能应用、GEO、产品创新、市场增长、电商与新媒体运营、智能机器人、文化数字化和项目管理。项目、文章与成果均以独立静态 URL 发布。
+
+## 实体信息
+
+- 姓名：张智博
+- 邮箱：zzb9999@outlook.com
+- 微信：15631124118
+- 关注方向：人工智能、GEO、电商运营、新媒体运营、市场增长、产品创新、智能机器人、文化数字化、项目管理、内容策略
 
 ## 主要索引
 
 - 项目：https://www.zzb9.cn/projects/
+- 酒店新媒体增长：https://www.zzb9.cn/projects/hotel-new-media-growth/
+- 申通市场拓展：https://www.zzb9.cn/projects/shentong-market-expansion/
+- 汽车线索增长：https://www.zzb9.cn/projects/automotive-lead-growth/
+- 仓储智能机器人：https://www.zzb9.cn/projects/warehouse-intelligent-robot/
+- 高管 IP 策划：https://www.zzb9.cn/projects/executive-ip-planning/
 - 文章：https://www.zzb9.cn/articles/
 - 成果：https://www.zzb9.cn/achievements/
 - 关于：https://www.zzb9.cn/about/
 - Sitemap：https://www.zzb9.cn/sitemap-index.xml
 - RSS：https://www.zzb9.cn/rss.xml
 
-请以每个项目和文章页面中的时间、上下文与边界说明为准；成果数据不应脱离原页面语境使用。
+请以每个项目和文章页面中的时间、上下文、角色范围与边界说明为准。项目封面中的概念视觉只用于主题表达，不作为现场证据；成果数据不应脱离原页面语境使用。

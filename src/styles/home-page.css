@@ -1,0 +1,86 @@
+body:has(.hero--editorial) .site-header { position: fixed; inset: 0 0 auto; border-color: transparent; background: transparent; backdrop-filter: none; transition: background .18s ease, backdrop-filter .18s ease; }
+body.home-header-scrolled .site-header { border-color: rgba(0,0,0,.04) !important; background: rgba(251,251,249,.88) !important; backdrop-filter: blur(16px) !important; }
+body:has(.hero--editorial) .quiet-contact { display: none; }
+.hero--editorial { position: relative; display: grid; min-height: 100svh; padding: 0 max(28px, calc((100vw - 1320px)/2)); overflow: hidden; background: #f3f3f1 url('/images/hero/desktop-hero-background.webp') center/cover no-repeat; grid-template-columns: 90px minmax(0, 1fr) 90px; align-items: center; isolation: isolate; }
+.home-hero-shader { position: absolute; z-index: 0; inset: 0; opacity: 0; pointer-events: none; transition: opacity .6s ease; }
+.home-hero-shader.is-ready { opacity: 1; }
+.home-hero-shader > * { width: 100%; height: 100%; }
+.hero__guide, .hero__content, .hero__scroll { position: relative; z-index: 3; }
+.hero__guide { display: flex; height: 56%; align-items: center; gap: 12px; }
+.hero__guide span { width: 1px; height: 100%; background: rgba(0,0,0,.16); }
+.hero__guide b { font-size: 13px; font-weight: 500; }
+.hero__content { max-width: 680px; padding-left: 34px; }
+.hero__content h1 { margin: 0 0 28px; font-size: clamp(64px, 6vw, 88px); line-height: 1.05; letter-spacing: .025em; }
+.hero-copy { margin: 0; color: #353532; font-size: clamp(22px, 1.8vw, 28px); font-weight: 520; }
+.hero-links { display: flex; margin-top: 36px; gap: 28px; }
+.hero-links a { min-height: 44px; padding-bottom: 3px; border-bottom: 1px solid currentColor; font-size: 16px; }
+.hero-links i { font-style: normal; }
+.hero__scroll { position: absolute; bottom: 22px; left: 50%; display: grid; width: 44px; height: 44px; place-items: center; transform: translateX(-50%); }
+.hero__scroll span { width: 17px; height: 17px; border-right: 2px solid #555; border-bottom: 2px solid #555; transform: rotate(45deg) translate(-3px,-3px); }
+.hero__transition { position: absolute; z-index: 2; right: 0; bottom: -1px; left: 0; height: 180px; background: linear-gradient(to bottom, transparent, var(--paper)); pointer-events: none; }
+#selected-work { --rail-gutter: max(24px, calc((100vw - 1320px)/2)); position: relative; width: 100%; max-width: none; padding: 92px 0; overflow: hidden; background: #f5f5f7; }
+#selected-work .section-heading { width: min(calc(100% - 48px), 1160px); margin-inline: auto; }
+#selected-work .project-grid--home { display: flex; gap: 24px; padding: 0 var(--rail-gutter) 24px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; cursor: grab; }
+#selected-work .project-grid--home::-webkit-scrollbar { display: none; }
+#selected-work .project-grid--home.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+#selected-work .project-card { position: relative; flex: 0 0 min(38vw, 510px); height: 560px; border: 0; border-radius: 20px; box-shadow: 0 4px 18px rgba(0,0,0,.08); scroll-snap-align: start; isolation: isolate; }
+#selected-work .project-card img { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; }
+#selected-work .project-card::after { position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,.94) 0%, rgba(255,255,255,.72) 35%, rgba(255,255,255,0) 70%); content: ''; }
+#selected-work .project-card__body { padding: 34px; }
+#selected-work .project-card__body h3 { max-width: 430px; font-size: 30px; }
+#selected-work .project-card__body p { max-width: 420px; color: #454542; font-size: 15px; }
+#selected-work .project-card__body b { display: none; }
+#selected-work > .text-link { margin-left: var(--rail-gutter); }
+.apple-store-paddlenav { position: absolute; z-index: 4; inset: 0; pointer-events: none; }
+.apple-store-paddlenav__button { position: absolute; top: 54%; display: grid; width: 54px; height: 54px; padding: 0; border: 0; border-radius: 50%; background: rgba(232,232,237,.9); place-items: center; cursor: pointer; pointer-events: auto; transform: translateY(-50%); }
+.apple-store-paddlenav__button:disabled { opacity: 0; pointer-events: none; }
+.apple-store-paddlenav__previous { left: calc(var(--rail-gutter) + 16px); }
+.apple-store-paddlenav__next { right: 24px; }
+.apple-store-paddlenav__button img { width: 18px; height: 18px; filter: brightness(0); }
+.apple-store-paddlenav__previous img { transform: rotate(180deg); }
+.evidence { width: 100%; max-width: none; padding-inline: max(20px, calc((100vw - var(--max))/2)); background: #efefeb; }
+.evidence__heading { display: flex; margin-bottom: 40px; justify-content: space-between; align-items: end; gap: 30px; }
+.evidence__heading > p { max-width: 330px; margin: 0; color: var(--muted); }
+.evidence-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.evidence-grid a { display: flex; min-height: 240px; padding: 27px; border: 1px solid #d5d5cf; background: #f9f9f6; flex-direction: column; transition: transform .18s ease, box-shadow .18s ease; }
+.evidence-grid a + a { border-left: 0; }
+.evidence-grid a:hover { box-shadow: 0 14px 28px rgba(0,0,0,.07); transform: translateY(-4px); }
+.evidence-grid span { color: var(--soft); font-size: 13px; }
+.evidence-grid strong { margin-top: 12px; font-size: clamp(32px, 3vw, 48px); letter-spacing: -.06em; }
+.evidence-grid p { color: var(--muted); font-size: 14px; }
+.evidence-grid b { margin-top: auto; color: var(--link); font-size: 14px; }
+.articles-preview .article-list { display: grid; grid-template-columns: repeat(3, 1fr); border: 0; gap: 16px; }
+.articles-preview .article-card { display: flex; min-height: 280px; padding: 26px; border: 1px solid var(--line); border-radius: 16px; background: #fff; flex-direction: column; align-items: stretch; }
+.articles-preview .article-card h3 { margin-top: 18px; font-size: 24px; }
+.articles-preview .article-card b { margin-top: auto; }
+.about-teaser { display: grid; grid-template-columns: 1fr .75fr; gap: 70px; border-top: 1px solid var(--line); }
+.about-teaser .eyebrow { grid-column: 1/-1; }
+.about-teaser h2 { grid-column: 1; }
+.about-teaser > p:not(.eyebrow), .about-teaser > .text-link { grid-column: 2; margin: 0; }
+.about-teaser > p:not(.eyebrow) { color: var(--muted); font-size: 18px; }
+.about-teaser > .text-link { align-self: start; justify-self: start; }
+@media (max-width: 900px) { .evidence-grid { grid-template-columns: repeat(2, 1fr); } .evidence-grid a:nth-child(3) { border-left: 1px solid #d5d5cf; } .evidence-grid a:nth-child(n+3) { border-top: 0; } }
+@media (max-width: 760px) {
+  body:has(.hero--editorial) .site-header .mobile-contact { display: block; }
+  .hero--editorial { padding: 0 28px; background-image: url('/images/hero/mobile-hero-background.webp'); background-position: center bottom; grid-template-columns: 48px 1fr; }
+  .hero__content { align-self: start; padding: 145px 0 0; }
+  .hero__content h1 { margin-bottom: 28px; font-size: clamp(52px, 14vw, 62px); }
+  .hero-copy { font-size: 22px; }
+  .hero__guide { height: 64%; }
+  #selected-work { --rail-gutter: 20px; padding: 70px 0; }
+  #selected-work .section-heading { width: auto; margin-inline: 20px; }
+  #selected-work .project-grid--home { gap: 16px; scroll-snap-type: x proximity; }
+  #selected-work .project-card { flex-basis: 82vw; height: 82vw; max-width: 380px; max-height: 430px; border-radius: 17px; }
+  #selected-work .project-card__body { padding: 25px; }
+  #selected-work .project-card__body h3 { font-size: 25px; }
+  .apple-store-paddlenav { display: none; }
+  .evidence__heading { display: block; }
+  .evidence__heading > p { margin-top: 16px; }
+  .evidence-grid { grid-template-columns: 1fr; }
+  .evidence-grid a, .evidence-grid a + a, .evidence-grid a:nth-child(3) { min-height: 200px; border: 1px solid #d5d5cf; }
+  .evidence-grid a + a { border-top: 0; }
+  .articles-preview .article-list { grid-template-columns: 1fr; }
+  .about-teaser { display: block; }
+  .about-teaser > p:not(.eyebrow) { margin-top: 24px; }
+}
+@media (prefers-reduced-motion: reduce) { .home-hero-shader { display: none; } }

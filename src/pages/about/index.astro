@@ -1,5 +1,19 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-const structuredData = { '@context':'https://schema.org', '@type':'ProfilePage', name:'关于张智博', url:new URL('/about/', Astro.site).href, mainEntity:{ '@type':'Person', name:'张智博', url:Astro.site, description:'关注人工智能、产品创新与项目实践。' } };
+import { siteProfile } from '../../data/site';
+const structuredData = {
+  '@context': 'https://schema.org', '@type': 'ProfilePage', name: '关于张智博', url: new URL('/about/', Astro.site).href, dateModified: '2026-07-17',
+  mainEntity: { '@id': new URL('/about/#person', Astro.site).href },
+};
 ---
-<BaseLayout title="关于" description="关于张智博关注的问题、做事方式和联系渠道。" structuredData={structuredData}><article class="about-page"><header class="page-hero"><p class="eyebrow">ABOUT</p><h1>关于</h1><p>我关注人工智能、产品创新与项目实践。</p></header><p>比起给自己一个固定的身份，我更愿意通过持续完成的项目、留下的内容和形成的成果，让这些经历逐渐说明我是谁。</p><h2>关注的问题</h2><p>当一个想法进入真实场景，它如何从模糊的判断变成可理解的方案，再被拆成可以推进、验证和维护的工作？这既关乎产品，也关乎内容、协作和长期记录。</p><h2>做事方式</h2><p>我习惯从现场、使用路径和具体限制开始。先把问题说清，再让方案经历小范围验证；完成之后，把过程、判断和结果整理成下一次可以继续使用的材料。</p><h2>持续研究的方向</h2><p>人工智能如何进入重复性的运营流程；内容与知识如何被更好地组织；本地服务如何在搜索与 AI 回答中被清楚理解；文化资料如何在数字空间中被尊重地保存和使用。</p><h2>联系</h2><p>邮箱：<a class="text-link" href="mailto:zzb9999@outlook.com">zzb9999@outlook.com</a><br/>微信：15631124118</p></article></BaseLayout>
+<BaseLayout title="关于" description="关于张智博关注的问题、做事方式、项目方向和联系渠道。" structuredData={structuredData}>
+  <article class="about-page" id="person">
+    <header class="page-hero"><p class="eyebrow">ABOUT</p><h1>关于</h1><p>保持好奇，也保持探索。</p></header>
+    <p class="about-intro">比起先定义一个身份，我更愿意把具体问题、推进过程和阶段结果留下来。项目横跨内容传播、运营增长、产品创新、智能设备与文化数字化，但它们都从真实场景和可以验证的行动开始。</p>
+    <h2>关注的问题</h2><p>新的技术如何进入真实工作；内容如何被人和机器更清楚地理解；一个想法如何经过协作、验证和复盘，逐渐成为可以继续推进的项目。</p>
+    <h2>做事方式</h2><p>先理解现场、用户路径与限制，再把问题拆成可以执行和观察的步骤。结果出现之后，保留数据口径、判断依据和失败边界，让下一次推进不必从零开始。</p>
+    <h2>正在形成的方向</h2><ul class="about-topics">{siteProfile.knowsAbout.map((topic) => <li>{topic}</li>)}</ul>
+    <div class="about-links"><a href="/projects/">查看项目 <i>→</i></a><a href="/achievements/">查看成果 <i>→</i></a><a href="/articles/">阅读文章 <i>→</i></a></div>
+    <h2>联系</h2><p>邮箱：<a class="text-link" href={`mailto:${siteProfile.email}`}>{siteProfile.email}</a><br />微信：{siteProfile.wechat}</p>
+  </article>
+</BaseLayout>

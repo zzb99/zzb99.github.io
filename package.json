@@ -3,10 +3,9 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "packageManager": "pnpm@11.9.0",
   "dependencies": {
     "pixi.js": "^8.19.0",
-    "lucide-react": "^1.24.0",
-    "motion": "^12.42.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "shaders": "^3.0.438"

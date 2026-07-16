@@ -1,10 +1,19 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-const entries = [
-  ['ip', '成果沉淀 · 知识产权', '知识产权 11 项', '围绕产品构想、结构设计与项目实践形成的知识产权记录；具体名称与证明材料将在核验后逐步补入。'],
-  ['national-awards', '竞赛与荣誉 · 全国级', '2 次全国级奖项经历', '在创新项目的方案表达、材料整理与答辩呈现过程中形成的全国级竞赛经历。'],
-  ['provincial-awards', '竞赛与荣誉 · 省部级', '十余次省部级奖项经历', '来自项目实践、竞赛与成果表达的阶段性记录，后续将按时间与项目逐步整理。']
-];
-const structuredData = { '@context':'https://schema.org', '@type':'ItemList', name:'张智博的成果记录', itemListElement:entries.map(([,,title,copy], index) => ({ '@type':'ListItem', position:index+1, name:title, description:copy })) };
+import { intellectualProperty, nationalAwards, provincialAwards } from '../../data/site';
+const entries = [...nationalAwards, ...provincialAwards, ...intellectualProperty];
+const structuredData = {
+  '@context': 'https://schema.org', '@type': 'CollectionPage', name: '张智博的成果与荣誉', url: new URL('/achievements/', Astro.site).href,
+  mainEntity: { '@type': 'ItemList', itemListElement: entries.map((entry, index) => ({ '@type': 'ListItem', position: index + 1, name: entry.title, identifier: 'identifier' in entry ? entry.identifier : undefined })) },
+};
 ---
-<BaseLayout title="成果" description="按知识产权与获奖经历整理的阶段档案。" structuredData={structuredData}><header class="page-hero"><p class="eyebrow">RECORDS</p><h1>成果</h1><p>按知识产权与获奖经历整理的阶段档案，具体材料将随核验逐步归档。</p></header><section class="content-wrap"><div class="achievement-list">{entries.map(([id,kicker,title,copy])=><article id={id} class="achievement"><span>{kicker}</span><strong>{title}</strong><p>{copy}</p></article>)}</div></section></BaseLayout>
+<BaseLayout title="成果" description="张智博的国家级与省部级荣誉、国家专利、软件著作权及对应项目记录。" structuredData={structuredData}>
+  <header class="page-hero records-hero"><p class="eyebrow">RECORDS</p><h1>成果与荣誉</h1><p>按名称、年份、编号和项目关系整理。只呈现当前可以明确说明的记录。</p></header>
+  <div class="records-page content-wrap">
+    <section id="national-awards" class="record-section"><div class="record-section__heading"><p>01</p><h2>国家级荣誉</h2><span>2 项</span></div><div class="record-list">{nationalAwards.map((award) => <article id={award.id}><div><span>{award.year}</span><b>{award.level}</b></div><h3>{award.title}</h3></article>)}</div></section>
+    <section id="provincial-awards" class="record-section"><div class="record-section__heading"><p>02</p><h2>省部级荣誉</h2><span>按明确名称列示</span></div><div class="record-list">{provincialAwards.map((award) => <article id={award.id}><div><span>{award.year || '阶段记录'}</span><b>{award.level}</b></div><h3>{award.title}</h3></article>)}</div></section>
+    <section id="patents" class="record-section"><div class="record-section__heading"><p>03</p><h2>国家专利</h2><span>实用新型 6 项 · 外观设计 5 项 · 第一作者 6 项</span></div><div class="record-list">{intellectualProperty.filter((item) => item.type !== '软件著作权').map((item) => <article id={item.id}><div><span>{item.type}</span><b>{item.identifier}</b></div><h3>{item.title}</h3><a href={`/projects/${item.project}/`}>查看相关项目 →</a></article>)}</div></section>
+    <section id="software" class="record-section"><div class="record-section__heading"><p>04</p><h2>软件著作权</h2><span>1 项</span></div><div class="record-list">{intellectualProperty.filter((item) => item.type === '软件著作权').map((item) => <article id={item.id}><div><span>{item.type}</span><b>{item.identifier}</b></div><h3>{item.title}</h3><a href={`/projects/${item.project}/`}>查看相关项目 →</a></article>)}</div></section>
+    <aside class="records-note"><strong>信息说明</strong><p>成果数量按简历中可公开且能够列明的信息整理。省部级荣誉不使用与具体名单矛盾的汇总数字；项目数据应结合对应页面的阶段、角色与边界说明理解。</p></aside>
+  </div>
+</BaseLayout>

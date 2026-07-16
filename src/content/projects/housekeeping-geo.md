@@ -6,8 +6,16 @@ category: 本地搜索与 GEO
 year: '2025'
 status: 持续优化
 role: 网站内容、服务结构、搜索与 GEO 可见性建设
-hero: /assets/aimeijia-hero.png
+hero: /assets/optimized/aimeijia-hero.webp
 featured: true
+featuredRank: 10
+seoTitle: 晋中家政数字化与 GEO 建设项目
+seoDescription: 张智博围绕晋中本地家政服务组织官网、服务页面、搜索内容和可被 AI 理解的实体信息结构。
+updatedDate: 2026-07-17
+organizations: []
+locations: [山西晋中]
+evidenceNote: 页面不公开未经授权的排名和咨询数据，重点记录信息结构、方法与阶段工作。
+relatedProjects: [executive-ip-planning, panxiu-archive]
 metrics:
   - { label: 内容结构, value: 服务优先 }
   - { label: 目标地区, value: 晋中 }

@@ -3,66 +3,43 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { achievementCards, projectOrder } from '../../data/project-page';
 import '../../styles/projects-store.css';
-declare global { interface EventTarget { parentElement?: HTMLElement; } }
 const allProjects = await getCollection('projects');
-const projects = projectOrder.map((slug) => allProjects.find((project) => project.data.slug === slug)).filter(Boolean);
+const projects = projectOrder.map((slug) => allProjects.find((project) => project.data.slug === slug)).filter((project): project is NonNullable<typeof project> => Boolean(project));
+const structuredData = {
+  '@context': 'https://schema.org', '@type': 'CollectionPage', name: '张智博的项目', url: new URL('/projects/', Astro.site).href,
+  mainEntity: { '@type': 'ItemList', itemListElement: projects.map((project, index) => ({ '@type': 'ListItem', position: index + 1, name: project.data.title, url: new URL(`/projects/${project.data.slug}/`, Astro.site).href })) },
+};
 ---
-<style is:global>
-  .rail-arrow--previous { left: max(18px, calc((100vw - 1320px) / 2)); right: auto; }
-  .rail-arrow--previous img { transform: rotate(180deg); }
-</style>
-<BaseLayout title="项目" description="张智博参与和持续推进的项目档案。"><main class="projects-store-page"><section class="store-section" aria-labelledby="project-showcase-title"><h1 id="project-showcase-title" class="store-heading">项目在此，<span>持续推进与不断打磨。</span></h1><div class="store-rail"><div class="store-track" data-store-track>{projects.map((project) => <a class="store-project-card" data-slug={project.data.slug} href={`/projects/${project.data.slug}/`}><div class="store-project-card__copy"><span class="store-project-card__meta">{project.data.category} · {project.data.year}</span><h2>{project.data.title}</h2><p>{project.data.summary}</p></div><img src={project.data.hero} alt={`${project.data.title}项目主视觉`} loading="eager" /></a>)}</div><button class="rail-arrow rail-arrow--previous" type="button" aria-label="向左查看项目" data-rail-previous hidden><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></button><button class="rail-arrow" type="button" aria-label="向右查看更多项目" data-rail-next><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></button></div></section><section class="store-section achievements" aria-labelledby="achievement-title"><h2 id="achievement-title" class="store-heading">成果与荣誉，<span>持续沉淀与积累。</span></h2><div class="store-track" data-store-track>{achievementCards.map((card) => <article class={`achievement-card achievement-card--${card.accent}`}><div class="achievement-card__icon"><img src={card.icon} alt="" /></div><h3>{card.title}</h3><p>{card.description}</p><span class="achievement-arrow" aria-hidden="true"><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></span></article>)}</div></section></main><script>
-  const tracks = [...document.querySelectorAll<HTMLElement>('[data-store-track]')];
-  tracks.forEach((track) => {
-    let pointerActive = false;
-    let dragging = false;
-    let suppressClick = false;
-    let startX = 0;
-    let startScroll = 0;
-    const sync = () => {
-      const previous = track.parentElement?.querySelector<HTMLButtonElement>('[data-rail-previous]');
-      const next = track.parentElement?.querySelector<HTMLButtonElement>('[data-rail-next]');
-      if (previous) previous.hidden = track.scrollLeft <= 8;
-      if (next) next.hidden = track.scrollLeft + track.clientWidth >= track.scrollWidth - 8;
-    };
-    track.addEventListener('pointerdown', (event) => {
-      if (event.pointerType !== 'mouse') return;
-      pointerActive = true;
-      dragging = false;
-      startX = event.clientX;
-      startScroll = track.scrollLeft;
+<BaseLayout title="项目" description="张智博参与和持续推进的增长、内容、产品、智能机器人与数字化项目。" structuredData={structuredData}>
+  <div class="projects-store-page">
+    <section class="store-section" aria-labelledby="project-showcase-title">
+      <h1 id="project-showcase-title" class="store-heading">项目在此，<span>持续推进与不断打磨。</span></h1>
+      <div class="store-rail">
+        <div class="store-track" data-store-track>{projects.map((project, index) => <a class="store-project-card" data-slug={project.data.slug} href={`/projects/${project.data.slug}/`}><div class="store-project-card__copy"><span class="store-project-card__meta">{project.data.category} · {project.data.year}</span><h2>{project.data.title}</h2><p>{project.data.summary}</p></div><img src={project.data.hero} width="1586" height="991" alt={`${project.data.title}项目主视觉`} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'auto'} decoding="async" /></a>)}</div>
+        <button class="rail-arrow rail-arrow--previous" type="button" aria-label="向左查看项目" data-rail-previous hidden><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></button>
+        <button class="rail-arrow rail-arrow--next" type="button" aria-label="向右查看更多项目" data-rail-next><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></button>
+      </div>
+    </section>
+    <section class="store-section achievements" aria-labelledby="achievement-title">
+      <h2 id="achievement-title" class="store-heading">成果与荣誉，<span>按真实记录持续整理。</span></h2>
+      <div class="achievement-track">{achievementCards.map((card) => <a class={`achievement-card achievement-card--${card.accent}`} href={card.href}><div class="achievement-card__icon"><img src={card.icon} alt="" /></div><h3>{card.title}</h3><p>{card.description}</p><span class="achievement-arrow" aria-hidden="true"><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></span></a>)}</div>
+    </section>
+  </div>
+  <script>
+    document.querySelectorAll<HTMLElement>('.store-rail').forEach((rail) => {
+      const track = rail.querySelector<HTMLElement>('[data-store-track]');
+      const previous = rail.querySelector<HTMLButtonElement>('[data-rail-previous]');
+      const next = rail.querySelector<HTMLButtonElement>('[data-rail-next]');
+      if (!track || !previous || !next) return;
+      let pointerActive = false; let dragging = false; let suppressClick = false; let startX = 0; let startScroll = 0;
+      const sync = () => { previous.hidden = track.scrollLeft <= 8; next.hidden = track.scrollLeft + track.clientWidth >= track.scrollWidth - 8; };
+      const move = (direction: number) => track.scrollBy({ left: direction * track.clientWidth * .82, behavior: 'smooth' });
+      previous.addEventListener('click', () => move(-1)); next.addEventListener('click', () => move(1));
+      track.addEventListener('pointerdown', (event) => { if (event.pointerType !== 'mouse') return; pointerActive = true; startX = event.clientX; startScroll = track.scrollLeft; });
+      track.addEventListener('pointermove', (event) => { if (!pointerActive || event.pointerType !== 'mouse') return; const distance = event.clientX - startX; if (!dragging && Math.abs(distance) > 6) { dragging = true; track.setPointerCapture(event.pointerId); track.classList.add('is-dragging'); } if (dragging) track.scrollLeft = startScroll - distance; });
+      ['pointerup', 'pointercancel'].forEach((type) => track.addEventListener(type, () => { if (dragging) suppressClick = true; pointerActive = false; dragging = false; track.classList.remove('is-dragging'); }));
+      track.addEventListener('click', (event) => { if (!suppressClick) return; suppressClick = false; event.preventDefault(); event.stopPropagation(); }, true);
+      track.addEventListener('scroll', sync, { passive: true }); sync();
     });
-    track.addEventListener('pointermove', (event) => {
-      if (!pointerActive || event.pointerType !== 'mouse') return;
-      const distance = event.clientX - startX;
-      if (!dragging && Math.abs(distance) > 6) {
-        dragging = true;
-        track.setPointerCapture(event.pointerId);
-        track.classList.add('is-dragging');
-      }
-      if (dragging) track.scrollLeft = startScroll - distance;
-    });
-    ['pointerup', 'pointercancel'].forEach((type) => track.addEventListener(type, () => {
-      if (dragging) suppressClick = true;
-      pointerActive = false;
-      dragging = false;
-      track.classList.remove('is-dragging');
-    }));
-    track.addEventListener('click', (event) => {
-      if (!suppressClick) return;
-      suppressClick = false;
-      event.preventDefault();
-      event.stopPropagation();
-    }, true);
-    track.addEventListener('scroll', sync, { passive: true });
-    sync();
-  });
-  document.querySelector<HTMLButtonElement>('[data-rail-next]')?.addEventListener('click', (event) => {
-    const track = event.currentTarget.parentElement?.querySelector<HTMLElement>('[data-store-track]');
-    track?.scrollBy({ left: track.clientWidth * .82, behavior: 'smooth' });
-  });
-  document.querySelector<HTMLButtonElement>('[data-rail-previous]')?.addEventListener('click', (event) => {
-    const track = event.currentTarget.parentElement?.querySelector<HTMLElement>('[data-store-track]');
-    track?.scrollBy({ left: -track.clientWidth * .82, behavior: 'smooth' });
-  });
-</script></BaseLayout>
+  </script>
+</BaseLayout>

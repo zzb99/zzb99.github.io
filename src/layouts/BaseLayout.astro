@@ -2,14 +2,73 @@
 import '../styles/site.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-const { title = '张智博', description = '关注人工智能、产品创新与项目实践。', image = '/og-default.svg', type = 'website', structuredData } = Astro.props;
+import { nationalAwards, siteProfile } from '../data/site';
+
+const {
+  title = siteProfile.siteName,
+  description = siteProfile.description,
+  image = '/og-default.png',
+  type = 'website',
+  structuredData,
+  isHome = false,
+} = Astro.props;
+const documentTitle = isHome || title === siteProfile.siteName ? siteProfile.siteName : `${title}｜${siteProfile.siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const person = { '@context': 'https://schema.org', '@type': 'Person', name: '张智博', url: Astro.site, description: '关注人工智能、产品创新与项目实践。' };
+const absoluteImage = new URL(image, Astro.site);
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': new URL('/about/#person', Astro.site).href,
+  name: siteProfile.name,
+  url: Astro.site,
+  description: siteProfile.description,
+  email: siteProfile.email,
+  telephone: siteProfile.wechat,
+  knowsAbout: siteProfile.knowsAbout,
+  award: nationalAwards.map((award) => award.title),
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: '个人交流',
+    email: siteProfile.email,
+    telephone: siteProfile.wechat,
+    availableLanguage: ['zh-CN'],
+  },
+};
 const jsonLd = structuredData ? [person, ...(Array.isArray(structuredData) ? structuredData : [structuredData])] : [person];
 ---
-<!doctype html><html lang="zh-CN"><head>
-<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{title} · 张智博</title><meta name="description" content={description} /><link rel="canonical" href={canonical} />
-<meta property="og:type" content={type} /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical} /><meta property="og:image" content={new URL(image, Astro.site)} />
-<meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} /><meta name="twitter:image" content={new URL(image, Astro.site)} /><link rel="manifest" href="/site.webmanifest" /><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" /><link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" /><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" /><meta name="robots" content="index,follow" /><script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-</head><body><Header /><main id="main-content" tabindex="-1"><slot /></main><Footer /></body></html>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fbfbf9" />
+    <title>{documentTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:site_name" content={siteProfile.siteName} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={documentTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={absoluteImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={documentTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteImage} />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <Header />
+    <main id="main-content" tabindex="-1"><slot /></main>
+    <Footer />
+  </body>
+</html>

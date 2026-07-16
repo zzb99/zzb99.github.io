@@ -1,33 +1,32 @@
-import { ChromaFlow, FilmGrain, FlutedGlass, Shader, Swirl } from 'shaders/react';
+import { lazy, Suspense, useEffect, useState } from 'react';
+
+const HomeHeroCanvas = lazy(() => import('./HomeHeroCanvas'));
 
 export default function HomeHeroShader() {
-  return (
-    <div className="home-hero-shader" aria-hidden="true">
-      <Shader>
-        <Swirl colorA="#ffffff" colorB="#f0f0f0" detail={1.7} />
-        <ChromaFlow
-          baseColor="#ffffff"
-          downColor="#ff5f03"
-          leftColor="#ff5f03"
-          rightColor="#ff5f03"
-          upColor="#ff5f03"
-          momentum={13}
-          radius={3.5}
-        />
-        <FlutedGlass
-          aberration={0.61}
-          angle={31}
-          frequency={8}
-          highlight={0.12}
-          highlightSoftness={0}
-          lightAngle={-90}
-          refraction={4}
-          shape="rounded"
-          softness={1}
-          speed={0.15}
-        />
-        <FilmGrain strength={0.05} />
-      </Shader>
-    </div>
-  );
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const lowPowerMobile = window.innerWidth < 768 && (navigator.hardwareConcurrency ?? 8) <= 4;
+    if (reduceMotion || lowPowerMobile) return;
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
+      setEnabled(true);
+    };
+    const timer = window.setTimeout(start, 12_000);
+    window.addEventListener('pointermove', start, { once: true, passive: true });
+    window.addEventListener('pointerdown', start, { once: true, passive: true });
+    window.addEventListener('keydown', start, { once: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener('pointermove', start);
+      window.removeEventListener('pointerdown', start);
+      window.removeEventListener('keydown', start);
+    };
+  }, []);
+
+  if (!enabled) return null;
+  return <Suspense fallback={null}><HomeHeroCanvas /></Suspense>;
 }
