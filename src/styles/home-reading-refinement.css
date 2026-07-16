@@ -5,6 +5,30 @@
   border-top: 0;
 }
 
+.home-achievements {
+  --achievement-gutter: max(20px, calc((100vw - 1056px) / 2));
+  width: 100%;
+  max-width: none;
+  padding: 60px 0 72px;
+  overflow: hidden;
+  background: #f5f5f7;
+}
+
+.home-achievements__heading { width: min(100% - 40px, 1056px); margin: 0 auto 20px; }
+.home-achievements__heading h2 { margin: 0; font-size: clamp(24px, 2.1vw, 30px); font-weight: 650; letter-spacing: -0.052em; line-height: 1.16; }
+.home-achievements__heading h2 span { color: #6e6e73; }
+
+.home-achievements__track { display: flex; gap: 16px; width: 100%; padding: 0 var(--achievement-gutter) 18px; overflow-x: auto; overscroll-behavior-x: contain; scroll-padding-left: var(--achievement-gutter); scroll-snap-type: x proximity; scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y; cursor: grab; }
+.home-achievements__track::-webkit-scrollbar { display: none; }
+.home-achievements__track.is-dragging { cursor: grabbing; user-select: none; }
+
+.home-achievement-card { flex: 0 0 250px; height: 194px; padding: 0; border-radius: 16px; background-color: #fff; background-image: url('/assets/apple-home/store-reasons-reference.jpg'); background-repeat: no-repeat; background-size: 1280px 720px; box-shadow: 0 3px 12px rgba(0,0,0,.06); scroll-snap-align: start; }
+.home-achievement-card--trade { background-position: -111px -512px; }
+.home-achievement-card--installments { background-position: -379px -512px; }
+.home-achievement-card--engraving { background-position: -644px -512px; }
+.home-achievement-card--delivery { background-position: -911px -512px; }
+.home-achievement-card--specialist { background-position: -1178px -512px; }
+
 .articles-preview .section-heading {
   align-items: end;
   margin-bottom: 34px;
@@ -136,6 +160,12 @@
 .about-teaser .text-link { grid-column: 2; justify-self: start; align-self: start; margin-top: 25px; color: #4a6280; border-color: currentColor; }
 
 @media (max-width: 767px) {
+  .home-achievements { --achievement-gutter: 20px; padding: 52px 0 60px; }
+  .home-achievements__heading { width: auto; margin: 0 20px 24px; }
+  .home-achievements__heading h2 { font-size: 24px; }
+  .home-achievements__heading h2 span { display: block; }
+  .home-achievements__track { gap: 14px; padding-bottom: 16px; }
+  .home-achievement-card { flex-basis: 250px; height: 194px; border-radius: 15px; }
   .articles-preview { padding-top: 78px; padding-bottom: 78px; }
   .articles-preview .section-heading { margin-bottom: 22px; }
   .articles-preview .section-heading h2 { font-size: 40px; }
