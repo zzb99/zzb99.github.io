@@ -1,0 +1,224 @@
+/* Apple Store helper-card rail — isolated from the site's former project shelf. */
+#selected-work {
+  --rail-gutter: max(24px, calc((100vw - 1688px) / 2));
+  position: relative;
+  width: 100%;
+  max-width: none;
+  padding: 82px 0 92px;
+  overflow: hidden;
+  background: #f5f5f7;
+}
+
+#selected-work .section-heading {
+  width: min(100% - 48px, 1160px);
+  margin: 0 auto 36px;
+}
+
+#selected-work .section-heading .eyebrow,
+#selected-work .section-heading > p,
+#selected-work > .text-link {
+  display: none;
+}
+
+#selected-work .section-heading h2 {
+  margin: 0;
+  font-size: 0;
+  font-weight: 650;
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+}
+
+#selected-work .section-heading h2::before {
+  content: '项目在此，';
+  color: #1d1d1f;
+  font-size: clamp(36px, 4vw, 52px);
+}
+
+#selected-work .section-heading h2::after {
+  content: '持续推进与不断打磨。';
+  color: #6e6e73;
+  font-size: clamp(36px, 4vw, 52px);
+}
+
+#selected-work .project-grid--home {
+  display: flex;
+  width: 100%;
+  max-width: none;
+  gap: 24px;
+  margin: 0;
+  padding: 0 var(--rail-gutter) 22px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
+  scroll-padding-left: var(--rail-gutter);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+#selected-work .project-grid--home::-webkit-scrollbar { display: none; }
+#selected-work .project-grid--home.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+
+#selected-work .project-grid--home .project-card,
+#selected-work .project-grid--home .project-card--featured {
+  position: relative;
+  display: block;
+  flex: 0 0 500px;
+  width: 500px;
+  height: 500px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  scroll-snap-align: start;
+  transform: none;
+  isolation: isolate;
+}
+
+#selected-work .project-grid--home .project-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: none;
+}
+
+#selected-work .project-grid--home .project-card::after { display: none; }
+
+#selected-work .project-grid--home .project-card__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+}
+
+#selected-work .project-grid--home .project-card__link > img {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  aspect-ratio: auto;
+  object-fit: cover;
+  object-position: center;
+  transform: none;
+}
+
+#selected-work .project-grid--home .project-card:nth-child(1) .project-card__link > img { object-position: center 56%; }
+#selected-work .project-grid--home .project-card:nth-child(2) .project-card__link > img { object-position: center; }
+#selected-work .project-grid--home .project-card:nth-child(3) .project-card__link > img { object-position: center; }
+#selected-work .project-grid--home .project-card:nth-child(4) .project-card__link > img { object-position: center; }
+
+#selected-work .project-grid--home .project-card__body {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: none;
+  padding: 34px 36px 0;
+  color: #1d1d1f;
+  text-shadow: none;
+}
+
+#selected-work .project-grid--home .project-card__body span {
+  display: block;
+  margin: 0 0 11px;
+  color: #6e6e73;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+#selected-work .project-grid--home .project-card__body h3 {
+  max-width: 430px;
+  margin: 0;
+  color: #1d1d1f;
+  font-size: 30px;
+  font-weight: 650;
+  letter-spacing: -0.052em;
+  line-height: 1.18;
+}
+
+#selected-work .project-grid--home .project-card__body p {
+  max-width: 430px;
+  margin: 14px 0 0;
+  color: #424245;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+#selected-work .project-grid--home .project-card__body b { display: none; }
+
+.apple-store-paddlenav {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+}
+
+.apple-store-paddlenav__button {
+  position: absolute;
+  top: calc(50% + 34px);
+  display: grid;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(232, 232, 237, 0.88);
+  cursor: pointer;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%);
+  transition: opacity 160ms ease;
+}
+
+.apple-store-paddlenav__previous { left: calc(var(--rail-gutter) + 18px); }
+.apple-store-paddlenav__next { right: 24px; }
+.apple-store-paddlenav__button:disabled { opacity: 0; pointer-events: none; }
+.apple-store-paddlenav__button img {
+  position: static !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 !important;
+  object-fit: contain !important;
+  filter: brightness(0) !important;
+}
+.apple-store-paddlenav__previous img { transform: rotate(180deg); }
+
+@media (max-width: 767px) {
+  #selected-work {
+    --rail-gutter: 20px;
+    padding: 62px 0 68px;
+  }
+
+  #selected-work .section-heading {
+    width: auto;
+    margin: 0 20px 28px;
+  }
+
+  #selected-work .section-heading h2 { font-size: 0; line-height: 1.12; }
+  #selected-work .section-heading h2::before,
+  #selected-work .section-heading h2::after { display: block; font-size: 32px; }
+
+  #selected-work .project-grid--home {
+    gap: 16px;
+    padding-bottom: 18px;
+  }
+
+  #selected-work .project-grid--home .project-card,
+  #selected-work .project-grid--home .project-card--featured {
+    flex-basis: 82vw;
+    width: 82vw;
+    height: 82vw;
+    max-width: 380px;
+    max-height: 380px;
+    border-radius: 16px;
+  }
+
+  #selected-work .project-grid--home .project-card__body { padding: 25px 25px 0; }
+  #selected-work .project-grid--home .project-card__body span { margin-bottom: 9px; font-size: 13px; }
+  #selected-work .project-grid--home .project-card__body h3 { font-size: 25px; }
+  #selected-work .project-grid--home .project-card__body p { margin-top: 11px; font-size: 14px; }
+  .apple-store-paddlenav { display: none; }
+}

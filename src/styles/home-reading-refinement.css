@@ -1,0 +1,158 @@
+/* Homepage reading, records, and closing note — deliberately scoped below the project rail. */
+.articles-preview {
+  padding-top: 126px;
+  padding-bottom: 126px;
+  border-top: 0;
+}
+
+.articles-preview .section-heading {
+  align-items: end;
+  margin-bottom: 34px;
+}
+
+.articles-preview .section-heading h2 {
+  font-size: clamp(42px, 4.8vw, 60px);
+}
+
+.articles-preview .section-heading .text-link {
+  margin: 0 0 7px;
+  color: #4a6280;
+  border-color: currentColor;
+}
+
+.articles-preview .article-list {
+  border-top: 1px solid #d9d9d4;
+}
+
+.articles-preview .article-card {
+  display: grid;
+  grid-template-columns: 180px minmax(220px, 0.95fr) minmax(280px, 1.45fr) 108px;
+  gap: 30px;
+  align-items: center;
+  min-height: 148px;
+  padding: 30px 18px 30px 0;
+  border-bottom: 1px solid #d9d9d4;
+  transition: padding 180ms ease, background-color 180ms ease;
+}
+
+.articles-preview .article-card:hover {
+  padding-right: 28px;
+  padding-left: 18px;
+  background: #f2f2ee;
+}
+
+.articles-preview .article-card span {
+  color: #71716d;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.articles-preview .article-card h3 {
+  margin: 0;
+  font-size: clamp(21px, 2vw, 27px);
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: -0.05em;
+}
+
+.articles-preview .article-card p {
+  margin: 0;
+  color: #686865;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.articles-preview .article-card b {
+  justify-self: end;
+  color: #4a6280;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.evidence {
+  max-width: none;
+  padding-top: 116px;
+  padding-bottom: 116px;
+  background: #f0f0ec;
+}
+
+.evidence h2 {
+  max-width: 760px;
+  margin-bottom: 56px;
+  font-size: clamp(38px, 4.7vw, 60px);
+}
+
+.evidence-grid {
+  max-width: var(--max);
+  grid-template-columns: repeat(3, 1fr);
+  background: transparent;
+  gap: 0;
+}
+
+.evidence-grid a {
+  min-height: 190px;
+  padding: 25px 30px 26px 0;
+  background: transparent;
+  border-top: 1px solid #bfc0ba;
+  transition: color 180ms ease, padding-left 180ms ease;
+}
+
+.evidence-grid a + a {
+  padding-left: 30px;
+  border-left: 1px solid #bfc0ba;
+}
+
+.evidence-grid a:hover { padding-left: 10px; color: #31577d; }
+.evidence-grid a + a:hover { padding-left: 40px; }
+
+.evidence-grid strong {
+  color: #1d1d1b;
+  font-size: clamp(35px, 4.1vw, 56px);
+  font-weight: 600;
+}
+
+.evidence-grid span {
+  max-width: 190px;
+  color: #5f615d;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.about-teaser {
+  display: grid;
+  grid-template-columns: minmax(0, 0.98fr) minmax(280px, 0.72fr);
+  column-gap: clamp(48px, 9vw, 140px);
+  max-width: var(--max);
+  margin: 0 auto;
+  padding-top: 126px;
+  padding-bottom: 132px;
+  border-top: 1px solid #d9d9d4;
+}
+
+.about-teaser .eyebrow { grid-column: 1 / -1; margin-bottom: 24px; }
+.about-teaser h2 { grid-column: 1; font-size: clamp(38px, 4.6vw, 58px); }
+.about-teaser > p:not(.eyebrow) { grid-column: 2; margin: 0; color: #62625f; font-size: 18px; line-height: 1.9; }
+.about-teaser .text-link { grid-column: 2; justify-self: start; align-self: start; margin-top: 25px; color: #4a6280; border-color: currentColor; }
+
+@media (max-width: 767px) {
+  .articles-preview { padding-top: 78px; padding-bottom: 78px; }
+  .articles-preview .section-heading { margin-bottom: 22px; }
+  .articles-preview .section-heading h2 { font-size: 40px; }
+  .articles-preview .section-heading .text-link { margin-top: 18px; }
+  .articles-preview .article-card { grid-template-columns: 1fr; gap: 9px; min-height: 0; padding: 24px 0; }
+  .articles-preview .article-card:hover { padding: 24px 12px; }
+  .articles-preview .article-card h3 { font-size: 23px; }
+  .articles-preview .article-card p { font-size: 14px; }
+  .articles-preview .article-card b { justify-self: start; margin-top: 4px; }
+  .evidence { padding-top: 80px; padding-bottom: 80px; }
+  .evidence h2 { margin-bottom: 38px; font-size: 39px; }
+  .evidence-grid { grid-template-columns: 1fr; }
+  .evidence-grid a, .evidence-grid a + a { min-height: 0; padding: 22px 0; border-left: 0; }
+  .evidence-grid a + a { border-top: 1px solid #bfc0ba; }
+  .evidence-grid a:hover, .evidence-grid a + a:hover { padding-left: 10px; }
+  .about-teaser { display: block; margin: 0 20px; padding: 80px 0; }
+  .about-teaser h2 { font-size: 40px; }
+  .about-teaser > p:not(.eyebrow) { margin-top: 24px; font-size: 17px; }
+  .about-teaser .text-link { margin-top: 26px; }
+}
