@@ -17,7 +17,7 @@ const structuredData = [{
   url: Astro.site,
   description: siteProfile.description,
   inLanguage: 'zh-CN',
-  author: { '@id': new URL('/about/#person', Astro.site).href },
+  author: { '@id': new URL('/#person', Astro.site).href },
 }, {
   '@context': 'https://schema.org', '@type': 'FAQPage',
   mainEntity: faqItems.map((item) => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } })),

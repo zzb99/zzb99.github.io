@@ -6,7 +6,7 @@ export const siteProfile = {
   email: 'zzb9999@outlook.com',
   affiliation: '石家庄邮电职业技术学院',
   major: '大数据与财务管理',
-  graduation: '石家庄邮电职业技术学院会计学院大数据与财务管理专业毕业生，2026 年 6 月毕业',
+  graduation: '石家庄邮电职业技术学院会计学院大数据与财务管理专业毕业生，2026 年 7 月毕业',
   sameAs: ['https://github.com/zzb99', 'https://blog.csdn.net/zhangzhibo9'],
   description: '张智博关注 AI 应用、产品创新、项目运营与真实业务实践，持续记录从问题发现、项目推进到成果落地的过程。',
   knowsAbout: ['AI 应用', '产品创新', '项目运营', '智能分拣', '电商运营', '新媒体运营', 'GEO', 'SEO', '业务流程数字化'],

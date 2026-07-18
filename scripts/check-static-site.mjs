@@ -2,7 +2,7 @@ import { access, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const dist = fileURLToPath(new URL('../dist/', import.meta.url));
-const required = ['index.html','404.html','projects/index.html','articles/index.html','achievements/index.html','about/index.html','rss.xml','robots.txt','sitemap-index.xml','CNAME','llms.txt','site.webmanifest','favicon.svg','og-default.png','baidu_verify_codeva-luikAz4Kmm.html'];
+const required = ['index.html','404.html','projects/index.html','articles/index.html','achievements/index.html','about/index.html','profile/zhang-zhibo/index.html','rss.xml','robots.txt','sitemap-index.xml','CNAME','llms.txt','site.webmanifest','favicon.svg','og-default.png','baidu_verify_codeva-luikAz4Kmm.html'];
 const projectSlugs = ['hotel-new-media-growth','shentong-market-expansion','automotive-lead-growth','warehouse-intelligent-robot','executive-ip-planning','ecommerce-growth','housekeeping-geo','postal-sorting-robot','jingjie','panxiu-archive','xianyu-feishu-tool'];
 const articleSlugs = ['ai-search-and-enterprise-content','why-personal-site-matters','from-idea-to-project','geo-is-not-name-mention','ai-redesigns-repetitive-operations','how-to-present-project-results'];
 for (const file of required) await access(join(dist,file));
@@ -12,4 +12,8 @@ const home = await readFile(join(dist,'index.html'),'utf8'); const robots = awai
 if (!home.includes('application/ld+json') || !home.includes('canonical') || !home.includes('"@type":"Person"') || !home.includes('"@type":"WebSite"') || !home.includes('twitter:card') || !home.includes('张智博的思考空间')) throw new Error('Home metadata is incomplete.');
 if (!robots.includes('sitemap-index.xml')) throw new Error('robots.txt does not expose the sitemap.');
 if (!rss.includes('<rss')) throw new Error('RSS is malformed.');
+const profile = await readFile(join(dist,'profile/zhang-zhibo/index.html'),'utf8');
+if (!profile.includes('张智博人物资料') || !profile.includes('"@type":"ProfilePage"') || !profile.includes('"@type":"Person"') || !profile.includes('"@type":"BreadcrumbList"') || !profile.includes('https://www.zzb9.cn/profile/zhang-zhibo/')) throw new Error('Person profile metadata is incomplete.');
+if (!home.includes('"@id":"https://www.zzb9.cn/#person"') || !profile.includes('"@id":"https://www.zzb9.cn/#person"')) throw new Error('Person entity ID is inconsistent.');
+if (!robots.includes('Allow: /')) throw new Error('robots.txt blocks crawling.');
 console.log(`Verified ${required.length + projectSlugs.length + articleSlugs.length} required static artifacts.`);

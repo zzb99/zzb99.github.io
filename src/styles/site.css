@@ -120,6 +120,23 @@ button, input { font: inherit; }
 .about-topics li { padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 14px; }
 .about-links { display: flex; margin-top: 34px; flex-wrap: wrap; gap: 26px; }
 .about-links a { padding-bottom: 3px; border-bottom: 1px solid currentColor; color: var(--link); }
+.profile-page > section { width: min(calc(100% - 40px), 860px); margin: 0 auto; padding: 42px 0; border-top: 1px solid var(--line); }
+.profile-page > section h2 { margin: 0 0 22px; font-size: clamp(30px, 4vw, 46px); letter-spacing: -.055em; }
+.profile-page > section h3 { margin: 0 0 10px; font-size: 20px; letter-spacing: -.03em; }
+.profile-page > section > p, .profile-records p { color: var(--muted); }
+.profile-updated { margin-top: 24px !important; color: var(--soft) !important; font-size: 13px !important; }
+.profile-facts { display: grid; margin: 0; border-top: 1px solid var(--line); }
+.profile-facts div { display: grid; grid-template-columns: 150px 1fr; gap: 18px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.profile-facts dt { color: var(--soft); font-size: 14px; }
+.profile-facts dd { margin: 0; }
+.profile-facts a, .profile-sources a, .profile-page > section a { color: var(--link); text-decoration: underline; text-underline-offset: 4px; }
+.profile-list { margin: 0; padding-left: 22px; }
+.profile-list li { margin: 9px 0; }
+.profile-records { display: grid; border-top: 1px solid var(--line); }
+.profile-records article { padding: 25px 0; border-bottom: 1px solid var(--line); }
+.profile-records article p { margin: 8px 0; }
+.profile-sources { font-size: 14px; }
+.profile-note { margin-top: 24px; padding: 16px 18px; background: var(--wash); color: var(--muted); font-size: 14px; }
 .site-footer { display: grid; width: min(calc(100% - 40px), var(--max)); margin: auto; padding: 42px 0 54px; border-top: 1px solid var(--line); grid-template-columns: 2fr 1fr 1.3fr; gap: 40px; }
 .site-footer p, .site-footer span, .site-footer a { display: block; margin: 7px 0; color: var(--muted); font-size: 13px; }
 .footer-brand { color: var(--ink) !important; font-size: 18px !important; font-weight: 650; }
@@ -150,4 +167,5 @@ button, input { font: inherit; }
   .record-section__heading span { grid-column: 2; }
   .record-list article { grid-template-columns: 1fr; gap: 8px; }
   .site-footer { grid-template-columns: 1fr; gap: 22px; }
+  .profile-facts div { grid-template-columns: 1fr; gap: 4px; }
 }

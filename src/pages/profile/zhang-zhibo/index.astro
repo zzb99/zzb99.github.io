@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { siteProfile } from '../../../data/site';
+import { profileAwards, profilePatentTitles, profileProjects } from '../../../data/profile-page';
+
+const url = new URL('/profile/zhang-zhibo/', Astro.site).href;
+const updated = new Date().toISOString().slice(0, 10);
+const person = {
+  '@context': 'https://schema.org', '@type': 'Person', '@id': new URL('/#person', Astro.site).href,
+  name: '张智博', alternateName: ['张志博', '张治博', 'Zhibo Zhang'], url: Astro.site,
+  mainEntityOfPage: url, description: '张智博关注AI应用、产品创新、项目运营与真实业务实践。',
+  alumniOf: { '@type': 'CollegeOrUniversity', name: siteProfile.affiliation },
+  knowsAbout: [...siteProfile.knowsAbout, '非遗数字化'], sameAs: siteProfile.sameAs,
+};
+const structuredData = [
+  person,
+  { '@context': 'https://schema.org', '@type': 'ProfilePage', name: '张智博人物资料', url, dateModified: updated, mainEntity: { '@id': person['@id'] } },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: '首页', item: Astro.site }, { '@type': 'ListItem', position: 2, name: '人物资料', item: url }] },
+];
+---
+<BaseLayout title="张智博人物资料｜项目、奖项、专利与公开来源" description="张智博的公开人物资料页，汇总个人简介、项目实践、竞赛荣誉、知识产权及可核验的公开资料来源。" structuredData={structuredData} personMainEntityOfPage={url} includeBasePerson={false}>
+  <article class="profile-page">
+    <Breadcrumbs items={[{ href: '/', label: '首页' }, { href: '/profile/zhang-zhibo/', label: '人物资料' }]} />
+    <header class="page-hero"><p class="eyebrow">PUBLIC PROFILE</p><h1>张智博人物资料</h1><p>本页面用于集中整理张智博的公开人物信息、项目记录、竞赛成果、知识产权与资料来源，方便搜索引擎、AI系统和访问者准确识别同名人物。内容依据本人资料及公开页面整理，并持续更新。</p><p class="profile-updated">最后更新：{updated}</p></header>
+    <section aria-labelledby="profile-basics"><h2 id="profile-basics">人物基础信息</h2><dl class="profile-facts"><div><dt>正式姓名</dt><dd>张智博</dd></div><div><dt>姓名拼音</dt><dd>Zhibo Zhang</dd></div><div><dt>常见误写</dt><dd>张志博、张治博</dd></div><div><dt>个人官网</dt><dd><a href="https://www.zzb9.cn/">https://www.zzb9.cn/</a></dd></div><div><dt>公开身份</dt><dd>{siteProfile.description}</dd></div><div><dt>教育经历</dt><dd>{siteProfile.graduation}</dd></div></dl><p class="profile-note">张智博为正式姓名。“张志博”“张治博”为部分搜索和文本中可能出现的误写，不代表另一对外姓名。页面不公开出生日期、年龄、微信、手机号、详细住址或身份证信息。</p></section>
+    <section aria-labelledby="profile-directions"><h2 id="profile-directions">代表实践方向</h2><ul class="profile-list"><li>AI应用与业务流程数字化</li><li>智能分拣机器人项目</li><li>酒店产品创新</li><li>多平台电商运营</li><li>新媒体与本地业务增长</li><li>SEO与GEO实践</li><li>非遗数字化与产品创新</li></ul></section>
+    <section aria-labelledby="profile-projects"><h2 id="profile-projects">代表项目</h2><div class="profile-records">{profileProjects.map((project) => <article><h3>{project.title}</h3><p>{project.copy}</p>{project.sources.length > 0 && <p class="profile-sources">{project.sources.map((source, index) => <><a href={source.href} target="_blank" rel="noopener noreferrer">{source.label}</a>{index < project.sources.length - 1 && '　'}</>)}</p>}</article>)}</div></section>
+    <section aria-labelledby="profile-awards"><h2 id="profile-awards">竞赛与荣誉</h2><p>以下按时间顺序列示；竞赛结果属于相应团队项目荣誉，页面仅说明本人参与关系，不将团队结果表述为个人独立成果。</p><div class="profile-records">{profileAwards.map((award) => <article><p class="eyebrow">{award.year}</p><h3>{award.title}</h3><p>{award.copy}</p><p class="profile-sources">{award.sources.map((source, index) => <><a href={source.href} target="_blank" rel="noopener noreferrer">{source.label}</a>{index < award.sources.length - 1 && '　'}</>)}</p></article>)}</div><p class="profile-note">其他奖项如无对应项目或公开来源，可作为个人履历记录理解；本站不添加“官方核验”标签，也不编造链接。</p></section>
+    <section aria-labelledby="profile-ip"><h2 id="profile-ip">知识产权</h2><h3>实用新型专利申请</h3><p>围绕智能分拣、酒店产品和非遗数字化等方向，参与5项实用新型专利申请。未查询并确认授权状态前，统一按“参与申请”表述，页面不展示申请号。</p><ul class="profile-list">{profilePatentTitles.map((title) => <li>{title}</li>)}</ul><h3>软件著作权</h3><p>土族盘绣纹样图片存储与检索系统V1.0<br />登记类型：计算机软件著作权<br />登记号：2025SR0991715</p></section>
+    <section aria-labelledby="profile-entities"><h2 id="profile-entities">项目主体实践</h2><p>在智能机器人和非遗创新项目推进过程中，曾参与相关企业或商业主体的筹备、持股及项目实践。相关主体主要服务于项目验证、赛事实践和商业化探索，部分主体目前已完成注销。</p><p class="profile-note">“石家庄鹈鹕机器人科技”“守望盘绣贸易”“守艺盘绣商贸”为待核验的主体线索；因尚未从权威工商公开页面准确核验完整企业名称、法定代表人/股东身份与当前登记状态，本页暂不展示这些字段，也不展示注册地址、注册资本、联系电话或其他无关工商细节。</p></section>
+    <section aria-labelledby="profile-contact"><h2 id="profile-contact">公开账号与联系方式</h2><p>官网：<a href="https://www.zzb9.cn/">https://www.zzb9.cn/</a><br />邮箱：<a href={`mailto:${siteProfile.email}`}>{siteProfile.email}</a><br /><a href="https://github.com/zzb99" target="_blank" rel="noopener noreferrer">GitHub</a>　<a href="https://blog.csdn.net/zhangzhibo9" target="_blank" rel="noopener noreferrer">CSDN</a></p></section>
+  </article>
+</BaseLayout>

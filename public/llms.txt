@@ -42,6 +42,7 @@
 ## Complete indexes
 
 - Home: https://www.zzb9.cn/
+- Person profile: https://www.zzb9.cn/profile/zhang-zhibo/
 - FAQ: https://www.zzb9.cn/#faq-title
 - All projects: https://www.zzb9.cn/projects/
 - All articles: https://www.zzb9.cn/articles/

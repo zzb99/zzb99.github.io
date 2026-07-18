@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { siteProfile } from '../../data/site';
 const structuredData = {
   '@context': 'https://schema.org', '@type': 'ProfilePage', name: '关于张智博', url: new URL('/about/', Astro.site).href, dateModified: '2026-07-19',
-  mainEntity: { '@id': new URL('/about/#person', Astro.site).href },
+  mainEntity: { '@id': new URL('/#person', Astro.site).href },
 };
 ---
 <BaseLayout title="关于张智博｜个人经历、项目实践与创新成果" description="介绍张智博关注的实践方向、做事方式、项目经验、阶段成果与公开联系渠道。" structuredData={structuredData}>
@@ -16,5 +16,6 @@ const structuredData = {
     <div class="about-links"><a href="/projects/">查看项目 <i>→</i></a><a href="/achievements/">查看成果 <i>→</i></a><a href="/articles/">阅读文章 <i>→</i></a></div>
     <h2>官方资料来源</h2><p>竞赛与项目相关的可公开资料均在对应成果或项目页面以“官方来源”或“查看公示”链接标注。</p>
     <h2>联系</h2><p>邮箱：<a class="text-link" href={`mailto:${siteProfile.email}`}>{siteProfile.email}</a><br />官网：<a class="text-link" href={siteProfile.url}>{siteProfile.url}</a><br /><a class="text-link" href="https://github.com/zzb99" target="_blank" rel="noopener noreferrer">GitHub</a>　<a class="text-link" href="https://blog.csdn.net/zhangzhibo9" target="_blank" rel="noopener noreferrer">CSDN</a></p>
+    <p class="about-source-link"><a class="text-link" href="/profile/zhang-zhibo/">公开资料与来源 <i>→</i></a></p>
   </article>
 </BaseLayout>

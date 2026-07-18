@@ -11,6 +11,8 @@ const {
   type = 'website',
   structuredData,
   preloadImages = [],
+  personMainEntityOfPage,
+  includeBasePerson = true,
 } = Astro.props;
 const documentTitle = title;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -18,7 +20,7 @@ const absoluteImage = new URL(image, Astro.site);
 const person = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  '@id': new URL('/about/#person', Astro.site).href,
+  '@id': new URL('/#person', Astro.site).href,
   name: siteProfile.name,
   alternateName: '张志博',
   url: Astro.site,
@@ -36,8 +38,9 @@ const person = {
     email: siteProfile.email,
     availableLanguage: ['zh-CN'],
   },
+  mainEntityOfPage: personMainEntityOfPage,
 };
-const jsonLd = structuredData ? [person, ...(Array.isArray(structuredData) ? structuredData : [structuredData])] : [person];
+const jsonLd = structuredData ? [...(includeBasePerson ? [person] : []), ...(Array.isArray(structuredData) ? structuredData : [structuredData])] : [person];
 ---
 <!doctype html>
 <html lang="zh-CN">

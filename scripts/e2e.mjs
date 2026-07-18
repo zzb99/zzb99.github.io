@@ -18,7 +18,7 @@ const projectSlugs = [
 ];
 const articleSlugs = ['ai-search-and-enterprise-content', 'why-personal-site-matters', 'from-idea-to-project', 'geo-is-not-name-mention', 'ai-redesigns-repetitive-operations', 'how-to-present-project-results'];
 const textRoutes = ['/rss.xml', '/robots.txt', '/sitemap-index.xml', '/llms.txt', '/baidu_verify_codeva-luikAz4Kmm.html'];
-const routes = ['/', '/projects/', ...projectSlugs.map(slug => `/projects/${slug}/`), '/articles/', ...articleSlugs.map(slug => `/articles/${slug}/`), '/achievements/', '/about/', ...textRoutes, '/not-found/'];
+const routes = ['/', '/projects/', ...projectSlugs.map(slug => `/projects/${slug}/`), '/articles/', ...articleSlugs.map(slug => `/articles/${slug}/`), '/achievements/', '/about/', '/profile/zhang-zhibo/', ...textRoutes, '/not-found/'];
 
 const browser = await chromium.launch({ headless: true, executablePath: chrome });
 const desktopContext = await browser.newContext({ viewport: { width: 1440, height: 900 } });
