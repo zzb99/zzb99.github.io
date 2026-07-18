@@ -1,13 +1,16 @@
 body:has(.projects-store-page) { background: #fbfbf9; }
 .projects-store-page { padding: 58px 0 112px; overflow: hidden; }
 .store-section { max-width: 1440px; margin: auto; }
+.store-section:first-child { --store-rail-gutter: clamp(40px, calc(10vw + 20px), 160px); max-width: none; }
 .store-heading { max-width: 1180px; margin: 0 auto 38px; padding: 0 24px; font-size: clamp(38px, 4vw, 56px); line-height: 1.12; letter-spacing: -.065em; }
+.store-section:first-child .store-heading { max-width: none; margin-inline: var(--store-rail-gutter); padding: 0; }
 .store-heading span { color: #6e6e73; }
 .store-rail { position: relative; }
-.store-track { display: flex; gap: 24px; padding: 0 max(24px, calc((100vw - 1180px)/2)) 24px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; cursor: grab; }
+.store-track { display: flex; gap: 24px; padding: 0 var(--store-rail-gutter) 24px 0; overflow-x: auto; overscroll-behavior-x: contain; scroll-padding-inline: var(--store-rail-gutter); scroll-snap-type: x mandatory; scrollbar-width: none; cursor: grab; }
 .store-track::-webkit-scrollbar { display: none; }
 .store-track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
-.store-project-card { position: relative; flex: 0 0 min(37.5vw, 500px); height: 600px; overflow: hidden; border-radius: 18px; background: #fff; color: #1d1d1f; box-shadow: 0 4px 16px rgba(0,0,0,.08); scroll-snap-align: start; transition: transform .2s ease, box-shadow .2s ease; isolation: isolate; }
+.store-project-card { position: relative; flex: 0 0 min(30vw, 370px); height: 410px; overflow: hidden; border-radius: 18px; background: #fff; color: #1d1d1f; box-shadow: 0 4px 16px rgba(0,0,0,.08); scroll-snap-align: start; transition: transform .2s ease, box-shadow .2s ease; isolation: isolate; }
+.store-project-card:first-child { margin-left: var(--store-rail-gutter); }
 .store-project-card:hover { box-shadow: 0 10px 28px rgba(0,0,0,.12); transform: scale(1.012); }
 .store-project-card::after { position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.7) 38%, transparent 70%); content: ''; }
 .store-project-card__copy { position: relative; z-index: 2; padding: 34px 34px 0; }
@@ -17,8 +20,8 @@ body:has(.projects-store-page) { background: #fbfbf9; }
 .store-project-card img { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .rail-arrow { position: absolute; z-index: 3; top: 50%; display: grid; width: 52px; height: 52px; padding: 0; border: 0; border-radius: 50%; background: rgba(232,232,237,.9); box-shadow: 0 2px 8px rgba(0,0,0,.12); place-items: center; cursor: pointer; transform: translateY(-50%); }
 .rail-arrow[hidden] { display: none; }
-.rail-arrow--previous { left: max(18px, calc((100vw - 1320px)/2)); }
-.rail-arrow--next { right: max(18px, calc((100vw - 1320px)/2)); }
+.rail-arrow--previous { left: 24px; }
+.rail-arrow--next { right: 24px; }
 .rail-arrow img, .achievement-arrow img { width: 18px; height: 18px; }
 .rail-arrow--previous img { transform: rotate(180deg); }
 .achievements { margin-top: 80px; }
