@@ -1,5 +1,5 @@
 ---
-title: 北京汽车 4S 店广告投放与线索增长
+title: 汽车广告投放与线索增长项目
 slug: automotive-lead-growth
 summary: 围绕曝光、点击、留资和到店建立完整投放链路，通过人群与素材优化提升高意向试驾线索。
 category: 广告投放
@@ -13,10 +13,10 @@ role: 广告投手、新媒体矩阵运营
 hero: /assets/project-covers/automotive-lead-growth.webp
 featured: true
 featuredRank: 3
-seoTitle: 北京汽车 4S 店广告投放与线索增长项目
+seoTitle: 汽车广告投放与线索增长项目
 seoDescription: 张智博参与汽车 4S 店广告投放和新媒体矩阵运营，建立曝光至到店的转化链路，单月获得 400 余条经销售确认的高意向试驾线索。
 updatedDate: 2026-07-17
-organizations: [甘肃省定西市北京汽车 4S 店]
+organizations: []
 locations: [甘肃定西]
 evidenceNote: 线索数据为具体投放月份结果，经销售确认；未公开账户、用户信息和内部成本。
 relatedProjects: [hotel-new-media-growth, ecommerce-growth]

@@ -11,8 +11,8 @@ export const achievementCards = [
   {
     accent: 'purple',
     icon: '/assets/figma-home/ui/ability-store.svg',
-    title: '11 项国家专利',
-    description: '实用新型专利 6 项、外观设计专利 5 项，第一作者专利 6 项。',
+    title: '5 项专利申请记录',
+    description: '参与的实用新型专利申请；申请状态不等同于授权。',
     href: '/achievements/#patents',
   },
   {

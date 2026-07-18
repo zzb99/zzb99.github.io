@@ -1,7 +1,7 @@
 ---
-title: 企业总经理个人 IP 策划
+title: 品牌内容与 IP 策划协作
 slug: executive-ip-planning
-summary: 面向企业总经理个人 IP，完成定位方向、内容表现形式与团队框架的前期设计，并推进新媒体团队搭建。
+summary: 参与品牌内容方向、IP 定位、传播方案与项目策划等顾问协作。
 category: 内容策略
 year: '2025–至今'
 status: 推进中
@@ -9,10 +9,10 @@ role: IP 策划
 hero: /assets/project-covers/executive-ip-planning.webp
 featured: true
 featuredRank: 5
-seoTitle: 企业总经理个人 IP 策划项目
+seoTitle: 品牌内容与 IP 策划协作
 seoDescription: 张智博参与企业总经理个人 IP 策划，围绕定位方向、表现形式、内容框架和团队协作推进新媒体团队搭建。
 updatedDate: 2026-07-17
-organizations: [深圳市联诚发科技股份有限公司]
+organizations: []
 locations: [广东深圳]
 evidenceNote: 项目仍在推进中，页面只展示已完成的方向、形式与团队框架工作，不预设传播或商业结果。
 relatedProjects: [hotel-new-media-growth, housekeeping-geo]

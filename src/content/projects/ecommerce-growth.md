@@ -9,14 +9,14 @@ teamContext: '运营主管，负责店铺运营、投放规范编写与新人培
 challenge: '多平台店铺的选品、活动、投放和客服节奏不同，双十一期间需要避免信息与执行脱节。'
 response: '将活动拆为商品、页面、内容、投放、订单和复盘六个协作面，并整理十万字以上广告投流规范用于培训与复盘。'
 status: 持续实践
-role: 运营主管、店铺运营与投放规范建设
+role: 电商运营协作与流程整理
 hero: /assets/optimized/portfolio-dashboard.webp
 featured: true
 featuredRank: 6
 seoTitle: 多平台电商增长与运营实践
 seoDescription: 张智博参与拼多多、淘宝和抖音多平台运营，覆盖店铺搭建、选品、活动、投放和新人培训，双十一单日峰值 GMV 达到 300 万元。
 updatedDate: 2026-07-17
-organizations: [深圳市高远电商有限公司]
+organizations: []
 locations: [广东深圳]
 evidenceNote: 300 万元为双十一特定活动节点的单日峰值，不代表长期日均或个人独立贡献。
 relatedProjects: [hotel-new-media-growth, automotive-lead-growth, shentong-market-expansion]

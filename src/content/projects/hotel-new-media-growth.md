@@ -1,5 +1,5 @@
 ---
-title: 石家庄七天酒店新媒体增长
+title: 酒店新媒体与 OTA 优化项目
 slug: hotel-new-media-growth
 summary: 从零搭建酒店抖音本地生活账号，通过内容、投放与复盘协同推动评分和入住表现改善。
 category: 新媒体增长
@@ -13,10 +13,10 @@ role: 酒店新媒体运营、内容策略与付费投放
 hero: /assets/project-covers/hotel-new-media-growth.webp
 featured: true
 featuredRank: 1
-seoTitle: 石家庄七天酒店新媒体增长项目
+seoTitle: 酒店新媒体与 OTA 优化项目
 seoDescription: 张智博负责石家庄七天酒店抖音本地生活账号从 0 到 1 搭建，通过内容策略、A/B 测试和本地推优化，形成阶段性新媒体增长结果。
 updatedDate: 2026-07-17
-organizations: [石家庄七天酒店]
+organizations: []
 locations: [河北石家庄]
 evidenceNote: 页面数据来自具体运营阶段，用于说明当时的项目结果，不代表长期经营承诺。
 relatedProjects: [automotive-lead-growth, ecommerce-growth]

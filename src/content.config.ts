@@ -27,6 +27,7 @@ const projects = defineCollection({
     challenge: z.string().optional(),
     response: z.string().optional(),
     metrics: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
+    sources: z.array(z.object({ label: z.string(), href: z.string().url() })).default([]),
   }),
 });
 const articles = defineCollection({

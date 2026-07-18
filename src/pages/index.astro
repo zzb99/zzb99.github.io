@@ -23,7 +23,7 @@ const structuredData = [{
   mainEntity: faqItems.map((item) => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } })),
 }];
 ---
-<BaseLayout title="张智博｜项目、成果与思考" description={siteProfile.description} structuredData={structuredData} isHome preloadImages={[{ href: '/images/hero/desktop-hero-background.webp', media: '(min-width: 761px)' }, { href: '/images/hero/mobile-hero-background.webp', media: '(max-width: 760px)' }]}>
+<BaseLayout title="张智博个人官网｜项目、成果与思考" description={siteProfile.description} structuredData={structuredData} isHome preloadImages={[{ href: '/images/hero/desktop-hero-background.webp', media: '(min-width: 761px)' }, { href: '/images/hero/mobile-hero-background.webp', media: '(max-width: 760px)' }]}>
   <section class="hero hero--editorial" aria-labelledby="home-title">
     <div class="hero__guide" aria-hidden="true"><span></span><b>01</b></div>
     <div class="hero__content">

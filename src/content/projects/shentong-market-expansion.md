@@ -1,5 +1,5 @@
 ---
-title: 陇西申通市场开拓与业务增长
+title: 区域快递市场拓展项目
 slug: shentong-market-expansion
 summary: 面向本地电商卖家完成客户调研、画像、拜访与合作推进，将市场动作连接到实际业务增量。
 category: 市场增长
@@ -9,14 +9,14 @@ teamContext: '市场负责人，独立推进调研、客户拜访与合作跟进
 challenge: '需要在短周期内识别真正具备长期合作可能的本地电商客户，而不是只扩大拜访数量。'
 response: '先按发货规模、品类、时效要求和合作顾虑梳理客户画像，再安排拜访优先级并持续修正判断。'
 status: 阶段项目完成
-role: 市场负责人
+role: 市场拓展项目参与
 hero: /assets/project-covers/shentong-market-expansion.webp
 featured: true
 featuredRank: 2
-seoTitle: 陇西申通市场开拓与业务增长项目
+seoTitle: 区域快递市场拓展项目
 seoDescription: 张智博负责陇西申通本地电商客户市场开拓，一个月拜访 30 余家客户，与 13 家电商公司形成长期合作，推动阶段业务处理量增长。
 updatedDate: 2026-07-17
-organizations: [陇西申通快递服务有限责任公司]
+organizations: []
 locations: [甘肃陇西]
 evidenceNote: 合作数量和业务量为具体市场开拓阶段数据，客户名称与合同内容不公开。
 relatedProjects: [ecommerce-growth, hotel-new-media-growth]
