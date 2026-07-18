@@ -1,37 +1,48 @@
 const host = 'www.zzb9.cn';
-const key = '6a3bcb3ca6dd448b9d5b0ad39d15e5c8';
+const key = '0e8f87b4f1ac4eceb9f6b5e802679692';
 const endpoint = 'https://api.indexnow.org/indexnow';
-const paths = [
-  '/',
-  '/projects/',
-  '/projects/hotel-new-media-growth/',
-  '/projects/shentong-market-expansion/',
-  '/projects/automotive-lead-growth/',
-  '/projects/warehouse-intelligent-robot/',
-  '/projects/executive-ip-planning/',
-  '/projects/ecommerce-growth/',
-  '/projects/housekeeping-geo/',
-  '/projects/postal-sorting-robot/',
-  '/projects/jingjie/',
-  '/projects/panxiu-archive/',
-  '/projects/xianyu-feishu-tool/',
-  '/achievements/',
-  '/articles/',
-  '/articles/ai-redesigns-repetitive-operations/',
-  '/articles/ai-search-and-enterprise-content/',
-  '/articles/from-idea-to-project/',
-  '/articles/geo-is-not-name-mention/',
-  '/articles/how-to-present-project-results/',
-  '/articles/why-personal-site-matters/',
-  '/about/',
-  '/sitemap-index.xml',
-];
-const payload = { host, key, keyLocation: `https://${host}/${key}.txt`, urlList: paths.map(path => `https://${host}${path}`) };
+const sitemapIndex = `https://${host}/sitemap-index.xml`;
 
-try {
-  const response = await fetch(endpoint, { method: 'POST', headers: { 'content-type': 'application/json; charset=utf-8' }, body: JSON.stringify(payload), signal: AbortSignal.timeout(10_000) });
-  if (!response.ok) throw new Error(`IndexNow returned ${response.status}`);
-  console.log(`IndexNow accepted ${payload.urlList.length} updated URLs.`);
-} catch (error) {
-  console.warn(`IndexNow notification skipped: ${error.message}`);
-}
+const extractLocations = (xml) => [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1].trim());
+
+const sitemapResponse = await fetch(sitemapIndex, { signal: AbortSignal.timeout(10_000) });
+if (!sitemapResponse.ok) throw new Error(`Sitemap index returned ${sitemapResponse.status}`);
+
+const sitemapUrls = extractLocations(await sitemapResponse.text());
+const urlCandidates = (await Promise.all(sitemapUrls.map(async (sitemapUrl) => {
+  const url = new URL(sitemapUrl);
+  if (url.protocol !== 'https:' || url.host !== host) return [];
+  const response = await fetch(url, { signal: AbortSignal.timeout(10_000) });
+  return response.ok ? extractLocations(await response.text()) : [];
+}))).flat();
+
+const canonicalUrls = [...new Set(urlCandidates)].filter((value) => {
+  const url = new URL(value);
+  return url.protocol === 'https:' && url.host === host;
+});
+
+const validUrls = (await Promise.all(canonicalUrls.map(async (url) => {
+  try {
+    const response = await fetch(url, { redirect: 'manual', signal: AbortSignal.timeout(10_000) });
+    return response.status === 200 ? url : null;
+  } catch {
+    return null;
+  }
+}))).filter(Boolean);
+
+const payload = {
+  host,
+  key,
+  keyLocation: `https://${host}/${key}.txt`,
+  urlList: validUrls,
+};
+
+const response = await fetch(endpoint, {
+  method: 'POST',
+  headers: { 'content-type': 'application/json; charset=utf-8' },
+  body: JSON.stringify(payload),
+  signal: AbortSignal.timeout(10_000),
+});
+
+console.log(JSON.stringify({ submittedUrls: validUrls.length, status: response.status, success: response.status === 200 || response.status === 202 }));
+if (response.status !== 200 && response.status !== 202) process.exitCode = 1;
