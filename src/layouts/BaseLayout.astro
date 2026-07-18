@@ -10,6 +10,7 @@ const {
   image = '/og-default.png',
   type = 'website',
   structuredData,
+  preloadImages = [],
 } = Astro.props;
 const documentTitle = title;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -43,6 +44,7 @@ const jsonLd = structuredData ? [person, ...(Array.isArray(structuredData) ? str
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#fbfbf9" />
+    {preloadImages.map((preload) => <link rel="preload" as="image" href={preload.href} media={preload.media} fetchpriority="high" />)}
     <title>{documentTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
