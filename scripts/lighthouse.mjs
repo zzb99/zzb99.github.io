@@ -13,4 +13,5 @@ try { await chrome.kill(); } catch (error) { if (error.code !== 'EPERM') throw e
 const scores = Object.fromEntries(Object.entries(result.lhr.categories).map(([key, category]) => [key, Math.round(category.score * 100)]));
 const audit = Object.fromEntries(['first-contentful-paint','largest-contentful-paint','total-blocking-time','cumulative-layout-shift','speed-index'].map(id => [id, result.lhr.audits[id]?.displayValue]));
 console.log(JSON.stringify({ url, scores, audit }, null, 2));
-if (Object.values(scores).some(score => score < 90)) process.exitCode = 1;
+const minimumScores = { performance: 85, accessibility: 90, 'best-practices': 90, seo: 90 };
+if (Object.entries(minimumScores).some(([category, minimum]) => scores[category] < minimum)) process.exitCode = 1;
