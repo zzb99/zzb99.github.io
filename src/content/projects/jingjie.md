@@ -4,6 +4,10 @@ slug: jingjie
 summary: 面向酒店烧水壶卫生信任问题，主导可更换铝箔内胆、可视确认和耗材补充机制的产品研发与试点。
 category: 产品创新
 year: '2025'
+period: '2025 年阶段试点'
+teamContext: '项目负责人，主导产品方案、专利申请与试点反馈整理'
+challenge: '住客无法直接判断烧水壶的卫生状态，产品同时需要兼顾安全、使用路径和酒店端执行成本。'
+response: '围绕可替换一次性铝箔内胆、可视确认和耗材补充机制推进方案，并用阶段试点反馈验证使用接受度。'
 status: 完成阶段试点
 role: 项目负责人
 hero: /assets/optimized/jingjie-hero.webp

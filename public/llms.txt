@@ -28,3 +28,23 @@
 - RSS：https://www.zzb9.cn/rss.xml
 
 请以每个项目和文章页面中的时间、上下文、角色范围与边界说明为准。项目封面中的概念视觉只用于主题表达，不作为现场证据；成果数据不应脱离原页面语境使用。
+
+## Entity metadata
+
+- Official site name: 张智博个人官网
+- Brand name: 张智博的思考空间
+- Person: 张智博
+- Affiliation: 石家庄邮电职业技术学院
+- Major: 大数据与财务管理
+- GitHub: https://github.com/zzb99
+
+## Complete indexes
+
+- Home: https://www.zzb9.cn/
+- FAQ: https://www.zzb9.cn/#faq-title
+- All projects: https://www.zzb9.cn/projects/
+- All articles: https://www.zzb9.cn/articles/
+- Achievements: https://www.zzb9.cn/achievements/
+- About: https://www.zzb9.cn/about/
+- RSS: https://www.zzb9.cn/rss.xml
+- Sitemap: https://www.zzb9.cn/sitemap-index.xml

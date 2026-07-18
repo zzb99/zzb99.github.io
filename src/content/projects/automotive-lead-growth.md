@@ -4,6 +4,10 @@ slug: automotive-lead-growth
 summary: 围绕曝光、点击、留资和到店建立完整投放链路，通过人群与素材优化提升高意向试驾线索。
 category: 广告投放
 year: '2024.06–2024.09'
+period: '2024.06–2024.09'
+teamContext: '独立运营广告账户，并负责抖音、汽车之家内容矩阵的日常协同'
+challenge: '广告有曝光不等于有效试驾线索，投放端缺少与销售确认、到店环节的闭环反馈。'
+response: '围绕时段、地域、兴趣标签和素材点击/转化表现持续测试，并将销售确认与到店反馈纳入复盘。'
 status: 阶段项目完成
 role: 广告投手、新媒体矩阵运营
 hero: /assets/project-covers/automotive-lead-growth.webp

@@ -4,6 +4,10 @@ slug: hotel-new-media-growth
 summary: 从零搭建酒店抖音本地生活账号，通过内容、投放与复盘协同推动评分和入住表现改善。
 category: 新媒体增长
 year: '2024–至今'
+period: '2024.04–至今'
+teamContext: '独立负责账号搭建、内容方向与投放优化；与酒店运营协作复盘'
+challenge: '账号早期缺少稳定内容方向，素材表现、投放人群与 OTA 经营结果之间没有复盘链路。'
+response: '完成对标研究和内容方向搭建，使用本地推按素材、时段、地域与兴趣人群进行 A/B 测试，并结合运营反馈迭代。'
 status: 持续运营
 role: 酒店新媒体运营、内容策略与付费投放
 hero: /assets/project-covers/hotel-new-media-growth.webp

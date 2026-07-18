@@ -7,8 +7,7 @@
   "dependencies": {
     "pixi.js": "^8.19.0",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "shaders": "^3.0.438"
+    "react-dom": "^19.2.7"
   },
   "scripts": {
     "dev": "astro dev --host 127.0.0.1",

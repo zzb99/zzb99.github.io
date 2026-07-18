@@ -4,6 +4,10 @@ slug: ecommerce-growth
 summary: 负责拼多多、淘宝与抖音多平台店铺运营，将选品、活动、投放、培训和复盘组织为可重复的增长流程。
 category: 电商运营
 year: '2023–至今'
+period: '2023.08–至今'
+teamContext: '运营主管，负责店铺运营、投放规范编写与新人培训'
+challenge: '多平台店铺的选品、活动、投放和客服节奏不同，双十一期间需要避免信息与执行脱节。'
+response: '将活动拆为商品、页面、内容、投放、订单和复盘六个协作面，并整理十万字以上广告投流规范用于培训与复盘。'
 status: 持续实践
 role: 运营主管、店铺运营与投放规范建设
 hero: /assets/optimized/portfolio-dashboard.webp

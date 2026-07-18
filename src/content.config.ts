@@ -22,6 +22,10 @@ const projects = defineCollection({
     evidenceNote: z.string().optional(),
     relatedProjects: z.array(z.string()).default([]),
     video: z.string().optional(),
+    period: z.string().optional(),
+    teamContext: z.string().optional(),
+    challenge: z.string().optional(),
+    response: z.string().optional(),
     metrics: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
   }),
 });

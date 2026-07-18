@@ -3,30 +3,32 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ArticleCard from '../components/ArticleCard.astro';
-import HomeHeroShader from '../components/HomeHeroShader';
-import { achievementSummary, featuredProjectSlugs, siteProfile } from '../data/site';
+import { achievementSummary, faqItems, featuredProjectSlugs, siteProfile } from '../data/site';
 import '../styles/home-page.css';
 
 const allProjects = await getCollection('projects');
 const projects = featuredProjectSlugs.map((slug) => allProjects.find((project) => project.data.slug === slug)).filter((project): project is NonNullable<typeof project> => Boolean(project));
 const articles = (await getCollection('articles')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 3);
-const structuredData = {
+const structuredData = [{
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: siteProfile.siteName,
-  alternateName: '张智博个人网站',
+  alternateName: siteProfile.brandName,
   url: Astro.site,
   description: siteProfile.description,
   inLanguage: 'zh-CN',
   author: { '@id': new URL('/about/#person', Astro.site).href },
-};
+}, {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } })),
+}];
 ---
-<BaseLayout title={siteProfile.siteName} description={siteProfile.description} structuredData={structuredData} isHome>
+<BaseLayout title="张智博个人官网｜项目、成果与思考" description={siteProfile.description} structuredData={structuredData} isHome>
   <section class="hero hero--editorial" aria-labelledby="home-title">
-    <HomeHeroShader client:only="react" />
     <div class="hero__guide" aria-hidden="true"><span></span><b>01</b></div>
     <div class="hero__content">
       <h1 id="home-title">张智博</h1>
+      <p class="hero-subtitle">AI 应用 · 产品创新 · 增长实践</p>
       <p class="hero-copy">保持好奇，也保持探索。</p>
       <div class="hero-links"><a href="/projects/">项目 <i>→</i></a><a href="/articles/">文章 <i>→</i></a></div>
     </div>
@@ -51,4 +53,6 @@ const structuredData = {
   </section>
 
   <section class="section about-teaser"><p class="eyebrow">ABOUT</p><h2>把问题看清，<br />再把事情向前推进。</h2><p>关注新的技术，也关注它们如何进入真实场景。这里保留项目、成果和仍在持续形成的思考。</p><a class="text-link" href="/about/">了解更多 <i>→</i></a></section>
+
+  <section class="section faq" aria-labelledby="faq-title"><div class="section-heading"><div><p class="eyebrow">FAQ</p><h2 id="faq-title">常见问题</h2></div><p>关于张智博、网站内容与联系方法的简要说明。</p></div><div class="faq-list">{faqItems.map((item) => <details><summary>{item.question}</summary><p>{item.answer}</p></details>)}</div></section>
 </BaseLayout>

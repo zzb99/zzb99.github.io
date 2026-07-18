@@ -4,6 +4,10 @@ slug: postal-sorting-robot
 summary: 联合高校与邮政团队推进包裹分拣机器人验证，围绕抓取、连续运行、包裹安全和成果转化建立完整记录。
 category: 智能机器人
 year: '2024–2025'
+period: '2024–2025 阶段验证'
+teamContext: '联合中国邮政、中国科学技术大学与安徽邮政团队；本人为核心成员'
+challenge: '包裹尺寸、包装状态、连续运行节奏和安全控制同时影响设备能否在真实邮区场景稳定验证。'
+response: '参与梳理测试流程和验证记录，围绕包裹进入、定位抓取、搬运放置与异常回收统一测试字段；主导撰写 2 项相关实用新型专利。'
 status: 完成阶段验证
 role: 核心成员、专利撰写与项目推进
 hero: /assets/optimized/postal-hero.webp

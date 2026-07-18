@@ -1,0 +1,4 @@
+---
+const { items } = Astro.props;
+---
+<nav class="breadcrumbs" aria-label="面包屑导航">{items.map((item, index) => <><a href={item.href}>{item.label}</a>{index < items.length - 1 && <span aria-hidden="true">/</span>}</>)}</nav>

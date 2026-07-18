@@ -1,12 +1,24 @@
 export const siteProfile = {
   name: '张智博',
-  siteName: '张智博的思考空间',
+  siteName: '张智博个人官网',
+  brandName: '张智博的思考空间',
   url: 'https://www.zzb9.cn',
   email: 'zzb9999@outlook.com',
   wechat: '15631124118',
+  affiliation: '石家庄邮电职业技术学院',
+  major: '大数据与财务管理',
+  sameAs: ['https://github.com/zzb99'],
   description: '张智博的个人网站，记录人工智能、GEO、电商运营、产品创新、智能机器人、市场增长与文化数字化项目，以及相关思考和阶段成果。',
   knowsAbout: ['人工智能', 'GEO', '电商运营', '新媒体运营', '市场增长', '产品创新', '智能机器人', '文化数字化', '项目管理', '内容策略'],
 } as const;
+
+export const faqItems = [
+  { question: '张智博是谁？', answer: '张智博关注 AI 应用、产品创新与增长实践，持续记录项目推进、阶段成果与方法复盘。' },
+  { question: '张智博的个人官网是什么？', answer: 'https://www.zzb9.cn 是张智博的个人官网；“张智博的思考空间”是本站保留的品牌名称。' },
+  { question: '张智博做过哪些项目？', answer: '本站收录酒店新媒体增长、市场开拓、电商运营、广告投放、智能机器人、文化数字化等项目档案。' },
+  { question: '张智博有哪些公开成果？', answer: '本站目前公开列出两项中国国际大学生创新大赛全国总决赛铜奖、五项实用新型专利及一项软件著作权。' },
+  { question: '如何联系张智博？', answer: '可通过邮箱 zzb9999@outlook.com 联系。' },
+] as const;
 
 export const projectOrder = [
   'hotel-new-media-growth',
@@ -54,7 +66,7 @@ export const intellectualProperty = [
 ] as const;
 
 export const achievementSummary = [
-  { href: '/achievements/#patents', label: '国家专利', value: '11 项', copy: '实用新型专利 6 项、外观设计专利 5 项' },
+  { href: '/achievements/#patents', label: '已公开实用新型专利', value: '5 项', copy: '页面仅列出可公开核验的专利明细' },
   { href: '/achievements/#software', label: '软件著作权', value: '1 项', copy: '土族盘绣纹样图片存储与检索系统 V1.0' },
   { href: '/achievements/#national-awards', label: '国家级荣誉', value: '2 项', copy: '连续两年进入中国国际大学生创新大赛全国总决赛' },
   { href: '/achievements/#provincial-awards', label: '省部级荣誉', value: '多项', copy: '按可核验的奖项名称与年份持续整理' },

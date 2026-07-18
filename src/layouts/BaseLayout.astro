@@ -12,7 +12,7 @@ const {
   structuredData,
   isHome = false,
 } = Astro.props;
-const documentTitle = isHome || title === siteProfile.siteName ? siteProfile.siteName : `${title}｜${siteProfile.siteName}`;
+const documentTitle = isHome ? title : title === siteProfile.siteName ? siteProfile.siteName : `${title}｜${siteProfile.siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const absoluteImage = new URL(image, Astro.site);
 const person = {
@@ -23,14 +23,16 @@ const person = {
   url: Astro.site,
   description: siteProfile.description,
   email: siteProfile.email,
-  telephone: siteProfile.wechat,
+  sameAs: siteProfile.sameAs,
+  affiliation: { '@type': 'CollegeOrUniversity', name: siteProfile.affiliation },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: siteProfile.affiliation },
+  hasOccupation: { '@type': 'Occupation', name: siteProfile.major },
   knowsAbout: siteProfile.knowsAbout,
   award: nationalAwards.map((award) => award.title),
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: '个人交流',
     email: siteProfile.email,
-    telephone: siteProfile.wechat,
     availableLanguage: ['zh-CN'],
   },
 };

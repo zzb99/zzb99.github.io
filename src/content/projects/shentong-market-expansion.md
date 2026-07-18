@@ -4,6 +4,10 @@ slug: shentong-market-expansion
 summary: 面向本地电商卖家完成客户调研、画像、拜访与合作推进，将市场动作连接到实际业务增量。
 category: 市场增长
 year: '2025.08–2025.09'
+period: '2025.08–2025.09'
+teamContext: '市场负责人，独立推进调研、客户拜访与合作跟进'
+challenge: '需要在短周期内识别真正具备长期合作可能的本地电商客户，而不是只扩大拜访数量。'
+response: '先按发货规模、品类、时效要求和合作顾虑梳理客户画像，再安排拜访优先级并持续修正判断。'
 status: 阶段项目完成
 role: 市场负责人
 hero: /assets/project-covers/shentong-market-expansion.webp

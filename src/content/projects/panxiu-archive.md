@@ -4,6 +4,10 @@ slug: panxiu-archive
 summary: 联合传承人、研究与文旅机构推进土族盘绣文化 IP、内容传播和数字档案，让纹样来源与使用边界被清楚保留。
 category: 文化数字化
 year: '2025–至今'
+period: '2025–至今'
+teamContext: '联合创始人，参与 15 人团队的资源整合、内容矩阵与数字化建设'
+challenge: '纹样资料分散在实物、图片、访谈和传承经验中，公开传播前必须明确来源、授权和使用边界。'
+response: '组织传承人、研究与文旅资源协作，为纹样保留来源、语境、授权状态和使用边界字段，并同步建设内容传播与数字档案。'
 status: 持续建设
 role: 联合创始人、项目组织与数字化建设
 hero: /assets/optimized/panxiu-hero.webp

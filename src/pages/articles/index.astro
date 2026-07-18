@@ -2,6 +2,25 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
-const articles = (await getCollection('articles')).sort((a,b)=>b.data.pubDate.valueOf()-a.data.pubDate.valueOf());
+const articles = (await getCollection('articles')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const categories = [...new Set(articles.map((article) => article.data.category))];
 ---
-<BaseLayout title="文章" description="关于人工智能、产品、内容与项目实践的记录。"><header class="page-hero"><p class="eyebrow">WRITING</p><h1>文章</h1><p>把实践里的观察、方法和还没有定论的问题，慢慢写清楚。</p></header><section class="content-wrap"><label class="article-search">搜索文章<input type="search" placeholder="输入标题、分类或关键词" aria-label="搜索文章" /></label><div class="article-list">{articles.map(article=><div class="searchable-article" data-search={`${article.data.title} ${article.data.category} ${article.data.description}`.toLowerCase()}><ArticleCard article={article}/></div>)}</div><p class="search-empty" hidden>没有找到匹配的文章。</p></section><script>const input=document.querySelector<HTMLInputElement>('.article-search input');const items=[...document.querySelectorAll<HTMLElement>('.searchable-article')];const empty=document.querySelector<HTMLElement>('.search-empty');input?.addEventListener('input',()=>{const term=input.value.trim().toLowerCase();let matches=0;items.forEach(item=>{const visible=!term||item.dataset.search?.includes(term);item.hidden=!visible;if(visible)matches+=1});if(empty)empty.hidden=matches>0});</script></BaseLayout>
+<BaseLayout title="文章" description="关于人工智能、产品、内容与项目实践的记录。">
+  <header class="page-hero"><p class="eyebrow">WRITING</p><h1>文章</h1><p>把实践里的观察、方法和还没有定论的问题，慢慢写清楚。</p></header>
+  <section class="content-wrap">
+    <label class="article-search">搜索文章<input type="search" placeholder="输入标题、分类或关键词" aria-label="搜索文章" /></label>
+    <nav class="article-filters" aria-label="文章分类筛选"><button type="button" class="is-active" data-category="">全部</button>{categories.map((category) => <button type="button" data-category={category}>{category}</button>)}</nav>
+    <div class="article-list">{articles.map((article) => <div class="searchable-article" data-category={article.data.category} data-search={`${article.data.title} ${article.data.category} ${article.data.description}`.toLowerCase()}><ArticleCard article={article} /></div>)}</div>
+    <p class="search-empty" hidden>没有找到匹配的文章。</p>
+  </section>
+  <script>
+    const input = document.querySelector<HTMLInputElement>('.article-search input');
+    const items = [...document.querySelectorAll<HTMLElement>('.searchable-article')];
+    const filters = [...document.querySelectorAll<HTMLButtonElement>('[data-category]')];
+    const empty = document.querySelector<HTMLElement>('.search-empty');
+    let category = '';
+    const sync = () => { const term = input?.value.trim().toLowerCase() ?? ''; let matches = 0; items.forEach((item) => { const visible = (!term || item.dataset.search?.includes(term)) && (!category || item.dataset.category === category); item.hidden = !visible; if (visible) matches += 1; }); if (empty) empty.hidden = matches > 0; };
+    input?.addEventListener('input', sync);
+    filters.forEach((button) => button.addEventListener('click', () => { category = button.dataset.category ?? ''; filters.forEach((item) => item.classList.toggle('is-active', item === button)); sync(); }));
+  </script>
+</BaseLayout>

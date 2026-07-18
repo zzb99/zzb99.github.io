@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { projectOrder } from '../../data/site';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import '../../styles/project-video-hero.css';
 
 export async function getStaticPaths() {
@@ -31,6 +32,7 @@ const subject = encodeURIComponent(`关于「${project.data.title}」的交流`)
 ---
 <BaseLayout title={project.data.seoTitle ?? project.data.title} description={project.data.seoDescription ?? project.data.summary} image={project.data.hero} type="article" structuredData={structuredData}>
   <article class={`project-case project-case--${project.data.slug}`}>
+    <Breadcrumbs items={[{ href: '/', label: '首页' }, { href: '/projects/', label: '项目' }, { href: `/projects/${project.data.slug}/`, label: project.data.title }]} />
     <section id="project-overview" class="project-video-hero" aria-labelledby="project-title" style={`--project-poster: url('${project.data.hero}')`}>
       {hasAnimatedHero && <video class="project-video-hero__video" autoplay loop muted playsinline preload="metadata" poster={project.data.hero} aria-hidden="true" data-project-video>
         <source src={video} type="video/mp4" />
@@ -48,12 +50,13 @@ const subject = encodeURIComponent(`关于「${project.data.title}」的交流`)
     <div id="project-results" class="case-body">
       <section class="project-facts" aria-labelledby="facts-title">
         <p class="eyebrow">PROJECT FACTS</p><h2 id="facts-title">项目事实</h2>
-        <dl><div><dt>时间</dt><dd>{project.data.year}</dd></div><div><dt>状态</dt><dd>{project.data.status}</dd></div><div><dt>本人角色</dt><dd>{project.data.role}</dd></div>{project.data.organizations.length > 0 && <div><dt>相关单位</dt><dd>{project.data.organizations.join('、')}</dd></div>}{project.data.locations.length > 0 && <div><dt>地点</dt><dd>{project.data.locations.join('、')}</dd></div>}<div><dt>最后更新</dt><dd>{updated.toLocaleDateString('zh-CN')}</dd></div></dl>
+        <dl><div><dt>时间</dt><dd>{project.data.period ?? project.data.year}</dd></div><div><dt>状态</dt><dd>{project.data.status}</dd></div><div><dt>本人角色</dt><dd>{project.data.role}</dd></div>{project.data.teamContext && <div><dt>协作范围</dt><dd>{project.data.teamContext}</dd></div>}{project.data.organizations.length > 0 && <div><dt>相关单位</dt><dd>{project.data.organizations.join('、')}</dd></div>}{project.data.locations.length > 0 && <div><dt>地点</dt><dd>{project.data.locations.join('、')}</dd></div>}<div><dt>最后更新</dt><dd>{updated.toLocaleDateString('zh-CN')}</dd></div></dl>
         {project.data.evidenceNote && <p class="evidence-note"><strong>数据说明：</strong>{project.data.evidenceNote}</p>}
       </section>
       <div class="metrics">{project.data.metrics.map((item) => <div><b>{item.value}</b><span>{item.label}</span></div>)}</div>
       {headings.length > 0 && <nav class="project-toc" aria-label="项目目录"><b>项目目录</b>{headings.filter((heading) => heading.depth <= 2).map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav>}
       <div id="project-details" class="prose"><Content /></div>
+      {project.data.challenge && <section class="project-challenge"><p class="eyebrow">CHALLENGE & RESPONSE</p><h2>实际挑战与处理方式</h2><p><strong>挑战：</strong>{project.data.challenge}</p><p><strong>处理：</strong>{project.data.response}</p></section>}
       {related.length > 0 && <section class="related-projects"><p class="eyebrow">RELATED PROJECTS</p><h2>继续阅读</h2><div>{related.map((item) => <a href={`/projects/${item.data.slug}/`}><span>{item.data.category}</span><b>{item.data.title} →</b></a>)}</div></section>}
       <section class="project-contact"><p class="eyebrow">CONTACT</p><h2>如果这个项目与你正在思考的问题有关</h2><p>可以从具体问题开始交流，不需要准备正式提案。</p><a class="text-link" href={`mailto:zzb9999@outlook.com?subject=${subject}`}>联系我 <i>→</i></a></section>
       <nav class="project-neighbors" aria-label="项目导航"><a href={`/projects/${previous.data.slug}/`}>← 上一项目<br /><b>{previous.data.title}</b></a><a href={`/projects/${next.data.slug}/`}>下一项目 →<br /><b>{next.data.title}</b></a></nav>
