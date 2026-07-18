@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { achievementCards, projectOrder } from '../../data/project-page';
+import { getProjectImageAlt } from '../../data/project-image-alt';
 import '../../styles/projects-store.css';
 const allProjects = await getCollection('projects');
 const projects = projectOrder.map((slug) => allProjects.find((project) => project.data.slug === slug)).filter((project): project is NonNullable<typeof project> => Boolean(project));
@@ -10,19 +11,19 @@ const structuredData = {
   mainEntity: { '@type': 'ItemList', itemListElement: projects.map((project, index) => ({ '@type': 'ListItem', position: index + 1, name: project.data.title, url: new URL(`/projects/${project.data.slug}/`, Astro.site).href })) },
 };
 ---
-<BaseLayout title="项目" description="张智博参与和持续推进的增长、内容、产品、智能机器人与数字化项目。" structuredData={structuredData}>
+<BaseLayout title="张智博项目作品｜AI 应用、智能机器人与创新实践" description="集中记录张智博参与的 AI 应用、增长实践、产品创新、智能机器人与数字化项目，包括项目角色、阶段成果与实践边界。" structuredData={structuredData}>
   <div class="projects-store-page">
     <section class="store-section" aria-labelledby="project-showcase-title">
       <h1 id="project-showcase-title" class="store-heading">项目在此，<span>持续推进与不断打磨。</span></h1>
       <div class="store-rail">
-        <div class="store-track" data-store-track>{projects.map((project, index) => <a class="store-project-card" data-slug={project.data.slug} href={`/projects/${project.data.slug}/`}><div class="store-project-card__copy"><span class="store-project-card__meta">{project.data.category} · {project.data.year}</span><h2>{project.data.title}</h2><p>{project.data.summary}</p></div><img src={project.data.hero} width="1586" height="991" alt={`${project.data.title}：${project.data.summary}`} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'auto'} decoding="async" /></a>)}</div>
-        <button class="rail-arrow rail-arrow--previous" type="button" aria-label="向左查看项目" data-rail-previous hidden><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></button>
-        <button class="rail-arrow rail-arrow--next" type="button" aria-label="向右查看更多项目" data-rail-next><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></button>
+        <div class="store-track" data-store-track>{projects.map((project, index) => <a class="store-project-card" data-slug={project.data.slug} href={`/projects/${project.data.slug}/`}><div class="store-project-card__copy"><span class="store-project-card__meta">{project.data.category} · {project.data.year}</span><h2>{project.data.title}</h2><p>{project.data.summary}</p></div><img src={project.data.hero} width="1586" height="991" alt={getProjectImageAlt(project.data.slug, project.data.title)} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'auto'} decoding="async" /></a>)}</div>
+        <button class="rail-arrow rail-arrow--previous" type="button" aria-label="向左查看项目" data-rail-previous hidden><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" aria-hidden="true" /></button>
+        <button class="rail-arrow rail-arrow--next" type="button" aria-label="向右查看更多项目" data-rail-next><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" aria-hidden="true" /></button>
       </div>
     </section>
     <section class="store-section achievements" aria-labelledby="achievement-title">
       <h2 id="achievement-title" class="store-heading">成果与荣誉，<span>按真实记录持续整理。</span></h2>
-      <div class="achievement-track">{achievementCards.map((card) => <a class={`achievement-card achievement-card--${card.accent}`} href={card.href}><div class="achievement-card__icon"><img src={card.icon} alt="" /></div><h3>{card.title}</h3><p>{card.description}</p><span class="achievement-arrow" aria-hidden="true"><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></span></a>)}</div>
+      <div class="achievement-track">{achievementCards.map((card) => <a class={`achievement-card achievement-card--${card.accent}`} href={card.href}><div class="achievement-card__icon"><img src={card.icon} alt="" aria-hidden="true" /></div><h3>{card.title}</h3><p>{card.description}</p><span class="achievement-arrow" aria-hidden="true"><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></span></a>)}</div>
     </section>
   </div>
   <script>

@@ -10,9 +10,8 @@ const {
   image = '/og-default.png',
   type = 'website',
   structuredData,
-  isHome = false,
 } = Astro.props;
-const documentTitle = isHome ? title : title === siteProfile.siteName ? siteProfile.siteName : `${title}｜${siteProfile.siteName}`;
+const documentTitle = title;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const absoluteImage = new URL(image, Astro.site);
 const person = {

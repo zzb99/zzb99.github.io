@@ -30,7 +30,7 @@ const structuredData = [
 ];
 const subject = encodeURIComponent(`关于「${project.data.title}」的交流`);
 ---
-<BaseLayout title={project.data.seoTitle ?? project.data.title} description={project.data.seoDescription ?? project.data.summary} image={project.data.hero} type="article" structuredData={structuredData}>
+<BaseLayout title={`${project.data.title}｜张智博项目案例`} description={project.data.seoDescription ?? project.data.summary} image={project.data.hero} type="article" structuredData={structuredData}>
   <article class={`project-case project-case--${project.data.slug}`}>
     <Breadcrumbs items={[{ href: '/', label: '首页' }, { href: '/projects/', label: '项目' }, { href: `/projects/${project.data.slug}/`, label: project.data.title }]} />
     <section id="project-overview" class="project-video-hero" aria-labelledby="project-title" style={`--project-poster: url('${project.data.hero}')`}>

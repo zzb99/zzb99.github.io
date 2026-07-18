@@ -12,7 +12,7 @@ const isCurrent = (href: string) => href === '/' ? path === '/' : path.startsWit
 <a class="skip-link" href="#main-content">跳至正文</a>
 <header class="site-header">
   <div class="nav-wrap">
-    <a class="brand" href="/" aria-label="张智博首页"><img class="brand__logo" src="/brand/logo.png" width="36" height="36" alt="" /></a>
+    <a class="brand" href="/" aria-label="张智博首页"><img class="brand__logo" src="/brand/logo.png" width="36" height="36" alt="" aria-hidden="true" /></a>
     <button class="menu-button" type="button" aria-label="打开导航菜单" aria-controls="main-navigation" aria-expanded="false"><span>菜单</span></button>
     <nav id="main-navigation" aria-label="主导航">
       {links.map(([href, label]) => <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>)}

@@ -1,10 +1,12 @@
 ---
+import { getProjectImageAlt } from '../data/project-image-alt';
+
 const { project, featured = false, eager = false } = Astro.props;
 const projectHref = `/projects/${project.data.slug}/`;
 ---
 <article class:list={['project-card', { 'project-card--featured': featured }]}>
   <a class="project-card__link" href={projectHref} aria-label={`查看项目：${project.data.title}`}>
-    <img src={project.data.hero} width="1586" height="991" alt={`${project.data.title}：${project.data.summary}`} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : 'auto'} decoding="async" />
+    <img src={project.data.hero} width="1586" height="991" alt={getProjectImageAlt(project.data.slug, project.data.title)} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : 'auto'} decoding="async" />
     <div class="project-card__body">
       <span>{project.data.category} · {project.data.year}</span>
       <h3>{project.data.title}</h3>
@@ -12,7 +14,7 @@ const projectHref = `/projects/${project.data.slug}/`;
       <b>查看项目 <i>→</i></b>
     </div>
   </a>
-  {featured && <div class="apple-store-paddlenav" aria-label="项目轮播控制"><button type="button" class="apple-store-paddlenav__button apple-store-paddlenav__previous" data-project-scroll="previous" aria-label="上一个项目" disabled><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></button><button type="button" class="apple-store-paddlenav__button apple-store-paddlenav__next" data-project-scroll="next" aria-label="下一个项目"><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></button></div>}
+  {featured && <div class="apple-store-paddlenav" aria-label="项目轮播控制"><button type="button" class="apple-store-paddlenav__button apple-store-paddlenav__previous" data-project-scroll="previous" aria-label="上一个项目" disabled><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" aria-hidden="true" /></button><button type="button" class="apple-store-paddlenav__button apple-store-paddlenav__next" data-project-scroll="next" aria-label="下一个项目"><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" aria-hidden="true" /></button></div>}
 </article>
 <script>
   const projectRailWindow = window as Window & { __projectRailInitialized?: boolean };

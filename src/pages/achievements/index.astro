@@ -7,7 +7,7 @@ const structuredData = {
   mainEntity: { '@type': 'ItemList', itemListElement: entries.map((entry, index) => ({ '@type': 'ListItem', position: index + 1, name: entry.title, identifier: 'identifier' in entry ? entry.identifier : undefined })) },
 };
 ---
-<BaseLayout title="成果" description="张智博的国家级与省部级荣誉、国家专利、软件著作权及对应项目记录。" structuredData={structuredData}>
+<BaseLayout title="张智博的成果｜获奖、专利与软件著作权" description="汇总张智博可公开核验的获奖记录、实用新型专利、软件著作权及其关联项目。" structuredData={structuredData}>
   <header class="page-hero records-hero"><p class="eyebrow">RECORDS</p><h1>成果与荣誉</h1><p>按名称、年份、编号和项目关系整理。只呈现当前可以明确说明的记录。</p></header>
   <div class="records-page content-wrap">
     <section id="national-awards" class="record-section"><div class="record-section__heading"><p>01</p><h2>国家级荣誉</h2><span>2 项</span></div><div class="record-list">{nationalAwards.map((award) => <article id={award.id}><div><span>{award.year}</span><b>{award.level}</b></div><h3>{award.title}</h3></article>)}</div></section>
