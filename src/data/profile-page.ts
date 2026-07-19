@@ -1,3 +1,6 @@
+// Update this only when the public profile facts on the page change.
+export const profileLastUpdated = '2026-07-20';
+
 export const profileProjects = [
   { title: '供件达人——快递分拣智能供件先锋', copy: '作为团队成员参与智能分拣机器人项目，涉及项目推进、测试记录、成果展示与申报材料整理等工作。团队整体项目成果、本人参与内容、学校公开数据与项目内部测试数据在页面中分别说明。', sources: [{ label: '学校公开来源', href: 'https://www.sjzpc.edu.cn/info/2681/69221.htm' }] },
   { title: '净界——以“一客一净”重构饮水新体验', copy: '面向酒店客房烧水壶卫生信任问题，探索可替换内胆、可视化封签和耗材复购模式。', sources: [{ label: '学校项目公示', href: 'https://www.sjzpc.edu.cn/info/2501/71451.htm' }, { label: '学校获奖公示', href: 'https://www.sjzpc.edu.cn/info/1022/73711.htm' }] },

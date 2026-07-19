@@ -2,10 +2,10 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import { siteProfile } from '../../../data/site';
-import { profileAwards, profilePatentTitles, profileProjects } from '../../../data/profile-page';
+import { profileAwards, profileLastUpdated, profilePatentTitles, profileProjects } from '../../../data/profile-page';
 
 const url = new URL('/profile/zhang-zhibo/', Astro.site).href;
-const updated = new Date().toISOString().slice(0, 10);
+const updated = profileLastUpdated;
 const person = {
   '@context': 'https://schema.org', '@type': 'Person', '@id': new URL('/#person', Astro.site).href,
   name: '张智博', alternateName: ['张志博', '张治博', 'Zhibo Zhang'], url: Astro.site,

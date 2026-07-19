@@ -8,6 +8,7 @@ const {
   title = siteProfile.siteName,
   description = siteProfile.description,
   image = '/og-default.png',
+  ogImageAlt = '张智博个人官网默认分享图',
   type = 'website',
   structuredData,
   preloadImages = [],
@@ -60,12 +61,14 @@ const jsonLd = structuredData ? [...(includeBasePerson ? [person] : []), ...(Arr
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={absoluteImage} />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={documentTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={absoluteImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />

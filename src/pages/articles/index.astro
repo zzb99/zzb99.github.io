@@ -4,8 +4,25 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 const articles = (await getCollection('articles')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const categories = [...new Set(articles.map((article) => article.data.category))];
+const url = new URL('/articles/', Astro.site).href;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: '张智博的文章',
+  description: '收录张智博关于 AI、GEO、内容、产品与项目实践的观察、方法和阶段性思考。',
+  url,
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: articles.map((article, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: article.data.title,
+      url: new URL(`/articles/${article.data.slug}/`, Astro.site).href,
+    })),
+  },
+};
 ---
-<BaseLayout title="张智博的文章｜AI、GEO 与项目实践" description="收录张智博关于 AI、GEO、内容、产品与项目实践的观察、方法和阶段性思考。">
+<BaseLayout title="张智博的文章｜AI、GEO 与项目实践" description="收录张智博关于 AI、GEO、内容、产品与项目实践的观察、方法和阶段性思考。" structuredData={structuredData}>
   <header class="page-hero"><p class="eyebrow">WRITING</p><h1>文章</h1><p>把实践里的观察、方法和还没有定论的问题，慢慢写清楚。</p></header>
   <section class="content-wrap">
     <label class="article-search">搜索文章<input type="search" placeholder="输入标题、分类或关键词" aria-label="搜索文章" /></label>
