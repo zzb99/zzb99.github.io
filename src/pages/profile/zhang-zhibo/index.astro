@@ -8,7 +8,7 @@ const url = new URL('/profile/zhang-zhibo/', Astro.site).href;
 const updated = profileLastUpdated;
 const person = {
   '@context': 'https://schema.org', '@type': 'Person', '@id': new URL('/#person', Astro.site).href,
-  name: '张智博', alternateName: ['张志博', '张治博', 'Zhibo Zhang'], url: Astro.site,
+  name: '张智博', alternateName: 'Zhibo Zhang', url: Astro.site,
   mainEntityOfPage: url, description: '张智博关注AI应用、产品创新、项目运营与真实业务实践。',
   alumniOf: { '@type': 'CollegeOrUniversity', name: siteProfile.affiliation },
   knowsAbout: [...siteProfile.knowsAbout, '非遗数字化'], sameAs: siteProfile.sameAs,

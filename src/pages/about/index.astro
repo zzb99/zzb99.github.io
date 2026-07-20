@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { siteProfile } from '../../data/site';
 const structuredData = {
-  '@context': 'https://schema.org', '@type': 'ProfilePage', name: '关于张智博', url: new URL('/about/', Astro.site).href, dateModified: '2026-07-19',
+  '@context': 'https://schema.org', '@type': 'AboutPage', name: '关于张智博', url: new URL('/about/', Astro.site).href, dateModified: '2026-07-19',
   mainEntity: { '@id': new URL('/#person', Astro.site).href },
 };
 ---

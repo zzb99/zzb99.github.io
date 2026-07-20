@@ -2,7 +2,7 @@
 import '../styles/site.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { nationalAwards, siteProfile } from '../data/site';
+import { siteProfile } from '../data/site';
 
 const {
   title = siteProfile.siteName,
@@ -23,7 +23,7 @@ const person = {
   '@type': 'Person',
   '@id': new URL('/#person', Astro.site).href,
   name: siteProfile.name,
-  alternateName: '张志博',
+  alternateName: 'Zhibo Zhang',
   url: Astro.site,
   description: siteProfile.description,
   email: siteProfile.email,
@@ -32,7 +32,6 @@ const person = {
   alumniOf: { '@type': 'CollegeOrUniversity', name: siteProfile.affiliation },
   hasOccupation: { '@type': 'Occupation', name: '项目实践与运营' },
   knowsAbout: siteProfile.knowsAbout,
-  award: nationalAwards.map((award) => award.title),
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: '个人交流',
