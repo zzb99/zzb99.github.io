@@ -73,6 +73,15 @@ const jsonLd = structuredData ? [...(includeBasePerson ? [person] : []), ...(Arr
     <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
     <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    {import.meta.env.PROD && <script is:inline>
+      (function () {
+        var el = document.createElement('script');
+        el.src = 'https://lf1-cdn-tos.bytegoofy.com/goofy/ttzz/push.js?49f4d53daeebd44d564a69fcbfd0ade1c9c7fcb5b0f7cc19838651853541c70e19d1c501ebd3301f5e2290626f5b53d078c8250527fa0dfd9783a026ff3cf719';
+        el.id = 'ttzz';
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode?.insertBefore(el, firstScript);
+      })();
+    </script>}
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>

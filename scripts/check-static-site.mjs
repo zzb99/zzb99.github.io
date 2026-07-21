@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const dist = fileURLToPath(new URL('../dist/', import.meta.url));
-const required = ['index.html', '404.html', 'projects/index.html', 'articles/index.html', 'achievements/index.html', 'about/index.html', 'profile/zhang-zhibo/index.html', 'rss.xml', 'robots.txt', 'sitemap-index.xml', 'CNAME', 'llms.txt', 'site.webmanifest', 'favicon.svg', 'og-default.png', 'baidu_verify_codeva-luikAz4Kmm.html'];
+const required = ['index.html', '404.html', 'projects/index.html', 'articles/index.html', 'achievements/index.html', 'about/index.html', 'profile/zhang-zhibo/index.html', 'rss.xml', 'robots.txt', 'sitemap.xml', 'sitemap-index.xml', 'CNAME', 'llms.txt', 'site.webmanifest', 'favicon.svg', 'og-default.png', 'baidu_verify_codeva-luikAz4Kmm.html'];
 const projectSlugs = ['hotel-new-media-growth', 'shentong-market-expansion', 'automotive-lead-growth', 'warehouse-intelligent-robot', 'executive-ip-planning', 'ecommerce-growth', 'housekeeping-geo', 'postal-sorting-robot', 'jingjie', 'panxiu-archive', 'xianyu-feishu-tool'];
 const articleSlugs = ['ai-search-and-enterprise-content', 'why-personal-site-matters', 'from-idea-to-project', 'geo-is-not-name-mention', 'ai-redesigns-repetitive-operations', 'how-to-present-project-results'];
 
@@ -47,12 +47,14 @@ const about = await readFile(join(dist, 'about/index.html'), 'utf8');
 const profile = await readFile(join(dist, 'profile/zhang-zhibo/index.html'), 'utf8');
 const robots = await readFile(join(dist, 'robots.txt'), 'utf8');
 const rss = await readFile(join(dist, 'rss.xml'), 'utf8');
+const sitemap = await readFile(join(dist, 'sitemap.xml'), 'utf8');
 const llms = await readFile(join(dist, 'llms.txt'), 'utf8');
 const articlesIndex = await readFile(join(dist, 'articles/index.html'), 'utf8');
 
 if (!home.includes('application/ld+json') || !home.includes('canonical') || !home.includes('"@type":"WebSite"') || !home.includes('twitter:card') || !home.includes('张智博的思考空间')) throw new Error('Home metadata is incomplete.');
-if (!robots.includes('sitemap-index.xml') || !robots.includes('Allow: /')) throw new Error('robots.txt is incomplete or blocks crawling.');
-if (!rss.includes('<rss')) throw new Error('RSS is malformed.');
+if (!robots.includes('User-agent: Bytespider') || !robots.includes('Allow: /') || !robots.includes('Sitemap: https://www.zzb9.cn/sitemap.xml')) throw new Error('robots.txt is incomplete or blocks crawling.');
+if (!rss.includes('<rss') || !rss.includes('<author>') || !rss.includes('<media:thumbnail')) throw new Error('RSS is missing required article metadata.');
+if (!sitemap.includes('<urlset') || !sitemap.includes('https://www.zzb9.cn/articles/') || !sitemap.includes('https://www.zzb9.cn/projects/')) throw new Error('sitemap.xml is incomplete.');
 if (!articlesIndex.includes('"@type":"CollectionPage"') || !articlesIndex.includes('"@type":"ItemList"')) throw new Error('Article index metadata is incomplete.');
 
 const homeData = readStructuredData(home, 'Home');

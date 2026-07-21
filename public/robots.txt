@@ -1,3 +1,6 @@
+User-agent: Bytespider
+Allow: /
+
 User-agent: *
 Allow: /
-Sitemap: https://www.zzb9.cn/sitemap-index.xml
+Sitemap: https://www.zzb9.cn/sitemap.xml
