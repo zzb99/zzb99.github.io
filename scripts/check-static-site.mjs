@@ -1,4 +1,4 @@
-import { access, readFile } from 'node:fs/promises';
+import { access, readFile, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -56,6 +56,15 @@ if (!robots.includes('User-agent: Bytespider') || !robots.includes('Allow: /') |
 if (!rss.includes('<rss') || !rss.includes('<author>') || !rss.includes('<media:thumbnail')) throw new Error('RSS is missing required article metadata.');
 if (!sitemap.includes('<urlset') || !sitemap.includes('https://www.zzb9.cn/articles/') || !sitemap.includes('https://www.zzb9.cn/projects/')) throw new Error('sitemap.xml is incomplete.');
 if (!articlesIndex.includes('"@type":"CollectionPage"') || !articlesIndex.includes('"@type":"ItemList"')) throw new Error('Article index metadata is incomplete.');
+
+const verificationFiles = new Set(['baidu_verify_codeva-luikAz4Kmm.html', 'ByteDanceVerify.html']);
+const formalPages = (await readdir(dist, { recursive: true })).filter(
+  (file) => file.endsWith('.html') && !verificationFiles.has(file),
+);
+for (const file of formalPages) {
+  const html = await readFile(join(dist, file), 'utf8');
+  if ((html.match(/el\.id = 'ttzz'/g) ?? []).length !== 1) throw new Error(`Toutiao push loader must appear once: ${file}`);
+}
 
 const homeData = readStructuredData(home, 'Home');
 const aboutData = readStructuredData(about, 'About page');
