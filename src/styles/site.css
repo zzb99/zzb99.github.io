@@ -168,7 +168,10 @@ button { -webkit-tap-highlight-color: transparent; }
   .site-header, .site-header nav, .quiet-contact, .article-search input, .article-filters button { background: var(--glass-surface-strong); }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
-@media (max-width: 760px) {
+/* Some mobile browsers use a wider layout viewport while still displaying a
+   phone-sized screen. Keep the compact navigation available through this
+   tablet-width safety breakpoint so it cannot overlap the home hero. */
+@media (max-width: 900px) {
   .site-header { height: 64px; }
   .nav-wrap { width: calc(100% - 32px); }
   .brand, .brand__logo { width: 32px; height: 32px; }

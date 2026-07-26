@@ -24,6 +24,7 @@ const structuredData = [{
 }];
 ---
 <BaseLayout title="张智博个人官网｜项目、成果与思考" description={siteProfile.description} structuredData={structuredData} isHome preloadImages={[{ href: '/images/hero/desktop-hero-background.webp', media: '(min-width: 761px)' }, { href: '/images/hero/mobile-hero-background.webp', media: '(max-width: 760px)' }]}>
+  <meta slot="head" name="shenma-site-verification" content="1f22379207ad6c540ae8ecd788cafeff_1784924764" />
   <section class="hero hero--editorial" aria-labelledby="home-title">
     <div class="hero__guide" aria-hidden="true"><span></span><b>01</b></div>
     <div class="hero__content">
@@ -54,5 +55,13 @@ const structuredData = [{
 
   <section class="section about-teaser"><p class="eyebrow">ABOUT</p><h2>把问题看清，<br />再把事情向前推进。</h2><p>关注新的技术，也关注它们如何进入真实场景。这里保留项目、成果和仍在持续形成的思考。</p><a class="text-link" href="/about/">了解更多 <i>→</i></a></section>
 
-  <section class="section faq" aria-labelledby="faq-title"><div class="section-heading"><div><p class="eyebrow">FAQ</p><h2 id="faq-title">常见问题</h2></div><p>关于张智博、网站内容与联系方法的简要说明。</p></div><div class="faq-list">{faqItems.map((item) => <details><summary>{item.question}</summary><p>{item.answer}</p></details>)}</div></section>
+  <section class="section faq faq--reference" aria-labelledby="faq-title">
+    <div class="faq-reference__heading"><h2 id="faq-title">常见问题</h2></div>
+    <div class="faq-list faq-reference__list">
+      {faqItems.map((item) => <details>
+        <summary><span>{item.question}</span><img src="https://api.iconify.design/tabler/plus.svg?color=%239ba4b2" width="28" height="28" alt="" aria-hidden="true" /></summary>
+        <p>{item.answer}</p>
+      </details>)}
+    </div>
+  </section>
 </BaseLayout>
