@@ -13,8 +13,27 @@ const structuredData = {
 ---
 <BaseLayout title="张智博项目作品｜AI 应用、智能机器人与创新实践" description="集中记录张智博参与的 AI 应用、增长实践、产品创新、智能机器人与数字化项目，包括项目角色、阶段成果与实践边界。" structuredData={structuredData}>
   <div class="projects-store-page">
+    <section class="projects-hero" aria-labelledby="projects-hero-title" data-projects-hero>
+      <video class="projects-hero__video" muted playsinline preload="auto" poster={projects[0]?.data.hero} aria-hidden="true" data-projects-video>
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4" type="video/mp4" />
+      </video>
+      <div class="projects-hero__veil" aria-hidden="true"></div>
+      <div class="projects-hero__content">
+        <p class="projects-hero__eyebrow">SELECTED WORK · 01</p>
+        <h1 id="projects-hero-title">把正在发生的项目，<br />留下可被阅读的记录。</h1>
+        <p class="projects-hero__lead">从 AI 应用、增长实践到智能机器人，整理每个项目里的角色、过程、成果与仍在继续的探索。</p>
+        <div class="projects-hero__actions" aria-label="项目入口">
+          <a href="#project-showcase">查看全部项目</a>
+          <a href="#achievement-title">查看成果记录</a>
+          <a href="/articles/">阅读项目思考</a>
+          <button type="button" data-copy-email>联系我：<span>zzb9999@outlook.com</span><b aria-hidden="true">⧉</b></button>
+        </div>
+        <p class="projects-hero__hint" aria-hidden="true">左右移动鼠标，浏览画面</p>
+        <p class="projects-hero__status" aria-live="polite" data-copy-status></p>
+      </div>
+    </section>
     <section class="store-section" aria-labelledby="project-showcase-title">
-      <h1 id="project-showcase-title" class="store-heading">项目在此，<span>持续推进与不断打磨。</span></h1>
+      <h2 id="project-showcase-title" class="store-heading">项目在此，<span>持续推进与不断打磨。</span></h2>
       <div class="store-rail">
         <div class="store-track" data-store-track>{projects.map((project, index) => <a class="store-project-card" data-slug={project.data.slug} href={`/projects/${project.data.slug}/`}><div class="store-project-card__copy"><span class="store-project-card__meta">{project.data.category} · {project.data.year}</span><h2>{project.data.title}</h2><p>{project.data.summary}</p></div><img src={project.data.hero} width="1586" height="991" alt={getProjectImageAlt(project.data.slug, project.data.title)} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'auto'} decoding="async" /></a>)}</div>
         <button class="rail-arrow rail-arrow--previous" type="button" aria-label="向左查看项目" data-rail-previous hidden><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" aria-hidden="true" /></button>
@@ -27,6 +46,39 @@ const structuredData = {
     </section>
   </div>
   <script>
+    const hero = document.querySelector<HTMLElement>('[data-projects-hero]');
+    const video = document.querySelector<HTMLVideoElement>('[data-projects-video]');
+    const copyEmail = document.querySelector<HTMLButtonElement>('[data-copy-email]');
+    const copyStatus = document.querySelector<HTMLElement>('[data-copy-status]');
+    if (hero && video) {
+      let previousX: number | undefined;
+      let targetTime = 0;
+      let seeking = false;
+      const seek = () => {
+        if (seeking || !Number.isFinite(video.duration) || video.duration <= 0 || Math.abs(video.currentTime - targetTime) < .02) return;
+        seeking = true;
+        video.currentTime = targetTime;
+      };
+      hero.addEventListener('pointermove', (event) => {
+        if (event.pointerType !== 'mouse') return;
+        if (previousX === undefined) { previousX = event.clientX; return; }
+        const delta = event.clientX - previousX;
+        previousX = event.clientX;
+        targetTime = Math.min(video.duration, Math.max(0, targetTime + (delta / window.innerWidth) * .8 * video.duration));
+        seek();
+      });
+      hero.addEventListener('pointerleave', () => { previousX = undefined; });
+      video.addEventListener('seeked', () => { seeking = false; seek(); });
+      video.addEventListener('loadedmetadata', () => { targetTime = Math.min(video.duration * .1, 1); seek(); }, { once: true });
+    }
+    copyEmail?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText('zzb9999@outlook.com');
+        if (copyStatus) copyStatus.textContent = '邮箱已复制';
+      } catch {
+        if (copyStatus) copyStatus.textContent = '请手动复制邮箱地址';
+      }
+    });
     document.querySelectorAll<HTMLElement>('.store-rail').forEach((rail) => {
       const track = rail.querySelector<HTMLElement>('[data-store-track]');
       const previous = rail.querySelector<HTMLButtonElement>('[data-rail-previous]');

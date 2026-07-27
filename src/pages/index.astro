@@ -45,12 +45,14 @@ const structuredData = [{
 
   <section class="section evidence" aria-labelledby="records-title">
     <div class="evidence__heading"><div><p class="eyebrow">SELECTED RECORDS</p><h2 id="records-title">成果记录</h2></div><p>只呈现可以明确说明名称、数量和项目关系的阶段成果。</p></div>
-    <div class="evidence-grid">{achievementSummary.map((item) => <a href={item.href}><span>{item.label}</span><strong>{item.value}</strong><p>{item.copy}</p><b>查看成果 <i>→</i></b></a>)}</div>
+    <div class="evidence-grid" data-home-rail="records">{achievementSummary.map((item) => <a href={item.href}><span>{item.label}</span><strong>{item.value}</strong><p>{item.copy}</p><b>查看成果 <i>→</i></b></a>)}</div>
+    <nav class="home-rail-dots" aria-label="成果记录分页" data-home-rail-dots="records">{achievementSummary.map((item, index) => <button type="button" aria-label={`查看第 ${index + 1} 项成果：${item.label}`} aria-current={index === 0 ? 'true' : undefined}></button>)}</nav>
   </section>
 
   <section class="section articles-preview" aria-labelledby="writing-title">
     <div class="section-heading"><div><p class="eyebrow">WRITING</p><h2 id="writing-title">最新文章</h2></div><a class="text-link" href="/articles/">全部文章 <i>→</i></a></div>
-    <div class="article-list">{articles.map((article) => <ArticleCard article={article} />)}</div>
+    <div class="article-list" data-home-rail="articles">{articles.map((article) => <ArticleCard article={article} />)}</div>
+    <nav class="home-rail-dots" aria-label="最新文章分页" data-home-rail-dots="articles">{articles.map((article, index) => <button type="button" aria-label={`查看第 ${index + 1} 篇文章：${article.data.title}`} aria-current={index === 0 ? 'true' : undefined}></button>)}</nav>
   </section>
 
   <section class="section about-teaser"><p class="eyebrow">ABOUT</p><h2>把问题看清，<br />再把事情向前推进。</h2><p>关注新的技术，也关注它们如何进入真实场景。这里保留项目、成果和仍在持续形成的思考。</p><a class="text-link" href="/about/">了解更多 <i>→</i></a></section>
@@ -64,4 +66,30 @@ const structuredData = [{
       </details>)}
     </div>
   </section>
+  <script>
+    document.querySelectorAll<HTMLElement>('[data-home-rail-dots]').forEach((dots) => {
+      const railName = dots.dataset.homeRailDots;
+      const track = railName ? document.querySelector<HTMLElement>(`[data-home-rail="${railName}"]`) : null;
+      const cards = track ? Array.from(track.children) as HTMLElement[] : [];
+      const buttons = Array.from(dots.querySelectorAll<HTMLButtonElement>('button'));
+      if (!track || cards.length !== buttons.length) return;
+
+      const cardScrollLeft = (card: HTMLElement) => card.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft || '0');
+      const sync = () => {
+        dots.hidden = track.scrollWidth <= track.clientWidth + 1;
+        const activeIndex = cards.reduce((closestIndex, card, index) => (
+          Math.abs(cardScrollLeft(card) - track.scrollLeft) < Math.abs(cardScrollLeft(cards[closestIndex]) - track.scrollLeft) ? index : closestIndex
+        ), 0);
+        buttons.forEach((button, index) => {
+          if (index === activeIndex) button.setAttribute('aria-current', 'true');
+          else button.removeAttribute('aria-current');
+        });
+      };
+
+      buttons.forEach((button, index) => button.addEventListener('click', () => track.scrollTo({ left: cardScrollLeft(cards[index]), behavior: 'smooth' })));
+      track.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+      new ResizeObserver(sync).observe(track);
+      sync();
+    });
+  </script>
 </BaseLayout>

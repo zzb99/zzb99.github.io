@@ -14,6 +14,8 @@ const {
   preloadImages = [],
   personMainEntityOfPage,
   includeBasePerson = true,
+  publishedTime,
+  updatedTime,
 } = Astro.props;
 const documentTitle = title;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -53,6 +55,9 @@ const jsonLd = structuredData ? [...(includeBasePerson ? [person] : []), ...(Arr
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content="index,follow,max-image-preview:large" />
+    {publishedTime && <meta property="bytedance:published_time" content={publishedTime} />}
+    {publishedTime && <meta property="bytedance:lrDate_time" content={publishedTime} />}
+    {updatedTime && <meta property="bytedance:updated_time" content={updatedTime} />}
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:site_name" content={siteProfile.siteName} />
     <meta property="og:type" content={type} />
