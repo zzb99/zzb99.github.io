@@ -52,7 +52,7 @@ const llms = await readFile(join(dist, 'llms.txt'), 'utf8');
 const articlesIndex = await readFile(join(dist, 'articles/index.html'), 'utf8');
 
 if (!home.includes('application/ld+json') || !home.includes('canonical') || !home.includes('"@type":"WebSite"') || !home.includes('twitter:card') || !home.includes('张智博的思考空间')) throw new Error('Home metadata is incomplete.');
-if (!robots.includes('User-agent: Bytespider') || !robots.includes('Allow: /') || !robots.includes('Sitemap: https://www.zzb9.cn/sitemap.xml')) throw new Error('robots.txt is incomplete or blocks crawling.');
+if (!robots.includes('User-agent: Bytespider') || !robots.includes('Allow: /') || !robots.includes('Sitemap: https://www.zzb9.cn/sitemap-index.xml') || !robots.includes('Sitemap: https://www.zzb9.cn/sitemap.xml')) throw new Error('robots.txt is incomplete or blocks crawling.');
 if (!rss.includes('<rss') || !rss.includes('<author>') || !rss.includes('<media:thumbnail')) throw new Error('RSS is missing required article metadata.');
 if (!sitemap.includes('<urlset') || !sitemap.includes('https://www.zzb9.cn/articles/') || !sitemap.includes('https://www.zzb9.cn/projects/')) throw new Error('sitemap.xml is incomplete.');
 if (!articlesIndex.includes('"@type":"CollectionPage"') || !articlesIndex.includes('"@type":"ItemList"')) throw new Error('Article index metadata is incomplete.');

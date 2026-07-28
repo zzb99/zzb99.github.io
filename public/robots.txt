@@ -3,4 +3,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+# 标准索引，供 Google 等搜索引擎发现由 Astro 自动生成的站点地图。
+Sitemap: https://www.zzb9.cn/sitemap-index.xml
+# 保留历史入口，避免已经发现 sitemap.xml 的抓取器失效。
 Sitemap: https://www.zzb9.cn/sitemap.xml
