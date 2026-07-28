@@ -5,6 +5,7 @@ export async function getStaticPaths() { const articles = await getCollection('a
 const { article } = Astro.props;
 const { Content, headings } = await render(article);
 const tocHeadings = headings.filter((heading) => heading.depth === 2);
+const bodyStartsWithH2 = /^##\s+/.test(article.body.replace(/^\uFEFF/, '').trimStart());
 const articles = (await getCollection('articles')).sort((a,b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 const index = articles.findIndex(item => item.id === article.id);
 const previous = articles[index - 1]; const next = articles[index + 1];
@@ -29,7 +30,7 @@ const structuredData = [{ '@context':'https://schema.org', '@type':'Article', he
       <p class="meta">发布于 {date} · 更新于 {updatedDate} · 约 {readingMinutes} 分钟阅读</p>
     </header>
     {tocHeadings.length > 0 && <details class="article-toc-mobile"><summary>文章目录 <span>{tocHeadings.length} 节</span></summary><nav aria-label="文章目录">{tocHeadings.map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav></details>}
-    <div class:list={['article-body-layout', { 'article-body-layout--with-toc': tocHeadings.length > 0 }]}>
+    <div class:list={['article-body-layout', { 'article-body-layout--with-toc': tocHeadings.length > 0, 'article-body-layout--starts-with-h2': bodyStartsWithH2 }]}>
       {tocHeadings.length > 0 && <nav class="article-toc article-toc--desktop" aria-label="文章目录"><b>目录</b>{tocHeadings.map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav>}
       <div class="article-content">
         <div class="prose"><Content /></div>

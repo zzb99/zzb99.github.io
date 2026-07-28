@@ -9,7 +9,7 @@ const rootDirectory = resolve(scriptDirectory, '..');
 const articlesDirectory = join(rootDirectory, 'src', 'content', 'articles');
 const appFile = join(scriptDirectory, 'article-studio.html');
 const host = '127.0.0.1';
-const port = 4311;
+const port = Number(process.env.ARTICLE_STUDIO_PORT ?? 4311);
 let isPublishing = false;
 
 const json = (response, status, body) => {
@@ -72,11 +72,12 @@ const descriptionFrom = (body, title) => {
   return plain.length > 110 ? `${plain.slice(0, 109).replace(/[，。；、\s]+$/g, '')}…` : plain;
 };
 
-const parseArticle = async ({ content = '', category = '', pubDate = '' }) => {
+const parseArticle = async ({ content = '', category = '', pubDate = '', summary = '' }) => {
   const errors = [];
   const source = String(content).replace(/^\uFEFF/, '').trim();
   const normalizedCategory = String(category).trim();
   const normalizedDate = String(pubDate).trim();
+  const normalizedSummary = String(summary).trim();
   const match = source.match(/^#\s+(.+?)\s*(?:\r?\n|$)/);
   const title = match?.[1]?.trim() ?? '';
   const body = match ? source.slice(match[0].length).trim() : '';
@@ -87,11 +88,12 @@ const parseArticle = async ({ content = '', category = '', pubDate = '' }) => {
   if (!normalizedCategory) errors.push('请填写分类；分类可以自由命名。');
   if (normalizedCategory.length > 40) errors.push('分类请控制在 40 个字符以内。');
   if (!validDate(normalizedDate)) errors.push('发布日期应为合法的 YYYY-MM-DD。');
+  if (normalizedSummary.length > 160) errors.push('文章摘要请控制在 160 个字符以内。');
 
   const slug = validDate(normalizedDate)
     ? nextDateSlug(normalizedDate, await localArticleSlugs())
     : '';
-  return { errors, title, body, category: normalizedCategory, pubDate: normalizedDate, slug, description: descriptionFrom(body, title) };
+  return { errors, title, body, category: normalizedCategory, pubDate: normalizedDate, slug, description: normalizedSummary || descriptionFrom(body, title) };
 };
 
 const categories = async () => {

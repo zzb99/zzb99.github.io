@@ -218,6 +218,7 @@ body:has(.article-list) .page-hero > p:last-child { max-width: 640px; font-size:
   .article-body-layout--with-toc { display: grid; grid-template-columns: 180px minmax(0, 720px); gap: 64px; align-items: start; }
   .article-toc-mobile { display: none; }
   .article-toc--desktop { position: sticky; top: 104px; display: grid; margin: 0; padding: 0 0 0 16px; border: 0; border-left: 1px solid var(--line); gap: 10px; font-size: 13px; line-height: 1.5; }
+  .article-body-layout--starts-with-h2 .article-toc--desktop { margin-top: 56px; }
   .article-toc--desktop b { margin-bottom: 4px; }
   .article-toc--desktop a { position: relative; color: var(--muted); transition: color var(--motion-fast) ease; }
   .article-toc--desktop a::before { position: absolute; top: .2em; left: -17px; width: 2px; height: 1em; background: transparent; content: ''; }
