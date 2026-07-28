@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 export async function getStaticPaths() { const articles = await getCollection('articles'); return articles.map(article => ({ params: { slug: article.data.slug }, props: { article } })); }
 const { article } = Astro.props;
 const { Content, headings } = await render(article);
+const tocHeadings = headings.filter((heading) => heading.depth === 2);
 const articles = (await getCollection('articles')).sort((a,b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 const index = articles.findIndex(item => item.id === article.id);
 const previous = articles[index - 1]; const next = articles[index + 1];
@@ -19,4 +20,48 @@ const readingMinutes = Math.max(1, Math.ceil(hanCharacters / 350 + latinWords / 
 const url = new URL(`/articles/${article.data.slug}/`, Astro.site).href;
 const structuredData = [{ '@context':'https://schema.org', '@type':'Article', headline: article.data.title, description: article.data.description, datePublished: article.data.pubDate.toISOString(), dateModified: (article.data.updatedDate ?? article.data.pubDate).toISOString(), mainEntityOfPage: url, author: { '@id': new URL('/#person', Astro.site).href }, image: article.data.hero ? new URL(article.data.hero, Astro.site).href : undefined }, { '@context':'https://schema.org', '@type':'BreadcrumbList', itemListElement:[{ '@type':'ListItem', position:1, name:'首页', item:Astro.site },{ '@type':'ListItem', position:2, name:'文章', item:new URL('/articles/', Astro.site).href },{ '@type':'ListItem', position:3, name:article.data.title, item:url }] }];
 ---
-<BaseLayout title={`${article.data.title}｜张智博`} description={article.data.seoDescription ?? article.data.description} image={article.data.hero} ogImageAlt={article.data.title} type="article" structuredData={structuredData} publishedTime={publishedTime} updatedTime={bytedanceUpdatedTime}><article class="article-page"><header><p class="eyebrow">{article.data.category}</p><h1>{article.data.title}</h1><p class="lead">{article.data.description}</p><p class="meta">发布于 {date} · 更新于 {updatedDate} · 约 {readingMinutes} 分钟阅读</p></header>{headings.length > 0 && <nav class="article-toc" aria-label="文章目录"><b>目录</b>{headings.filter(heading=>heading.depth<=2).map(heading=><a href={`#${heading.slug}`}>{heading.text}</a>)}</nav>}<div class="prose"><Content /></div>{article.data.relatedProject && <p class="related-note">相关项目：<a class="text-link" href={`/projects/${article.data.relatedProject}/`}>查看项目档案 <i>→</i></a></p>}{related.length > 0 && <section class="article-related"><p class="eyebrow">RELATED WRITING</p><h2>相关文章</h2><div>{related.map(item => <a href={`/articles/${item.data.slug}/`}>{item.data.title} <i>→</i></a>)}</div></section>}<aside class="article-author"><b>张智博</b><span>保持好奇，也保持探索。记录项目、成果与仍在形成的思考。</span></aside><nav class="article-neighbors" aria-label="文章导航">{previous?<a href={`/articles/${previous.data.slug}/`}>← {previous.data.title}</a>:<span />}{next&&<a href={`/articles/${next.data.slug}/`}>{next.data.title} →</a>}</nav><p><a class="text-link" href="/articles/">返回文章列表 <i>→</i></a></p></article></BaseLayout>
+<BaseLayout title={`${article.data.title}｜张智博`} description={article.data.seoDescription ?? article.data.description} image={article.data.hero} ogImageAlt={article.data.title} type="article" structuredData={structuredData} publishedTime={publishedTime} updatedTime={bytedanceUpdatedTime}>
+  <article class="article-page">
+    <header>
+      <p class="eyebrow">{article.data.category}</p>
+      <h1>{article.data.title}</h1>
+      <p class="lead">{article.data.description}</p>
+      <p class="meta">发布于 {date} · 更新于 {updatedDate} · 约 {readingMinutes} 分钟阅读</p>
+    </header>
+    {tocHeadings.length > 0 && <details class="article-toc-mobile"><summary>文章目录 <span>{tocHeadings.length} 节</span></summary><nav aria-label="文章目录">{tocHeadings.map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav></details>}
+    <div class:list={['article-body-layout', { 'article-body-layout--with-toc': tocHeadings.length > 0 }]}>
+      {tocHeadings.length > 0 && <nav class="article-toc article-toc--desktop" aria-label="文章目录"><b>目录</b>{tocHeadings.map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav>}
+      <div class="article-content">
+        <div class="prose"><Content /></div>
+        {article.data.relatedProject && <p class="related-note">相关项目：<a class="text-link" href={`/projects/${article.data.relatedProject}/`}>查看项目档案 <i>→</i></a></p>}
+        {related.length > 0 && <section class="article-related"><p class="eyebrow">RELATED WRITING</p><h2>相关文章</h2><div>{related.map(item => <a href={`/articles/${item.data.slug}/`}>{item.data.title} <i>→</i></a>)}</div></section>}
+        <aside class="article-author"><b>张智博</b><span>保持好奇，也保持探索。记录项目、成果与仍在形成的思考。</span></aside>
+        <nav class="article-neighbors" aria-label="文章导航">{previous?<a href={`/articles/${previous.data.slug}/`}>← {previous.data.title}</a>:<span />}{next&&<a href={`/articles/${next.data.slug}/`}>{next.data.title} →</a>}</nav>
+        <p><a class="text-link" href="/articles/">返回文章列表 <i>→</i></a></p>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+<script>
+  const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>('.article-toc a')];
+  const allTocLinks = [...document.querySelectorAll<HTMLAnchorElement>('.article-toc a, .article-toc-mobile a')];
+  const mobileToc = document.querySelector<HTMLDetailsElement>('.article-toc-mobile');
+  const sections = tocLinks
+    .map((link) => document.getElementById(link.hash.slice(1)))
+    .filter((section): section is HTMLElement => Boolean(section));
+
+  const setCurrentSection = (id: string) => {
+    tocLinks.forEach((link) => link.toggleAttribute('aria-current', link.hash === `#${id}`));
+  };
+
+  if (sections.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      const current = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (current?.target.id) setCurrentSection(current.target.id);
+    }, { rootMargin: '-18% 0px -68% 0px', threshold: 0 });
+    sections.forEach((section) => observer.observe(section));
+    setCurrentSection(sections[0].id);
+  }
+
+  allTocLinks.forEach((link) => link.addEventListener('click', () => mobileToc?.removeAttribute('open')));
+</script>
