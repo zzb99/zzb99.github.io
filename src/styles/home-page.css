@@ -48,23 +48,26 @@ body:has(.hero--editorial) .quiet-contact { display: none; }
 .evidence { width: 100%; max-width: none; padding-inline: max(20px, calc((100vw - var(--max))/2)); background: var(--paper); }
 .evidence__heading { display: flex; margin-bottom: 40px; justify-content: space-between; align-items: end; gap: 30px; }
 .evidence__heading > p { max-width: 330px; margin: 0; color: var(--muted); }
+.evidence .eyebrow, .articles-preview .eyebrow, .about-teaser .eyebrow { color: #285d8c; }
+.evidence .eyebrow::before, .articles-preview .eyebrow::before, .about-teaser .eyebrow::before { background: #285d8c; }
 .evidence-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-left: 1px solid var(--line); }
 .evidence-grid a { position: relative; display: flex; min-height: 255px; padding: 29px 27px 25px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--paper); flex-direction: column; transition: background var(--motion-medium) ease, transform var(--motion-medium) var(--ease-material), box-shadow var(--motion-medium) ease; }
 .evidence-grid a:hover { background: var(--wash); box-shadow: inset 0 0 0 1px var(--accent); }
 .evidence-grid a:hover strong { color: var(--accent); }
-.evidence-grid em { position: absolute; top: 24px; right: 24px; color: rgba(63,127,180,.55); font-size: 12px; font-style: normal; font-weight: 700; letter-spacing: .12em; }
+.evidence-grid em { position: absolute; top: 24px; right: 24px; color: #285d8c; font-size: 12px; font-style: normal; font-weight: 700; letter-spacing: .12em; }
 .evidence-grid span { color: var(--soft); font-size: 13px; letter-spacing: .06em; }
 .evidence-grid strong { margin-top: 12px; font-family: var(--font-display); font-size: clamp(32px, 3.1vw, 46px); font-weight: 700; letter-spacing: 0; transition: color var(--motion-fast) ease; }
 .evidence-grid p { color: var(--muted); font-size: 14px; }
-.evidence-grid b { margin-top: auto; color: var(--link); font-size: 14px; }
+.evidence-grid b { margin-top: auto; color: #285d8c; font-size: 14px; }
 .articles-preview .article-list { display: grid; grid-template-columns: 1.3fr 1fr 1fr; border: 0; gap: 16px; }
 .articles-preview .article-card { display: flex; min-height: 280px; padding: 26px; border: 1px solid var(--line); border-radius: 8px; background: var(--white); box-shadow: 0 1px 3px rgba(58,45,28,.03); flex-direction: column; align-items: stretch; transition: border-color var(--motion-medium) ease, box-shadow var(--motion-medium) ease, transform var(--motion-medium) var(--ease-material); }
 .articles-preview .article-card:hover { border-color: var(--accent); box-shadow: 0 10px 26px rgba(58,45,28,.08); transform: translateY(-3px); }
 .articles-preview .article-card h3 { margin-top: 18px; font-size: 23px; }
-.articles-preview .article-card b { margin-top: auto; color: var(--link); }
+.articles-preview .article-card b { margin-top: auto; color: #285d8c; }
 .articles-preview .article-card--featured { border-color: rgba(63,127,180,.28); background: linear-gradient(145deg, #f8fbfe 0%, var(--white) 62%); box-shadow: inset 0 3px 0 var(--accent), 0 1px 3px rgba(58,45,28,.03); }
 .articles-preview .article-card--featured h3 { font-size: 27px; }
-.articles-preview .article-card--featured > span { color: var(--accent); font-weight: 650; }
+.articles-preview .article-card > span { color: #285d8c; }
+.articles-preview .article-card--featured > span { font-weight: 650; }
 .home-rail-dots { display: none; }
 .about-teaser { display: grid; grid-template-columns: 1fr .75fr; gap: 70px; border-top: 2px solid var(--ink); }
 .about-teaser .eyebrow { grid-column: 1/-1; }
@@ -72,6 +75,7 @@ body:has(.hero--editorial) .quiet-contact { display: none; }
 .about-teaser > p:not(.eyebrow), .about-teaser > .text-link { grid-column: 2; margin: 0; }
 .about-teaser > p:not(.eyebrow) { color: var(--muted); font-size: 18px; }
 .about-teaser > .text-link { align-self: start; justify-self: start; }
+.articles-preview .text-link, .about-teaser .text-link { color: #285d8c; }
 .faq--reference { width: min(calc(100% - 40px), 940px); padding: 98px 0 92px; }
 .faq-reference__heading { margin-bottom: 28px; text-align: center; }
 .faq-reference__heading h2 { font-family: var(--font-display); font-size: clamp(34px, 3.1vw, 46px); font-weight: 700; line-height: 1.16; letter-spacing: 0; }
