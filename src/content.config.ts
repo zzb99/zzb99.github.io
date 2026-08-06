@@ -26,6 +26,8 @@ const projects = defineCollection({
     teamContext: z.string().optional(),
     challenge: z.string().optional(),
     response: z.string().optional(),
+    methods: z.array(z.string()).default([]),
+    evidenceItems: z.array(z.string()).default([]),
     metrics: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
     sources: z.array(z.object({ label: z.string(), href: z.string().url() })).default([]),
   }),

@@ -31,6 +31,8 @@ const structuredData = [
   { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: '首页', item: Astro.site }, { '@type': 'ListItem', position: 2, name: '项目', item: new URL('/projects/', Astro.site).href }, { '@type': 'ListItem', position: 3, name: project.data.title, item: url }] },
 ];
 const subject = encodeURIComponent(`关于「${project.data.title}」的交流`);
+const methods = project.data.methods.length ? project.data.methods : ['项目过程记录', '协作与交接说明'];
+const evidenceItems = project.data.evidenceItems.length ? project.data.evidenceItems : ['项目阶段说明', '数据与资料边界'];
 ---
 <BaseLayout title={project.data.seoTitle ?? `${project.data.title}｜张智博项目案例`} description={project.data.seoDescription ?? project.data.summary} image={project.data.hero} ogImageAlt={project.data.title} type="article" structuredData={structuredData} updatedTime={bytedanceUpdatedTime}>
   <article class={`project-case project-case--${project.data.slug}`}>
@@ -56,6 +58,10 @@ const subject = encodeURIComponent(`关于「${project.data.title}」的交流`)
         {project.data.evidenceNote && <p class="evidence-note"><strong>数据说明：</strong>{project.data.evidenceNote}</p>}
       </section>
       <div class="metrics">{project.data.metrics.map((item) => <div><b>{item.value}</b><span>{item.label}</span></div>)}</div>
+      <section class="case-summary" aria-label="案例阅读摘要">
+        <div><p class="eyebrow">METHOD</p><h2>方法与推进</h2><ul>{methods.map((method) => <li>{method}</li>)}</ul></div>
+        <div><p class="eyebrow">EVIDENCE</p><h2>可用证据</h2><ul>{evidenceItems.map((item) => <li>{item}</li>)}</ul><p class="case-summary__note">以公开来源、脱敏项目记录或阶段性实践为准；未公开的数据、客户信息和实现细节不作推断。</p></div>
+      </section>
       {headings.length > 0 && <nav class="project-toc" aria-label="项目目录"><b>项目目录</b>{headings.filter((heading) => heading.depth <= 2).map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav>}
       <div id="project-details" class="prose"><Content /></div>
       {project.data.sources.length > 0 && <section class="project-sources"><p class="eyebrow">SOURCES</p><h2>官方资料来源</h2><p>{project.data.sources.map((source, index) => <><a class="text-link" href={source.href} target="_blank" rel="noopener noreferrer">{source.label} <i>→</i></a>{index < project.data.sources.length - 1 && '　'}</>)}</p></section>}

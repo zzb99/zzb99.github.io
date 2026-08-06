@@ -11,7 +11,8 @@ function readStructuredData(html, label) {
   const match = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/);
   if (!match) throw new Error(`${label} is missing JSON-LD.`);
   const value = JSON.parse(match[1]);
-  return Array.isArray(value) ? value : [value];
+  const entries = Array.isArray(value) ? value : [value];
+  return entries.flatMap((entry) => Array.isArray(entry?.['@graph']) ? entry['@graph'] : [entry]);
 }
 
 function findStructuredType(entries, type, label) {
@@ -79,7 +80,7 @@ for (const [label, person] of [['home', homePerson], ['profile', profilePerson]]
 }
 
 findStructuredType(aboutData, 'AboutPage', 'About page');
-if (aboutData.some((item) => item?.['@type'] === 'ProfilePage')) throw new Error('About page must not be a ProfilePage.');
+if (aboutData.filter((item) => item?.['@type'] === 'ProfilePage').length !== 1) throw new Error('About page must expose exactly one ProfilePage.');
 if (profileData.filter((item) => item?.['@type'] === 'ProfilePage').length !== 1) throw new Error('Person profile must expose exactly one ProfilePage.');
 findStructuredType(profileData, 'BreadcrumbList', 'Profile page');
 if (!profile.includes('张智博人物资料') || !profile.includes('https://www.zzb9.cn/profile/zhang-zhibo/')) throw new Error('Person profile metadata is incomplete.');

@@ -1,0 +1,35 @@
+{
+  "home": {
+    "hero": {
+      "name": "张智博",
+      "subtitle": "AI 应用 · 产品创新 · 增长实践",
+      "copy": "保持好奇，也保持探索。",
+      "projectsLabel": "项目",
+      "articlesLabel": "文章"
+    },
+    "sections": {
+      "projectsTitle": "项目",
+      "projectsCopy": "从增长、内容到产品和智能设备，记录具体问题如何被推进。",
+      "projectsLinkLabel": "查看全部项目",
+      "recordsTitle": "成果记录",
+      "recordsCopy": "只呈现可以明确说明名称、数量和项目关系的阶段成果。",
+      "articlesTitle": "最新文章",
+      "articlesLinkLabel": "全部文章",
+      "aboutTitle": "把问题看清，\n再把事情向前推进。",
+      "aboutCopy": "关注新的技术，也关注它们如何进入真实场景。这里保留项目、成果和仍在持续形成的思考。",
+      "aboutLinkLabel": "了解更多",
+      "faqTitle": "常见问题"
+    },
+    "featuredProjectSlugs": [
+      "hotel-new-media-growth",
+      "shentong-market-expansion",
+      "automotive-lead-growth",
+      "warehouse-intelligent-robot",
+      "executive-ip-planning",
+      "postal-sorting-robot"
+    ],
+    "featuredArticleSlugs": []
+  },
+  "profile": {},
+  "records": {}
+}
