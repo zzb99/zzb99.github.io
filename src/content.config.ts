@@ -1,5 +1,6 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
@@ -29,11 +30,22 @@ const projects = defineCollection({
     methods: z.array(z.string()).default([]),
     evidenceItems: z.array(z.string()).default([]),
     metrics: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
-    sources: z.array(z.object({ label: z.string(), href: z.string().url() })).default([]),
+    sources: z.array(z.object({ label: z.string(), href: z.url() })).default([]),
   }),
 });
 const articles = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/articles' }),
-  schema: z.object({ title: z.string(), slug: z.string(), description: z.string(), category: z.string(), pubDate: z.coerce.date(), updatedDate: z.coerce.date().optional(), hero: z.string().optional(), relatedProject: z.string().optional(), seoTitle: z.string().optional(), seoDescription: z.string().optional() }),
+  schema: z.object({
+    title: z.string(),
+    slug: z.string(),
+    description: z.string(),
+    category: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    hero: z.string().optional(),
+    relatedProject: z.string().optional(),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+  }),
 });
 export const collections = { projects, articles };

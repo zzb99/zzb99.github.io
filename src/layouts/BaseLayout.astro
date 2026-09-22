@@ -1,13 +1,39 @@
 ---
+import '../styles/fonts.css';
 import '../styles/site.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { siteProfile } from '../data/site';
 
+interface PreloadImage {
+  href: string;
+  media?: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  ogImageAlt?: string;
+  type?: 'website' | 'article' | 'profile';
+  structuredData?: unknown | unknown[];
+  preloadImages?: PreloadImage[];
+  personMainEntityOfPage?: string;
+  includeBasePerson?: boolean;
+  publishedTime?: string;
+  updatedTime?: string;
+  robots?: string;
+  isHome?: boolean;
+}
+
 const {
   title = siteProfile.siteName,
   description = siteProfile.description,
   image = '/og-default.png',
+  imageWidth = 1200,
+  imageHeight = 630,
   ogImageAlt = '张智博个人官网默认分享图',
   type = 'website',
   structuredData,
@@ -16,6 +42,7 @@ const {
   includeBasePerson = true,
   publishedTime,
   updatedTime,
+  robots = 'index,follow,max-image-preview:large',
 } = Astro.props;
 const documentTitle = title;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -43,21 +70,28 @@ const person = {
   mainEntityOfPage: personMainEntityOfPage,
 };
 const jsonLd = structuredData ? [...(includeBasePerson ? [person] : []), ...(Array.isArray(structuredData) ? structuredData : [structuredData])] : [person];
+const serializedJsonLd = JSON.stringify(jsonLd)
+  .replaceAll('<', '\\u003c')
+  .replaceAll('>', '\\u003e')
+  .replaceAll('&', '\\u0026');
 ---
 <!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0d0d10" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light" />
     {preloadImages.map((preload) => <link rel="preload" as="image" href={preload.href} media={preload.media} fetchpriority="high" />)}
     <title>{documentTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="robots" content={robots} />
     {publishedTime && <meta property="bytedance:published_time" content={publishedTime} />}
     {publishedTime && <meta property="bytedance:lrDate_time" content={publishedTime} />}
     {updatedTime && <meta property="bytedance:updated_time" content={updatedTime} />}
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {updatedTime && <meta property="article:modified_time" content={updatedTime} />}
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:site_name" content={siteProfile.siteName} />
     <meta property="og:type" content={type} />
@@ -66,18 +100,18 @@ const jsonLd = structuredData ? [...(includeBasePerson ? [person] : []), ...(Arr
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={absoluteImage} />
     <meta property="og:image:alt" content={ogImageAlt} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={documentTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={absoluteImage} />
     <meta name="twitter:image:alt" content={ogImageAlt} />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
-    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest?v=a674d50a-transparent" />
+    <link rel="icon" href="/favicon.ico?v=a674d50a-transparent" sizes="any" />
+    <link rel="icon" href="/favicon-16x16.png?v=a674d50a-transparent" type="image/png" sizes="16x16" />
+    <link rel="icon" href="/favicon-32x32.png?v=a674d50a-transparent" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=a674d50a-transparent" sizes="180x180" />
     <slot name="head" />
     {import.meta.env.PROD && <script is:inline>
       (function () {
@@ -88,7 +122,7 @@ const jsonLd = structuredData ? [...(includeBasePerson ? [person] : []), ...(Arr
         firstScript.parentNode?.insertBefore(el, firstScript);
       })();
     </script>}
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline type="application/ld+json" set:html={serializedJsonLd} />
   </head>
   <body>
     <Header />

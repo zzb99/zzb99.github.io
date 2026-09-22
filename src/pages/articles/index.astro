@@ -25,19 +25,66 @@ const structuredData = {
 <BaseLayout title="张智博的文章｜AI、GEO 与项目实践" description="收录张智博关于 AI、GEO、内容、产品与项目实践的观察、方法和阶段性思考。" structuredData={structuredData}>
   <header class="page-hero"><p class="eyebrow">WRITING</p><h1>文章</h1><p>把实践里的观察、方法和还没有定论的问题，慢慢写清楚。</p></header>
   <section class="content-wrap">
-    <label class="article-search">搜索文章<input type="search" placeholder="输入标题、分类或关键词" aria-label="搜索文章" /></label>
-    <nav class="article-filters" aria-label="文章分类筛选"><button type="button" class="is-active" data-category="">全部</button>{categories.map((category) => <button type="button" data-category={category}>{category}</button>)}</nav>
-    <div class="article-list">{articles.map((article) => <div class="searchable-article" data-category={article.data.category} data-search={`${article.data.title} ${article.data.category} ${article.data.description}`.toLowerCase()}><ArticleCard article={article} /></div>)}</div>
-    <p class="search-empty" hidden>没有找到匹配的文章。</p>
+    <label class="article-search">搜索文章<input type="search" placeholder="输入标题、分类或关键词" aria-label="搜索文章" aria-controls="article-results" /></label>
+    <nav class="article-filters" aria-label="文章分类筛选"><button type="button" class="is-active" data-category="" aria-pressed="true">全部</button>{categories.map((category) => <button type="button" data-category={category} aria-pressed="false">{category}</button>)}</nav>
+    <div class="article-search-summary">
+      <p class="article-result-count" role="status" aria-live="polite" aria-atomic="true">共 {articles.length} 篇文章</p>
+      <button class="article-search-reset" type="button" hidden>清除搜索与筛选</button>
+    </div>
+    <div id="article-results" class="article-list">{articles.map((article) => <div class="searchable-article" data-category={article.data.category} data-search={`${article.data.title} ${article.data.category} ${article.data.description}`}><ArticleCard article={article} /></div>)}</div>
+    <div class="search-empty" hidden><h2>没有找到匹配的文章</h2><p>试试更短的关键词，或清除搜索与分类筛选。</p><button class="article-search-reset" type="button">查看全部文章</button></div>
   </section>
   <script>
     const input = document.querySelector<HTMLInputElement>('.article-search input');
     const items = [...document.querySelectorAll<HTMLElement>('.searchable-article')];
-    const filters = [...document.querySelectorAll<HTMLButtonElement>('[data-category]')];
+    const filters = [...document.querySelectorAll<HTMLButtonElement>('.article-filters button[data-category]')];
     const empty = document.querySelector<HTMLElement>('.search-empty');
+    const count = document.querySelector<HTMLElement>('.article-result-count');
+    const reset = document.querySelector<HTMLButtonElement>('.article-search-summary .article-search-reset');
+    const normalize = (value: string) => value.normalize('NFKC').toLocaleLowerCase().trim();
+    const searchableItems = items.map((item) => ({ item, text: normalize(item.dataset.search ?? '') }));
     let category = '';
-    const sync = () => { const term = input?.value.trim().toLowerCase() ?? ''; let matches = 0; items.forEach((item) => { const visible = (!term || item.dataset.search?.includes(term)) && (!category || item.dataset.category === category); item.hidden = !visible; if (visible) matches += 1; }); if (empty) empty.hidden = matches > 0; };
-    input?.addEventListener('input', sync);
-    filters.forEach((button) => button.addEventListener('click', () => { category = button.dataset.category ?? ''; filters.forEach((item) => item.classList.toggle('is-active', item === button)); sync(); }));
+    const sync = (saveUrl = true) => {
+      const query = input?.value.trim() ?? '';
+      const terms = normalize(query).split(/\s+/).filter(Boolean);
+      let matches = 0;
+      searchableItems.forEach(({ item, text }) => {
+        const visible = terms.every((term) => text.includes(term)) && (!category || item.dataset.category === category);
+        item.hidden = !visible;
+        if (visible) matches += 1;
+      });
+      filters.forEach((button) => {
+        const active = (button.dataset.category ?? '') === category;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      if (empty) empty.hidden = matches > 0;
+      if (reset) reset.hidden = !query && !category;
+      if (count) count.textContent = query || category ? `找到 ${matches} 篇文章（共 ${items.length} 篇）` : `共 ${items.length} 篇文章`;
+      if (saveUrl) {
+        const url = new URL(window.location.href);
+        if (query) url.searchParams.set('q', query); else url.searchParams.delete('q');
+        if (category) url.searchParams.set('category', category); else url.searchParams.delete('category');
+        if (url.href !== window.location.href) history.replaceState(history.state, '', url);
+      }
+    };
+    const restore = () => {
+      const params = new URLSearchParams(window.location.search);
+      if (input) input.value = params.get('q') ?? '';
+      const savedCategory = params.get('category') ?? '';
+      category = filters.some((button) => button.dataset.category === savedCategory) ? savedCategory : '';
+      sync(false);
+    };
+    input?.addEventListener('input', () => sync());
+    filters.forEach((button) => button.addEventListener('click', () => { category = button.dataset.category ?? ''; sync(); }));
+    document.querySelectorAll<HTMLButtonElement>('.article-search-reset').forEach((button) => button.addEventListener('click', () => {
+      if (input) input.value = '';
+      category = '';
+      sync();
+      input?.focus();
+    }));
+    window.addEventListener('popstate', restore);
+    window.addEventListener('pageshow', restore);
+    restore();
   </script>
 </BaseLayout>

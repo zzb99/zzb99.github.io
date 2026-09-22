@@ -1,7 +1,22 @@
 // Update this only when the public profile facts on the page change.
 export const profileLastUpdated = '2026-07-20';
 
-export const profileProjects = [
+interface ProfileSource {
+  label: string;
+  href: string;
+}
+
+interface ProfileProject {
+  title: string;
+  copy: string;
+  sources: readonly ProfileSource[];
+}
+
+interface ProfileAward extends ProfileProject {
+  year: string;
+}
+
+export const profileProjects: readonly ProfileProject[] = [
   { title: '供件达人——快递分拣智能供件先锋', copy: '作为团队成员参与智能分拣机器人项目，涉及项目推进、测试记录、成果展示与申报材料整理等工作。团队整体项目成果、本人参与内容、学校公开数据与项目内部测试数据在页面中分别说明。', sources: [{ label: '学校公开来源', href: 'https://www.sjzpc.edu.cn/info/2681/69221.htm' }] },
   { title: '净界——以“一客一净”重构饮水新体验', copy: '面向酒店客房烧水壶卫生信任问题，探索可替换内胆、可视化封签和耗材复购模式。', sources: [{ label: '学校项目公示', href: 'https://www.sjzpc.edu.cn/info/2501/71451.htm' }, { label: '学校获奖公示', href: 'https://www.sjzpc.edu.cn/info/1022/73711.htm' }] },
   { title: '锦绣前程——土族盘绣的古艺新生', copy: '作为团队成员参与非遗传承、数字化整理和产品创新实践。', sources: [{ label: '项目成员来源', href: 'https://www.sjzpc.edu.cn/info/2681/69201.htm' }, { label: '获奖来源', href: 'https://www.sjzpc.edu.cn/info/1971/66021.htm' }] },
@@ -10,7 +25,7 @@ export const profileProjects = [
   { title: '闲鱼商品采集与飞书同步工具', copy: '围绕商品主页读取、商品预览和飞书同步建立本地业务工具，技术涉及 Python、SQLite 和飞书开放平台。', sources: [] },
 ] as const;
 
-export const profileAwards = [
+export const profileAwards: readonly ProfileAward[] = [
   { year: '2024', title: '中国国际大学生创新大赛（2024）国赛铜奖', copy: '作为“锦绣前程——土族盘绣的古艺新生”项目团队成员，参与项目获得国赛铜奖。', sources: [{ label: '官方公示', href: 'https://cy.ncss.cn/information/2c958332919840310196181825280051' }, { label: '学校获奖页面', href: 'https://www.sjzpc.edu.cn/info/1971/66021.htm' }] },
   { year: '2025', title: '中国国际大学生创新大赛（2025）国赛铜奖', copy: '作为项目团队成员参与项目获得国赛铜奖；项目名称尚未准确核验，故不自行填写。', sources: [{ label: '官方公示', href: 'https://cy.ncss.cn/information/2c9583329714f692019ca229d24001c4' }] },
   { year: '2026', title: '第十五届“挑战杯”河北省大学生创业计划竞赛一等奖', copy: '作为“净界”项目团队成员参与项目，项目获得省级一等奖。', sources: [{ label: '查看获奖公示', href: 'https://www.sjzpc.edu.cn/info/1022/73711.htm' }] },

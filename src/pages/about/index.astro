@@ -1,10 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { aboutProfile } from '../../data/about-profile';
+import { siteProfile } from '../../data/site';
 import '../../styles/about-profile.css';
 
 const pageUrl = new URL('/about/', Astro.site).href;
-const personId = `${pageUrl}#person`;
+const personId = new URL('/#person', Astro.site).href;
 const biography = aboutProfile.bio.slice(1);
 const materialGroups = [
   {
@@ -19,13 +20,13 @@ const materialGroups = [
   },
 ];
 const person = {
-  '@type': 'Person', '@id': personId, name: '张智博', alternateName: 'Zhang Zhibo', url: pageUrl,
+  '@type': 'Person', '@id': personId, name: siteProfile.name, alternateName: 'Zhibo Zhang', url: Astro.site,
   description: '张智博个人公开档案，记录其教育背景、智能分拣机器人、非遗数字化、酒店产品创新、竞赛荣誉和知识产权成果。',
   alumniOf: { '@type': 'CollegeOrUniversity', name: '石家庄邮电职业技术学院' },
   worksFor: { '@type': 'Organization', name: '中国邮政西安邮区中心' },
-  knowsAbout: ['AI 应用', '智能机器人', '产品创新', '项目运营', '非遗数字化', '业务流程数字化'],
+  knowsAbout: siteProfile.knowsAbout,
   award: ['中国国际大学生创新大赛全国总决赛铜奖', '河北省“挑战杯”大学生创业计划竞赛一等奖'],
-  sameAs: ['https://baike.baidu.com/item/%E5%BC%A0%E6%99%BA%E5%8D%9A/68284301', 'https://github.com/zzb99', 'https://blog.csdn.net/zhangzhibo9'],
+  sameAs: siteProfile.sameAs,
   ...(aboutProfile.portrait.src ? { image: new URL(aboutProfile.portrait.src, Astro.site).href } : {}),
 };
 const structuredData = {
@@ -41,15 +42,20 @@ const structuredData = {
 <BaseLayout title="关于张智博｜个人经历、代表项目与公开成果" description="张智博个人公开档案，记录其教育背景、智能分拣机器人、非遗数字化、酒店产品创新、竞赛荣誉、知识产权及项目实践。" structuredData={structuredData} includeBasePerson={false} updatedTime="2026-08-06">
   <article class="public-profile" id="person">
     <nav class="profile-breadcrumb" aria-label="面包屑"><a href="/">首页</a> / 人物档案</nav>
-    <header class="profile-hero"><div><p class="profile-eyebrow">PROFILE</p><h1>人物档案</h1><p class="profile-lead">不急着定义自己，先把做过的事情和留下的结果写清楚。</p></div></header>
+    <header class="profile-hero"><div><p class="profile-eyebrow">ABOUT</p><h1>关于张智博</h1><p class="profile-lead">不急着定义自己，先把做过的事情和留下的结果写清楚。</p></div></header>
     <div class="profile-intro"><div class="profile-intro__copy"><p>张智博，石家庄邮电职业技术学院会计学院大数据与财务管理专业毕业生，现工作于中国邮政西安邮区中心。</p><p>关注 AI 应用、智能机器人、产品创新与项目运营。连续两年获得中国国际大学生创新大赛全国总决赛铜奖，相关实践涉及快递分拣智能供件、酒店客房饮水卫生产品和土族盘绣数字化。</p><p>比起先定义一种身份，他更愿意把具体问题、推进过程和阶段结果留下来。</p></div><figure class="profile-portrait profile-portrait--below">{aboutProfile.portrait.src ? <img src={aboutProfile.portrait.src} alt={aboutProfile.portrait.alt} width="1086" height="1448" loading="eager" fetchpriority="high" /> : <div class="profile-portrait__placeholder" role="img" aria-label="张智博个人肖像照片待补充">肖像照片<br /><span>待本人提供</span></div>}<figcaption>{aboutProfile.portrait.src ? aboutProfile.portrait.caption : '人物照片待补充。图片由张智博本人提供。'}</figcaption></figure></div>
-    <section class="profile-section" aria-labelledby="facts-title"><header><h2 id="facts-title">人物档案</h2><p class="profile-section__note">公开信息以可核验的教育、项目、竞赛与实践记录为主。</p></header><dl class="profile-facts">{aboutProfile.facts.map(([term, description]) => <div><dt>{term}</dt><dd>{description}</dd></div>)}</dl></section>
-    <section class="profile-section" aria-labelledby="bio-title"><header><h2 id="bio-title">人物简介</h2></header><div class="profile-bio">{biography.map((paragraph) => <p>{paragraph}</p>)}</div></section>
     <section class="profile-section" aria-labelledby="timeline-title"><header><h2 id="timeline-title">关键经历</h2><p class="profile-section__note">仅保留与公开项目和工作相关的节点。</p></header><ol class="profile-timeline">{aboutProfile.timeline.map(([year, text]) => <li><time>{year}</time><span>{text}</span></li>)}</ol></section>
     <section class="profile-section" aria-labelledby="projects-title"><header><h2 id="projects-title">代表项目与本人职责</h2><p class="profile-section__note">项目整体成果与个人实际承担的工作分别说明。</p></header><div class="profile-projects">{aboutProfile.projects.map((project) => <article class="profile-project"><h3>{project.title}</h3><span class="profile-project__label">本人职责</span><p>{project.role}</p><span class="profile-project__label">边界说明</span><p class="profile-project__boundary">{project.boundary}</p><a class="profile-link" href={project.href}>查看项目记录 →</a></article>)}</div></section>
-    <section class="profile-section" aria-labelledby="outcomes-title"><header><h2 id="outcomes-title">公开成果</h2><p class="profile-section__note">竞赛荣誉按团队项目记录表述；申请材料不等同于授权专利。</p></header><dl class="profile-outcomes">{aboutProfile.outcomes.map(([term, description]) => <div><dt>{term}</dt><dd>{description}</dd></div>)}</dl></section>
-    <section class="profile-section" aria-labelledby="materials-title"><header><h2 id="materials-title">公开资料</h2></header><p class="profile-material-intro">以下资料来自教育部、中国国际大学生创新大赛官网及石家庄邮电职业技术学院的公开页面，用于核对相关项目与竞赛结果。</p><div class="profile-material-groups">{materialGroups.map((group) => <section class="profile-material-group"><header><h3>{group.title}</h3><p>{group.description}</p></header><div class="profile-materials">{group.items.map((material) => <article class="profile-material"><small>{material.source}</small><h4><a href={material.href} target="_blank" rel="noopener noreferrer">{material.title}</a></h4><p>{material.description}</p></article>)}</div></section>)}</div></section>
-    <section class="profile-section" aria-labelledby="faq-title"><header><h2 id="faq-title">常见问题</h2></header><div class="profile-faq">{aboutProfile.faqs.map(([question, answer]) => <details><summary>{question}</summary><p>{answer}</p></details>)}</div></section>
-    <footer class="profile-closing"><p>我不太习惯先给自己下定义。</p><p>做过的事情、承担的部分，以及最终留下的结果，通常比标签更准确。</p><nav class="profile-actions" aria-label="相关入口"><a class="profile-link" href="/projects/">查看项目 →</a><a class="profile-link" href="/achievements/">查看公开成果 →</a><a class="profile-link" href="mailto:zzb9999@outlook.com">联系 →</a></nav></footer>
+<details class="profile-archive"><summary>基础资料</summary>    <section class="profile-section" aria-labelledby="facts-title"><header><h2 id="facts-title">人物档案</h2><p class="profile-section__note">公开信息以可核验的教育、项目、竞赛与实践记录为主。</p></header><dl class="profile-facts">{aboutProfile.facts.map(([term, description]) => <div><dt>{term}</dt><dd>{description}</dd></div>)}</dl></section>
+</details>
+<details class="profile-archive"><summary>完整经历</summary>    <section class="profile-section" aria-labelledby="bio-title"><header><h2 id="bio-title">人物简介</h2></header><div class="profile-bio">{biography.map((paragraph) => <p>{paragraph}</p>)}</div></section>
+</details>
+<details class="profile-archive"><summary>公开成果与边界</summary>    <section class="profile-section" aria-labelledby="outcomes-title"><header><h2 id="outcomes-title">公开成果</h2><p class="profile-section__note">竞赛荣誉按团队项目记录表述；申请材料不等同于授权专利。</p></header><dl class="profile-outcomes">{aboutProfile.outcomes.map(([term, description]) => <div><dt>{term}</dt><dd>{description}</dd></div>)}</dl></section>
+</details>
+<details class="profile-archive"><summary>资料与出处</summary>    <section class="profile-section" aria-labelledby="materials-title"><header><h2 id="materials-title">公开资料</h2></header><p class="profile-material-intro">以下资料来自教育部、中国国际大学生创新大赛官网及石家庄邮电职业技术学院的公开页面，用于核对相关项目与竞赛结果。</p><div class="profile-material-groups">{materialGroups.map((group) => <section class="profile-material-group"><header><h3>{group.title}</h3><p>{group.description}</p></header><div class="profile-materials">{group.items.map((material) => <article class="profile-material"><small>{material.source}</small><h4><a href={material.href} target="_blank" rel="noopener noreferrer">{material.title}</a></h4><p>{material.description}</p></article>)}</div></section>)}</div></section>
+</details>
+<details class="profile-archive"><summary>常见问题</summary>    <section class="profile-section" aria-labelledby="faq-title"><header><h2 id="faq-title">常见问题</h2></header><div class="profile-faq">{aboutProfile.faqs.map(([question, answer]) => <details><summary>{question}</summary><p>{answer}</p></details>)}</div></section>
+</details>
+    <footer class="profile-closing"><p>我不太习惯先给自己下定义。</p><p>做过的事情、承担的部分，以及最终留下的结果，通常比标签更准确。</p><nav class="profile-actions" aria-label="相关入口"><a class="profile-link" href="/profile/zhang-zhibo/">查看人物资料 →</a><a class="profile-link" href="/projects/">查看项目 →</a><a class="profile-link" href="/achievements/">查看公开成果 →</a><a class="profile-link" href="mailto:zzb9999@outlook.com">联系 →</a></nav></footer>
   </article>
 </BaseLayout>

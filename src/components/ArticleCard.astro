@@ -1,5 +1,7 @@
 ---
 const { article, featured = false } = Astro.props;
 const date = article.data.pubDate.toLocaleDateString('zh-CN', { year:'numeric', month:'long', day:'numeric' });
+const summary = article.data.description.length > 72 ? `${article.data.description.slice(0, 72).replace(/[，、；。\s]+$/, '')}…` : article.data.description;
+const series = article.data.title.match(/^(2026 AI 时间线·\d+)[：:](.*)$/);
 ---
-<a class:list={['article-card', { 'article-card--featured': featured }]} href={`/articles/${article.data.slug}/`}><span>{featured ? '重点阅读 · ' : ''}{article.data.category} · {date}</span><h3>{article.data.title}</h3><p>{article.data.description}</p><b>阅读全文 <i>→</i></b></a>
+<a class:list={['article-card', { 'article-card--featured': featured }]} href={`/articles/${article.data.slug}/`}><span>{featured ? '重点阅读 · ' : ''}{series?.[1] ?? article.data.category} · <time datetime={article.data.pubDate.toISOString()}>{date}</time></span><h3>{series?.[2] ?? article.data.title}</h3><p>{summary}</p><b>阅读全文 <i>→</i></b></a>

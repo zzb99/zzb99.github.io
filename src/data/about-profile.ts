@@ -1,6 +1,6 @@
 export const aboutProfile = {
   portrait: {
-    src: '/images/zhang-zhibo-portrait-2026.png' as string | null,
+    src: '/images/zhang-zhibo-portrait-2026.webp' as string | null,
     alt: '张智博个人肖像，拍摄于2026年',
     // TODO: confirm the photographer and the scope of image-use authorization before asserting copyright ownership.
     caption: '张智博，2026年。图片由张智博本人提供。',

@@ -2,8 +2,8 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { projectOrder } from '../../data/site';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import '../../styles/project-video-hero.css';
+import ReadingVisual from '../../components/ReadingVisual.astro';
+import '../../styles/reading-detail.css';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -18,9 +18,8 @@ const previous = projects[(index - 1 + projects.length) % projects.length];
 const next = projects[(index + 1) % projects.length];
 const relatedSlugs = project.data.relatedProjects.length ? project.data.relatedProjects : projects.filter((item) => item.id !== project.id && item.data.category === project.data.category).slice(0, 2).map((item) => item.data.slug);
 const related = relatedSlugs.map((slug) => projects.find((item) => item.data.slug === slug)).filter((item): item is NonNullable<typeof item> => Boolean(item)).slice(0, 2);
-const hasAnimatedHero = project.data.slug === 'postal-sorting-robot';
-const defaultVideo = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260505_101331_74f9b798-3f00-4e86-8a01-377aa16ffeaa.mp4';
-const video = project.data.video ?? defaultVideo;
+const hasAnimatedHero = Boolean(project.data.video);
+const video = project.data.video;
 const url = new URL(`/projects/${project.data.slug}/`, Astro.site).href;
 const updated = project.data.updatedDate ?? new Date(`${project.data.year.match(/\d{4}/)?.[0] ?? '2025'}-01-01`);
 const bytedanceUpdatedTime = `${updated.toISOString().slice(0, 10)}T00:00:00+08:00`;
@@ -34,36 +33,32 @@ const subject = encodeURIComponent(`关于「${project.data.title}」的交流`)
 const methods = project.data.methods.length ? project.data.methods : ['项目过程记录', '协作与交接说明'];
 const evidenceItems = project.data.evidenceItems.length ? project.data.evidenceItems : ['项目阶段说明', '数据与资料边界'];
 ---
-<BaseLayout title={project.data.seoTitle ?? `${project.data.title}｜张智博项目案例`} description={project.data.seoDescription ?? project.data.summary} image={project.data.hero} ogImageAlt={project.data.title} type="article" structuredData={structuredData} updatedTime={bytedanceUpdatedTime}>
-  <article class={`project-case project-case--${project.data.slug}`}>
-    <Breadcrumbs items={[{ href: '/', label: '首页' }, { href: '/projects/', label: '项目' }, { href: `/projects/${project.data.slug}/`, label: project.data.title }]} />
-    <section id="project-overview" class="project-video-hero" aria-labelledby="project-title" style={`--project-poster: url('${project.data.hero}')`}>
-      {hasAnimatedHero && <video class="project-video-hero__video" autoplay loop muted playsinline preload="metadata" poster={project.data.hero} aria-hidden="true" data-project-video>
-        <source src={video} type="video/mp4" />
-      </video>}
-      <div class="project-video-hero__veil" aria-hidden="true"></div>
-      <header class="project-video-hero__content">
-        <p class="eyebrow">{project.data.category.toUpperCase()} · {project.data.year}</p>
+<BaseLayout title={project.data.seoTitle ?? `${project.data.title}｜张智博项目案例`} description={project.data.seoDescription ?? project.data.summary} image={project.data.hero} imageWidth={1586} imageHeight={991} ogImageAlt={project.data.title} type="article" structuredData={structuredData} updatedTime={bytedanceUpdatedTime}>
+  <article class={`project-case project-case--${project.data.slug} reading-page`}>
+    <div class="reading-main">
+    <a class="reading-back" href="/projects/"><span aria-hidden="true">←</span> 全部项目</a>
+      <header id="project-overview" class="reading-header">
         <h1 id="project-title">{project.data.title}</h1>
-        <p>{project.data.summary}</p>
-        <div class="case-meta"><span>{project.data.status}</span><span>{project.data.role}</span></div>
+        <p class="meta"><span>{project.data.category}</span><span>{project.data.year}</span><span>{project.data.status}</span></p>
+        <p class="lead">{project.data.summary}</p><p class="reading-role"><b>本人职责</b>{project.data.role}</p>
       </header>
-      <nav class="project-video-hero__nav" aria-label="项目页内导航"><a href="#project-overview">项目概览</a><a href="#project-details">核心内容</a><a href="#project-results">项目成果</a></nav>
-    </section>
 
-    <div id="project-results" class="case-body">
+    <div class="case-body">
+      {project.data.metrics.length > 0 && <div class="metrics">{project.data.metrics.map((item) => <div><b>{item.value}</b><span>{item.label}</span></div>)}</div>}
+      {project.data.evidenceNote && <p class="evidence-note"><strong>数据说明：</strong>{project.data.evidenceNote}</p>}
+      {headings.some((heading) => heading.depth <= 2) && <details class="reading-toc"><summary>项目目录</summary><nav aria-label="项目目录">{headings.filter((heading) => heading.depth <= 2).map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav></details>}
+      <div id="project-details" class="prose"><Content /></div>
+      <details id="project-results" class="reading-archive">
+      <summary>项目资料与推进记录</summary>
       <section class="project-facts" aria-labelledby="facts-title">
         <p class="eyebrow">PROJECT FACTS</p><h2 id="facts-title">项目事实</h2>
         <dl><div><dt>时间</dt><dd>{project.data.period ?? project.data.year}</dd></div><div><dt>状态</dt><dd>{project.data.status}</dd></div><div><dt>本人角色</dt><dd>{project.data.role}</dd></div>{project.data.teamContext && <div><dt>协作范围</dt><dd>{project.data.teamContext}</dd></div>}{project.data.organizations.length > 0 && <div><dt>相关单位</dt><dd>{project.data.organizations.join('、')}</dd></div>}{project.data.locations.length > 0 && <div><dt>地点</dt><dd>{project.data.locations.join('、')}</dd></div>}<div><dt>最后更新</dt><dd>{updated.toLocaleDateString('zh-CN')}</dd></div></dl>
-        {project.data.evidenceNote && <p class="evidence-note"><strong>数据说明：</strong>{project.data.evidenceNote}</p>}
       </section>
-      <div class="metrics">{project.data.metrics.map((item) => <div><b>{item.value}</b><span>{item.label}</span></div>)}</div>
       <section class="case-summary" aria-label="案例阅读摘要">
         <div><p class="eyebrow">METHOD</p><h2>方法与推进</h2><ul>{methods.map((method) => <li>{method}</li>)}</ul></div>
         <div><p class="eyebrow">EVIDENCE</p><h2>可用证据</h2><ul>{evidenceItems.map((item) => <li>{item}</li>)}</ul><p class="case-summary__note">以公开来源、脱敏项目记录或阶段性实践为准；未公开的数据、客户信息和实现细节不作推断。</p></div>
       </section>
-      {headings.length > 0 && <nav class="project-toc" aria-label="项目目录"><b>项目目录</b>{headings.filter((heading) => heading.depth <= 2).map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav>}
-      <div id="project-details" class="prose"><Content /></div>
+      </details>
       {project.data.sources.length > 0 && <section class="project-sources"><p class="eyebrow">SOURCES</p><h2>官方资料来源</h2><p>{project.data.sources.map((source, index) => <><a class="text-link" href={source.href} target="_blank" rel="noopener noreferrer">{source.label} <i>→</i></a>{index < project.data.sources.length - 1 && '　'}</>)}</p></section>}
       {project.data.challenge && <section class="project-challenge"><p class="eyebrow">CHALLENGE & RESPONSE</p><h2>实际挑战与处理方式</h2><p><strong>挑战：</strong>{project.data.challenge}</p><p><strong>处理：</strong>{project.data.response}</p></section>}
       {related.length > 0 && <section class="related-projects"><p class="eyebrow">RELATED PROJECTS</p><h2>继续阅读</h2><div>{related.map((item) => <a href={`/projects/${item.data.slug}/`}><span>{item.data.category}</span><b>{item.data.title} →</b></a>)}</div></section>}
@@ -71,12 +66,30 @@ const evidenceItems = project.data.evidenceItems.length ? project.data.evidenceI
       <nav class="project-neighbors" aria-label="项目导航"><a href={`/projects/${previous.data.slug}/`}>← 上一项目<br /><b>{previous.data.title}</b></a><a href={`/projects/${next.data.slug}/`}>下一项目 →<br /><b>{next.data.title}</b></a></nav>
       <p><a class="text-link" href="/projects/">返回全部项目 <i>→</i></a></p>
     </div>
+    </div>
+    <ReadingVisual image={project.data.hero} alt={`${project.data.title}配图`} caption={project.data.title} video={video} />
   </article>
   {hasAnimatedHero && <script>
     const video = document.querySelector<HTMLVideoElement>('[data-project-video]');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const syncVideo = () => { if (!video) return; if (reduceMotion.matches) { video.pause(); video.hidden = true; } else { video.hidden = false; void video.play().catch(() => { video.hidden = true; }); } };
-    syncVideo(); reduceMotion.addEventListener('change', syncVideo);
-    video?.addEventListener('error', () => { video.hidden = true; });
+    const wideViewport = window.matchMedia('(min-width: 761px)');
+    const loadVideo = () => {
+      if (!video || reduceMotion.matches || !wideViewport.matches) return;
+      const source = video.querySelector<HTMLSourceElement>('source[data-src]');
+      if (source?.dataset.src && !source.src) {
+        source.src = source.dataset.src;
+        video.load();
+      }
+      void video.play().catch(() => video.pause());
+    };
+    const syncVideo = () => {
+      if (!video) return;
+      if (reduceMotion.matches || !wideViewport.matches) video.pause();
+      else loadVideo();
+    };
+    window.setTimeout(loadVideo, 900);
+    reduceMotion.addEventListener('change', syncVideo);
+    wideViewport.addEventListener('change', syncVideo);
+    video?.addEventListener('error', () => video.pause());
   </script>}
 </BaseLayout>

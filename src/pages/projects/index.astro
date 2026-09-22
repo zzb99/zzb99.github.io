@@ -1,103 +1,20 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { achievementCards, projectOrder } from '../../data/project-page';
-import { getProjectImageAlt } from '../../data/project-image-alt';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projectOrder } from '../../data/project-page';
 import '../../styles/projects-store.css';
 const allProjects = await getCollection('projects');
-const projects = projectOrder.map((slug) => allProjects.find((project) => project.data.slug === slug)).filter((project): project is NonNullable<typeof project> => Boolean(project));
-const structuredData = {
-  '@context': 'https://schema.org', '@type': 'CollectionPage', name: '张智博的项目', url: new URL('/projects/', Astro.site).href,
-  mainEntity: { '@type': 'ItemList', itemListElement: projects.map((project, index) => ({ '@type': 'ListItem', position: index + 1, name: project.data.title, url: new URL(`/projects/${project.data.slug}/`, Astro.site).href })) },
-};
+const projects = projectOrder.map(slug => allProjects.find(project => project.data.slug === slug)).filter((project): project is NonNullable<typeof project> => Boolean(project));
+const featuredSlugs = ['postal-sorting-robot', 'jingjie', 'xianyu-feishu-tool'];
+const featured = featuredSlugs.map(slug => projects.find(project => project.data.slug === slug)).filter((project): project is NonNullable<typeof project> => Boolean(project));
+const structuredData = { '@context': 'https://schema.org', '@type': 'CollectionPage', name: '张智博的项目', url: new URL('/projects/', Astro.site).href, mainEntity: { '@type': 'ItemList', itemListElement: projects.map((project, index) => ({ '@type': 'ListItem', position: index + 1, name: project.data.title, url: new URL('/projects/' + project.data.slug + '/', Astro.site).href })) } };
 ---
-<BaseLayout title="张智博项目作品｜AI 应用、智能机器人与创新实践" description="集中记录张智博参与的 AI 应用、增长实践、产品创新、智能机器人与数字化项目，包括项目角色、阶段成果与实践边界。" structuredData={structuredData}>
+<BaseLayout title="张智博项目作品｜AI 应用、智能机器人与创新实践" description="记录 AI 应用、智能设备、产品创新与增长实践中的问题、个人职责和阶段成果。" structuredData={structuredData}>
   <div class="projects-store-page">
-    <section class="projects-hero" aria-labelledby="projects-hero-title" data-projects-hero>
-      <video class="projects-hero__video" muted playsinline preload="metadata" poster={projects[0]?.data.hero} aria-hidden="true" data-projects-video>
-        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4" type="video/mp4" />
-      </video>
-      <div class="projects-hero__veil" aria-hidden="true"></div>
-      <div class="projects-hero__content">
-        <p class="projects-hero__eyebrow">SELECTED WORK · 01</p>
-        <h1 id="projects-hero-title">把正在发生的项目，<br />留下可被阅读的记录。</h1>
-        <p class="projects-hero__lead">从 AI 应用、增长实践到智能机器人，整理每个项目里的角色、过程、成果与仍在继续的探索。</p>
-        <div class="projects-hero__actions" aria-label="项目入口">
-          <a href="#project-showcase">查看全部项目</a>
-          <a href="#achievement-title">查看成果记录</a>
-          <a href="/articles/">阅读项目思考</a>
-          <button type="button" data-copy-email>联系我：<span>zzb9999@outlook.com</span><b aria-hidden="true">⧉</b></button>
-        </div>
-        <p class="projects-hero__hint" aria-hidden="true">左右移动鼠标，浏览画面</p>
-        <p class="projects-hero__status" aria-live="polite" data-copy-status></p>
-      </div>
-    </section>
-    <section class="store-section" aria-labelledby="project-showcase-title">
-      <h2 id="project-showcase-title" class="store-heading">项目在此，<span>持续推进与不断打磨。</span></h2>
-      <div class="store-rail">
-        <p class="store-rail__progress" aria-live="polite" data-rail-progress>第 1 / {projects.length} 个项目</p>
-        <div class="store-track" data-store-track>{projects.map((project, index) => <a class="store-project-card" data-slug={project.data.slug} href={`/projects/${project.data.slug}/`}><div class="store-project-card__copy"><span class="store-project-card__meta">{project.data.category} · {project.data.year}</span><h2>{project.data.title}</h2><p>{project.data.summary}</p></div><img src={project.data.hero} width="1586" height="991" alt={getProjectImageAlt(project.data.slug, project.data.title)} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'auto'} decoding="async" /></a>)}</div>
-        <button class="rail-arrow rail-arrow--previous" type="button" aria-label="向左查看项目" data-rail-previous hidden><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" aria-hidden="true" /></button>
-        <button class="rail-arrow rail-arrow--next" type="button" aria-label="向右查看更多项目" data-rail-next><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" aria-hidden="true" /></button>
-      </div>
-    </section>
-    <section class="store-section achievements" aria-labelledby="achievement-title">
-      <h2 id="achievement-title" class="store-heading">成果与荣誉，<span>按真实记录持续整理。</span></h2>
-      <div class="achievement-track">{achievementCards.map((card) => <a class={`achievement-card achievement-card--${card.accent}`} href={card.href}><div class="achievement-card__icon"><img src={card.icon} alt="" aria-hidden="true" /></div><h3>{card.title}</h3><p>{card.description}</p><span class="achievement-arrow" aria-hidden="true"><img src="/assets/figma-home/ui/inline-arrow.svg" alt="" /></span></a>)}</div>
-    </section>
+    <header class="page-hero projects-intro"><p class="eyebrow">PROJECTS</p><h1>项目与实践</h1><p>从智能设备到日常工具，记录具体问题、承担的工作和留下的成果。</p><a class="text-link" href="#project-showcase">浏览全部 {projects.length} 个项目 <span aria-hidden="true">↓</span></a></header>
+    <section class="project-selection" aria-labelledby="selected-projects-title"><div class="section-heading"><h2 id="selected-projects-title">精选项目</h2><p>智能设备、产品创新与流程自动化。</p></div><div class="selected-projects">{featured.map(project => <ProjectCard project={project} eager />)}</div></section>
+    <section id="project-showcase" class="project-directory" aria-labelledby="project-showcase-title"><div class="section-heading"><h2 id="project-showcase-title">全部项目</h2><p>{projects.length} 项实践 · 持续更新</p></div><div class="project-directory__list">{projects.map(project => <a class="project-directory__item" href={'/projects/' + project.data.slug + '/'}><span>{project.data.category}<small>{project.data.year}</small></span><div><h3>{project.data.title}</h3><p>{project.data.summary}</p><p class="project-directory__role">本人职责 · {project.data.role}</p></div><span class="project-directory__arrow" aria-hidden="true">↗</span></a>)}</div></section>
+    <section class="projects-closing"><h2>项目之外的记录</h2><p>公开成果、实践中的思考，以及仍在探索的问题。</p><div><a class="text-link" href="/achievements/">成果与荣誉 →</a><a class="text-link" href="/articles/">阅读文章 →</a><a class="text-link" href="mailto:zzb9999@outlook.com">联系我 →</a></div></section>
   </div>
-  <script>
-    const hero = document.querySelector<HTMLElement>('[data-projects-hero]');
-    const video = document.querySelector<HTMLVideoElement>('[data-projects-video]');
-    const copyEmail = document.querySelector<HTMLButtonElement>('[data-copy-email]');
-    const copyStatus = document.querySelector<HTMLElement>('[data-copy-status]');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (hero && video && !reduceMotion.matches) {
-      let previousX: number | undefined;
-      let targetTime = 0;
-      let seeking = false;
-      const seek = () => {
-        if (seeking || !Number.isFinite(video.duration) || video.duration <= 0 || Math.abs(video.currentTime - targetTime) < .02) return;
-        seeking = true;
-        video.currentTime = targetTime;
-      };
-      hero.addEventListener('pointermove', (event) => {
-        if (event.pointerType !== 'mouse') return;
-        if (previousX === undefined) { previousX = event.clientX; return; }
-        const delta = event.clientX - previousX;
-        previousX = event.clientX;
-        targetTime = Math.min(video.duration, Math.max(0, targetTime + (delta / window.innerWidth) * .8 * video.duration));
-        seek();
-      });
-      hero.addEventListener('pointerleave', () => { previousX = undefined; });
-      video.addEventListener('seeked', () => { seeking = false; seek(); });
-      video.addEventListener('loadedmetadata', () => { targetTime = Math.min(video.duration * .1, 1); seek(); }, { once: true });
-    } else if (video) {
-      video.hidden = true;
-    }
-    copyEmail?.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText('zzb9999@outlook.com');
-        if (copyStatus) copyStatus.textContent = '邮箱已复制';
-      } catch {
-        if (copyStatus) copyStatus.textContent = '请手动复制邮箱地址';
-      }
-    });
-    document.querySelectorAll<HTMLElement>('.store-rail').forEach((rail) => {
-      const track = rail.querySelector<HTMLElement>('[data-store-track]');
-      const previous = rail.querySelector<HTMLButtonElement>('[data-rail-previous]');
-      const next = rail.querySelector<HTMLButtonElement>('[data-rail-next]');
-      const progress = rail.querySelector<HTMLElement>('[data-rail-progress]');
-      if (!track || !previous || !next) return;
-      let pointerActive = false; let dragging = false; let suppressClick = false; let startX = 0; let startScroll = 0;
-      const sync = () => { previous.hidden = track.scrollLeft <= 8; next.hidden = track.scrollLeft + track.clientWidth >= track.scrollWidth - 8; const cards = track.querySelectorAll('.store-project-card').length; const current = Math.min(cards, Math.max(1, Math.round(track.scrollLeft / Math.max(1, track.clientWidth * .82)) + 1)); if (progress) progress.textContent = `第 ${current} / ${cards} 个项目`; };
-      const move = (direction: number) => track.scrollBy({ left: direction * track.clientWidth * .82, behavior: 'smooth' });
-      previous.addEventListener('click', () => move(-1)); next.addEventListener('click', () => move(1));
-      track.addEventListener('pointerdown', (event) => { if (event.pointerType !== 'mouse') return; pointerActive = true; startX = event.clientX; startScroll = track.scrollLeft; });
-      track.addEventListener('pointermove', (event) => { if (!pointerActive || event.pointerType !== 'mouse') return; const distance = event.clientX - startX; if (!dragging && Math.abs(distance) > 6) { dragging = true; track.setPointerCapture(event.pointerId); track.classList.add('is-dragging'); } if (dragging) track.scrollLeft = startScroll - distance; });
-      ['pointerup', 'pointercancel'].forEach((type) => track.addEventListener(type, () => { if (dragging) suppressClick = true; pointerActive = false; dragging = false; track.classList.remove('is-dragging'); }));
-      track.addEventListener('click', (event) => { if (!suppressClick) return; suppressClick = false; event.preventDefault(); event.stopPropagation(); }, true);
-      track.addEventListener('scroll', sync, { passive: true }); sync();
-    });
-  </script>
 </BaseLayout>

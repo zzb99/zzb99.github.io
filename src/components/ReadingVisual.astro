@@ -1,0 +1,22 @@
+---
+interface Props {
+  image?: string;
+  alt: string;
+  caption: string;
+  video?: string;
+  position?: string;
+  outline?: { text: string; slug: string }[];
+}
+const { image, alt, caption, video, position = 'center', outline = [] } = Astro.props;
+---
+<aside class:list={['reading-visual', { 'reading-visual--outline': !image }]} aria-label={image ? '配图' : '阅读提要'} style={`--reading-image-position: ${position}`}>
+  <figure>
+    {image ? <div class="reading-visual__image">
+      <img src={image} alt={alt} width="1586" height="991" decoding="async" fetchpriority="high" />
+      {video && <video loop muted playsinline preload="none" poster={image} aria-hidden="true" data-project-video>
+        <source data-src={video} type="video/mp4" />
+      </video>}
+    </div> : <div class="reading-map"><p class="reading-map__eyebrow">READING NOTES</p><h2>本文脉络</h2><ol>{outline.slice(0, 5).map(heading => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ol></div>}
+    <figcaption>{caption}</figcaption>
+  </figure>
+</aside>
