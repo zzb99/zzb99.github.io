@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">土族盘绣数字素材平台系统结构图</title>
+  <desc id="desc">依据公开代码仓库绘制的架构图：Vue 前台与 Vue 管理后台通过 NestJS 接口连接 MySQL 数据库。此图不是产品界面截图。</desc>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#dce1e1" stroke-width="1"/></pattern>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#667d87" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1200" height="900" fill="#f7f8f6"/>
+  <rect width="1200" height="900" fill="url(#grid)" opacity=".6"/>
+  <path d="M0 0H1200" stroke="#33474e" stroke-width="12"/>
+  <g fill="#26343a" font-family="Noto Sans SC, sans-serif">
+    <text x="72" y="93" font-size="18" letter-spacing="5" fill="#6a7f87">OPEN SOURCE / SYSTEM MAP</text>
+    <text x="72" y="168" font-size="47" font-weight="600">让文化素材有序流动</text>
+    <text x="74" y="211" font-size="20" fill="#65747a">土族盘绣数字素材平台 · 前台 / 后台 / 接口 / 数据库</text>
+  </g>
+  <path d="M342 428H472M342 633H472M729 523H857" stroke="#667d87" stroke-width="2" marker-end="url(#arrow)"/>
+  <g font-family="Noto Sans SC, sans-serif">
+    <rect x="71" y="316" width="273" height="222" rx="8" fill="#fff" stroke="#b7c3c6" stroke-width="2"/>
+    <text x="99" y="354" fill="#7e9095" font-size="15" letter-spacing="3">01 / PUBLIC</text>
+    <text x="99" y="407" fill="#27383d" font-size="29" font-weight="600">资源前台</text>
+    <text x="99" y="448" fill="#51646b" font-size="17">浏览 · 检索 · 详情 · 下载</text>
+    <text x="99" y="501" fill="#7e9095" font-size="16" font-family="ui-monospace, monospace">Vue 3 / Vite / TypeScript</text>
+
+    <rect x="71" y="559" width="273" height="183" rx="8" fill="#fff" stroke="#b7c3c6" stroke-width="2"/>
+    <text x="99" y="597" fill="#7e9095" font-size="15" letter-spacing="3">02 / EDITORIAL</text>
+    <text x="99" y="649" fill="#27383d" font-size="29" font-weight="600">内容后台</text>
+    <text x="99" y="688" fill="#51646b" font-size="17">录入 · 分类 · 维护 · 上下架</text>
+    <text x="99" y="719" fill="#7e9095" font-size="16" font-family="ui-monospace, monospace">Vue 3 / Element Plus</text>
+
+    <rect x="475" y="398" width="254" height="289" rx="8" fill="#344c56"/>
+    <text x="503" y="438" fill="#a9bec2" font-size="15" letter-spacing="3">03 / API</text>
+    <text x="503" y="503" fill="#fff" font-size="31" font-weight="600">接口服务</text>
+    <text x="503" y="548" fill="#d5e0e1" font-size="17">内容组织与读写</text>
+    <path d="M503 585H701" stroke="#79959e"/>
+    <text x="503" y="627" fill="#d5e0e1" font-size="16" font-family="ui-monospace, monospace">NestJS / TypeORM</text>
+
+    <rect x="860" y="398" width="272" height="289" rx="8" fill="#fff" stroke="#b7c3c6" stroke-width="2"/>
+    <text x="888" y="438" fill="#7e9095" font-size="15" letter-spacing="3">04 / DATA</text>
+    <text x="888" y="503" fill="#27383d" font-size="31" font-weight="600">结构化资料</text>
+    <text x="888" y="548" fill="#51646b" font-size="17">分类 · 来源 · 附件</text>
+    <path d="M888 585H1104" stroke="#b7c3c6"/>
+    <text x="888" y="627" fill="#7e9095" font-size="16" font-family="ui-monospace, monospace">MySQL 8+</text>
+  </g>
+  <path d="M72 790H1129" stroke="#b7c3c6"/>
+  <text x="73" y="827" fill="#66777c" font-family="Noto Sans SC, sans-serif" font-size="16">依据公开代码仓库绘制的系统结构图 · 非产品界面截图</text>
+  <text x="1128" y="827" text-anchor="end" fill="#66777c" font-family="ui-monospace, monospace" font-size="16">GITHUB / ZZB99</text>
+</svg>

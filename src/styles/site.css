@@ -346,3 +346,15 @@ body:has(.searchable-article) .page-hero { padding-top: 64px; padding-bottom: 36
  body:has(.searchable-article) .page-hero { padding-top: 40px; padding-bottom: 28px; }
  .article-filters button { padding-inline: 12px; font-size: 14px; }
 }
+
+/* A quiet, solid frame shared by the editorial pages. */
+.site-header { background: #fff; box-shadow: none; border-bottom-color: var(--line); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.quiet-contact { border-radius: 4px; background: transparent; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.quiet-contact:hover { background: var(--wash); box-shadow: none; transform: none; }
+.project-card { border-radius: 2px; box-shadow: none; }
+.project-card:hover { box-shadow: none; transform: translateY(-2px); }
+.article-search input:focus { border-color: var(--accent); box-shadow: none; }
+@media (max-width: 900px) {
+  .site-header nav { background: #fff; box-shadow: 0 12px 24px rgba(24, 34, 45, .05); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .menu-button { border-radius: 4px; }
+}

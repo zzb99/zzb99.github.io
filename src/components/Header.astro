@@ -1,10 +1,10 @@
 ---
 const path = Astro.url.pathname;
 const links = [
-  ['/', '首页'],
   ['/projects/', '项目'],
-  ['/articles/', '文章'],
-  ['/achievements/', '成果'],
+  ['/media/', '内容'],
+  ['/capabilities/', '技术'],
+  ['/articles/', '研究'],
   ['/about/', '关于'],
 ];
 const isCurrent = (href: string) => href === '/' ? path === '/' : path.startsWith(href);
@@ -65,7 +65,4 @@ const isCurrent = (href: string) => href === '/' ? path === '/' : path.startsWit
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
   });
-  const syncHomeHeader = () => document.body.classList.toggle('home-header-scrolled', Boolean(document.querySelector('.hero--editorial')) && window.scrollY > 12);
-  syncHomeHeader();
-  window.addEventListener('scroll', syncHomeHeader, { passive: true });
 </script>

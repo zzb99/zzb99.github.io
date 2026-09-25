@@ -4,6 +4,7 @@ import AxeBuilder from '@axe-core/playwright';
 const baseURL = process.env.SITE_URL ?? 'http://127.0.0.1:4321';
 const chrome = process.env.CHROME_PATH ?? (process.platform === 'win32' ? 'C:/Program Files/Google/Chrome/Application/chrome.exe' : '/usr/bin/google-chrome');
 const projectSlugs = [
+  'panxiu-material-library',
   'hotel-new-media-growth',
   'shentong-market-expansion',
   'automotive-lead-growth',
@@ -18,7 +19,7 @@ const projectSlugs = [
 ];
 const articleSlugs = ['ai-search-and-enterprise-content', 'why-personal-site-matters', 'from-idea-to-project', 'geo-is-not-name-mention', 'ai-redesigns-repetitive-operations', 'how-to-present-project-results'];
 const textRoutes = ['/rss.xml', '/robots.txt', '/sitemap-index.xml', '/llms.txt', '/baidu_verify_codeva-luikAz4Kmm.html'];
-const routes = ['/', '/projects/', ...projectSlugs.map(slug => `/projects/${slug}/`), '/articles/', ...articleSlugs.map(slug => `/articles/${slug}/`), '/achievements/', '/about/', '/profile/zhang-zhibo/', ...textRoutes, '/not-found/'];
+const routes = ['/', '/projects/', ...projectSlugs.map(slug => `/projects/${slug}/`), '/capabilities/', '/media/', '/articles/', ...articleSlugs.map(slug => `/articles/${slug}/`), '/achievements/', '/about/', '/profile/zhang-zhibo/', ...textRoutes, '/not-found/'];
 
 const browser = await chromium.launch({ headless: true, executablePath: chrome });
 const desktopContext = await browser.newContext({ viewport: { width: 1440, height: 900 } });
@@ -39,6 +40,15 @@ if (desktopAxe.violations.length) {
   const detail = desktopAxe.violations.map(violation => `${violation.id}: ${violation.nodes.map(node => node.target.join(' ')).join(', ')}`).join('; ');
   throw new Error(`Desktop axe violations: ${detail}`);
 }
+await page.locator('[data-capability="content"]').scrollIntoViewIfNeeded();
+await page.waitForFunction(() => document.querySelector('[data-capability-panel="content"]')?.classList.contains('is-active'));
+if (await page.locator('[data-capability-count]').textContent() !== '02 — 04') throw new Error('Scroll chapter counter did not track the active capability.');
+
+const reducedContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+const reducedPage = await reducedContext.newPage();
+await reducedPage.goto(baseURL, { waitUntil: 'networkidle' });
+if (await reducedPage.locator('.motion-reveal').count()) throw new Error('Reduced-motion users still receive reveal motion.');
+await reducedContext.close();
 
 const mobileContext = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true });
 const mobile = await mobileContext.newPage();
@@ -58,6 +68,10 @@ const mobileAxe = await new AxeBuilder({ page: mobile }).analyze();
 if (mobileAxe.violations.length) {
   const detail = mobileAxe.violations.map(violation => `${violation.id}: ${violation.nodes.map(node => node.target.join(' ')).join(', ')}`).join('; ');
   throw new Error(`Mobile axe violations: ${detail}`);
+}
+for (const route of ['/capabilities/', '/media/', '/achievements/']) {
+  await mobile.goto(`${baseURL}${route}`, { waitUntil: 'networkidle' });
+  if (await mobile.evaluate(() => document.documentElement.scrollWidth > innerWidth)) throw new Error(`Mobile horizontal overflow: ${route}`);
 }
 
 await page.goto(`${baseURL}/articles/`, { waitUntil: 'networkidle' });
@@ -85,6 +99,7 @@ if (new URL(page.url()).search || await page.locator('.searchable-article:visibl
 
 // Detail pages share a reading layout, including articles without their own cover.
 const readingRoutes = [
+  '/projects/panxiu-material-library/',
   '/projects/hotel-new-media-growth/',
   '/projects/postal-sorting-robot/',
   '/articles/2026-07-28-01/',

@@ -19,7 +19,7 @@ updatedDate: 2026-07-20
 organizations: []
 locations: [青海互助]
 evidenceNote: 公开素材仍需逐项确认来源、授权和署名方式；概念视觉不作为项目现场或传播数据的证明。
-relatedProjects: [housekeeping-geo, jingjie]
+relatedProjects: [panxiu-material-library, housekeeping-geo, jingjie]
 metrics:
   - { label: 数字化内容方向, value: 资料整理 }
   - { label: 关联成果, value: 2 项 }
@@ -44,6 +44,7 @@ metrics:
 
 ## 相关成果
 
+- [土族盘绣数字素材平台：需求与全栈开发](/projects/panxiu-material-library/)
 - [一种带 NFC 交互结构的土族盘绣娃娃互动装置](/achievements/#panxiu-nfc)
 - [土族盘绣纹样图片存储与检索系统 V1.0](/achievements/#panxiu-software)
 

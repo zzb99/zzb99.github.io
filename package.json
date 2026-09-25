@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "astro dev --host 127.0.0.1",
     "build": "astro build",
+    "font:home": "node scripts/update-home-font.mjs",
     "preview": "astro preview --host 127.0.0.1",
     "check": "astro check",
     "test:links": "node scripts/check-links.mjs",

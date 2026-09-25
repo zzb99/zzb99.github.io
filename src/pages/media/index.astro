@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { programCredits, publicSources } from '../../data/media';
+import '../../styles/media-page.css';
+
+const pageUrl = new URL('/media/', Astro.site).href;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: '影像作品与公开资料｜张智博',
+  url: pageUrl,
+  description: '张智博参与制作的节目署名及相关项目的公开资料来源。',
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: programCredits.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: `《${item.series}》${item.episode} · ${item.credit} 张智博`,
+      url: item.href,
+    })),
+  },
+};
+---
+
+<BaseLayout
+  title="影像作品与公开资料｜张智博"
+  description="查看张智博参与《品质中国》《攀登者》《见解》的本期节目制作署名，以及学校发布的项目和团队获奖资料。"
+  structuredData={structuredData}
+>
+  <div class="media-page">
+    <nav class="media-breadcrumb" aria-label="面包屑"><a href="/">首页</a><span aria-hidden="true">/</span><span>影像作品与公开资料</span></nav>
+
+    <header class="media-hero">
+      <div class="media-hero__copy">
+        <p class="media-kicker"><span class="media-kicker__line" aria-hidden="true"></span> SELECTED CREDITS & SOURCES</p>
+        <h1>影像作品<span>与公开资料</span></h1>
+        <p class="media-hero__lead">内容有自己的表达，出处也应清晰。这里记录参与制作的节目署名，以及与项目有关的公开资料。</p>
+      </div>
+      <div class="media-hero__aside" aria-hidden="true"><span>01 / 02</span><strong>有作品，<br />也有出处。</strong><i></i></div>
+    </header>
+
+    <div class="media-main">
+      <section class="media-section" id="credits" aria-labelledby="credits-title">
+        <div class="media-section__intro"><span>01 / SELECTED CREDITS</span><h2 id="credits-title">影像制作署名</h2><p>以下是具体节目的制作团队署名，分别对应“后期”或“剪辑师”。节目及完整制作成果归属于相应制作团队。</p></div>
+        <div class="media-credit-list">
+          {programCredits.map((item, index) =>
+            <article class="media-credit" id={item.id}>
+              <div class="media-credit__index">0{index + 1}<span>{item.year}</span></div>
+              <div class="media-credit__body"><p class="media-credit__eyebrow">PROGRAM CREDIT <span aria-hidden="true">/</span> {item.credit} · 张智博</p><h3>《{item.series}》</h3><p class="media-credit__episode">{item.episode}</p><p class="media-credit__summary">{item.summary}</p></div>
+              <a class="media-credit__link" href={item.href} target="_blank" rel="noopener noreferrer" aria-label={`查看《${item.series}》${item.episode}的原始节目页面，打开新窗口`}><span>查看节目原页</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+            </article>
+          )}
+        </div>
+        <p class="media-section__footnote">节目原页含制作团队名单。本站只展示文字署名与原页链接，未转载节目画面或海报。</p>
+      </section>
+
+      <section class="media-section media-section--sources" id="sources" aria-labelledby="sources-title">
+        <div class="media-section__intro"><span>02 / PUBLIC SOURCES</span><h2 id="sources-title">公开资料索引</h2><p>项目事实优先回到学校、赛事等原始发布页面核对；人物条目作为检索入口，不代替原始证据。</p></div>
+        <div class="media-source-list">
+          {publicSources.map((item) =>
+            <article class="media-source"><div class="media-source__meta"><span>{item.publisher}</span><small>{item.kind === 'profile' ? '人物索引' : item.kind === 'award' ? '团队荣誉' : '项目资料'}</small></div><div class="media-source__body"><h3><a href={item.href} target="_blank" rel="noopener noreferrer">{item.title}<span aria-hidden="true">↗</span></a></h3><p>{item.summary}</p></div></article>
+          )}
+        </div>
+      </section>
+    </div>
+
+    <footer class="media-outro"><p>想了解作品背后的过程？</p><a href="/projects/">继续看项目 <span aria-hidden="true">↗</span></a></footer>
+  </div>
+</BaseLayout>

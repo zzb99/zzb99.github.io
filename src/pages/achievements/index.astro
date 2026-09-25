@@ -1,19 +1,115 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { intellectualProperty, nationalAwards, provincialAwards } from '../../data/site';
-const entries = [...nationalAwards, ...provincialAwards, ...intellectualProperty];
+import { achievementRecords, featuredAchievement } from '../../data/achievements';
+import '../../styles/achievements-page.css';
+
+const verifiedAwards = achievementRecords
+  .filter((record) => record.kind === '团队奖项' && record.sources.length > 0 && record.id !== featuredAchievement.id)
+  .sort((a, b) => b.year.localeCompare(a.year));
+const pendingAwards = achievementRecords.filter((record) => record.kind === '团队奖项' && record.sources.length === 0);
+const patents = achievementRecords.filter((record) => record.kind === '实用新型专利申请');
+const softwareRecords = achievementRecords.filter((record) => record.kind === '软件著作权登记');
 const structuredData = {
-  '@context': 'https://schema.org', '@type': 'CollectionPage', name: '张智博的成果与荣誉', url: new URL('/achievements/', Astro.site).href,
-  mainEntity: { '@type': 'ItemList', itemListElement: entries.map((entry, index) => ({ '@type': 'ListItem', position: index + 1, name: entry.title, identifier: 'identifier' in entry ? entry.identifier : undefined })) },
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: '张智博的成果记录',
+  url: new URL('/achievements/', Astro.site).href,
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: achievementRecords.filter((record) => record.sources.length > 0).map((record, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: record.title,
+      url: new URL(`/achievements/#${record.id}`, Astro.site).href,
+    })),
+  },
 };
 ---
-<BaseLayout title="张智博的成果｜竞赛记录、知识产权与公开资料" description="汇总张智博的竞赛记录、参与的实用新型专利申请、软件著作权登记及可公开资料来源。" structuredData={structuredData}>
-  <header class="page-hero records-hero"><p class="eyebrow">RECORDS</p><h1>成果与荣誉</h1><p>按名称、年份、编号和项目关系整理。只呈现当前可以明确说明的记录。</p></header>
-  <div class="records-page content-wrap">
-    <section id="national-awards" class="record-section"><div class="record-section__heading"><p>01</p><h2>竞赛与荣誉</h2><span>国家级记录</span></div><div class="record-list">{nationalAwards.map((award) => <article id={award.id}><div><span>{award.year}</span><b>{award.level}</b></div><h3>{award.title}</h3><p>{award.note}</p>{award.sources.map((source) => <a href={source.href} target="_blank" rel="noopener noreferrer">{source.label} →</a>)}</article>)}</div></section>
-    <section id="provincial-awards" class="record-section"><div class="record-section__heading"><p>02</p><h2>省级竞赛记录</h2><span>按明确名称列示</span></div><div class="record-list">{provincialAwards.map((award) => <article id={award.id}><div><span>{award.year || '阶段记录'}</span><b>{award.level}</b></div><h3>{award.title}</h3>{'note' in award && <p>{award.note}</p>}{'sources' in award && award.sources.map((source) => <a href={source.href} target="_blank" rel="noopener noreferrer">{source.label} →</a>)}</article>)}</div></section>
-    <section id="patents" class="record-section"><div class="record-section__heading"><p>03</p><h2>知识产权</h2><span>参与 5 项实用新型专利申请</span></div><div class="record-list">{intellectualProperty.filter((item) => item.type !== '软件著作权').map((item) => <article id={item.id}><div><span>{item.type}</span><b>{item.identifier}</b></div><h3>{item.title}</h3><a href={`/projects/${item.project}/`}>查看相关项目 →</a></article>)}</div><p class="evidence-note"><strong>状态说明：</strong>以下均按申请记录列示，未查询并确认授权状态前，不表述为已授权专利。</p></section>
-    <section id="software" class="record-section"><div class="record-section__heading"><p>04</p><h2>软件著作权</h2><span>1 项</span></div><div class="record-list">{intellectualProperty.filter((item) => item.type === '软件著作权').map((item) => <article id={item.id}><div><span>{item.type}</span><b>{item.identifier}</b></div><h3>{item.title}</h3><a href={`/projects/${item.project}/`}>查看相关项目 →</a></article>)}</div></section>
-    <aside class="records-note"><strong>信息说明</strong><p>没有公开链接的竞赛记录仅作为个人履历展示，不附“官方认证”等标识。项目数据应结合对应页面的阶段、角色与边界说明理解。</p></aside>
+<BaseLayout title="成果记录｜张智博" description="以项目、个人职责和公开资料为线索，整理团队竞赛成果、实用新型专利申请与软件著作权登记。" structuredData={structuredData}>
+  <div class="achievement-archive">
+    <header class="achievement-archive__intro">
+      <p class="achievement-kicker">SELECTED RECORDS / 成果档案</p>
+      <div class="achievement-archive__intro-grid">
+        <h1>让成果<br />回到项目本身。</h1>
+        <p>这里不以数字排列经历，而以具体项目、承担的工作和可追溯的资料整理每项记录。团队获奖属于团队；申请记录不等于专利授权。</p>
+      </div>
+    </header>
+
+    <section class="achievement-feature" aria-labelledby="achievement-feature-title" id={featuredAchievement.id}>
+      <span id="provincial-awards" class="achievement-anchor" aria-hidden="true"></span>
+      <div class="achievement-feature__copy">
+        <div class="achievement-feature__topline"><span>代表记录 / {featuredAchievement.year}</span><span>{featuredAchievement.kind}</span></div>
+        <p class="achievement-feature__eyebrow">{featuredAchievement.project}</p>
+        <h2 id="achievement-feature-title">{featuredAchievement.title}</h2>
+        <p class="achievement-feature__summary">{featuredAchievement.summary}</p>
+        <dl class="achievement-feature__facts">
+          <div><dt>本人职责</dt><dd>{featuredAchievement.role}</dd></div>
+          <div><dt>成果归属</dt><dd>{featuredAchievement.teamScope}</dd></div>
+        </dl>
+        <div class="achievement-feature__links">
+          {featuredAchievement.sources.map((source) => <a href={source.href} target="_blank" rel="noopener noreferrer">{source.label}<span aria-hidden="true">↗</span></a>)}
+          {featuredAchievement.projectHref && <a href={featuredAchievement.projectHref}>阅读项目案例<span aria-hidden="true">↗</span></a>}
+        </div>
+      </div>
+      <figure class="achievement-feature__visual">
+        <div class="achievement-feature__visual-inner" aria-hidden="true">
+          <span class="achievement-feature__visual-meta">RECORD / 001</span>
+          <strong>{featuredAchievement.project.split('——')[0]}</strong>
+          <span class="achievement-feature__visual-line"></span>
+          <span class="achievement-feature__visual-award">{featuredAchievement.kind}</span>
+          <span class="achievement-feature__visual-year">{featuredAchievement.year}</span>
+        </div>
+        <figcaption>文字索引示意。{featuredAchievement.sources.length > 0 ? '记录信息请以左侧公开来源为准。' : '相关公开来源仍待补充。'}</figcaption>
+      </figure>
+    </section>
+
+    <section class="achievement-section" id="national-awards" aria-labelledby="archive-awards-title">
+      <div class="achievement-section__heading"><p>01 / RECOGNITION</p><h2 id="archive-awards-title">竞赛与项目荣誉</h2><span>依年份与项目整理</span></div>
+      <div class="achievement-timeline">
+        {verifiedAwards.map((record) => <article class="achievement-timeline__entry" id={record.id}>
+          <p class="achievement-timeline__year">{record.year}</p>
+          <div class="achievement-timeline__body">
+            <p class="achievement-timeline__meta">{record.project} <span>·</span> {record.kind}</p>
+            <h3>{record.title}</h3>
+            <p>{record.summary}</p>
+            <dl><div><dt>本人职责</dt><dd>{record.role}</dd></div><div><dt>成果归属</dt><dd>{record.teamScope}</dd></div></dl>
+            <div class="achievement-timeline__links">
+              {record.sources.map((source) => <a href={source.href} target="_blank" rel="noopener noreferrer">{source.label}<span aria-hidden="true">↗</span></a>)}
+              {record.projectHref && <a href={record.projectHref}>相关项目<span aria-hidden="true">↗</span></a>}
+            </div>
+          </div>
+        </article>)}
+      </div>
+      {pendingAwards.length > 0 && <details class="achievement-pending">
+        <summary>待补公开来源的省级记录 <span>{pendingAwards.length} 条</span></summary>
+        <p>以下条目来自个人履历整理，年份、项目或公开出处尚未全部核对，因此不作为重点成果呈现。</p>
+        <div class="achievement-pending__list">{pendingAwards.map((record) => <article id={record.id}><span>{record.year}</span><div><h3>{record.title}</h3><p>{record.project} · {record.role}。{record.teamScope}</p></div></article>)}</div>
+      </details>}
+    </section>
+
+    <section class="achievement-section" id="patents" aria-labelledby="archive-ip-title">
+      <div class="achievement-section__heading"><p>02 / APPLICATIONS</p><h2 id="archive-ip-title">知识产权记录</h2><span>申请、登记分别标识</span></div>
+      <p class="achievement-section__lead">实用新型条目仅按申请编号列示，未核验授权状态；没有公开证书链接的条目以项目记录为参考，不展示“官方认证”标识。</p>
+      <div class="achievement-ip-list">
+        {patents.map((record) => <article id={record.id}>
+          <div class="achievement-ip-list__index"><span>{record.year}</span><span>{record.kind}</span></div>
+          <div class="achievement-ip-list__body"><h3>{record.title}</h3><p>{record.project}</p><dl><div><dt>本人职责</dt><dd>{record.role}</dd></div><div><dt>成果归属</dt><dd>{record.teamScope}</dd></div></dl></div>
+          <div class="achievement-ip-list__aside"><code>{record.identifier}</code><span>{record.status}</span>{record.projectHref && <a href={record.projectHref}>相关项目 ↗</a>}</div>
+        </article>)}
+      </div>
+    </section>
+
+    <section class="achievement-section achievement-section--software" id="software" aria-labelledby="archive-software-title">
+      <div class="achievement-section__heading"><p>03 / REGISTRATION</p><h2 id="archive-software-title">软件著作权登记</h2><span>与项目开发记录关联</span></div>
+      <div class="achievement-ip-list">
+        {softwareRecords.map((record) => <article id={record.id}>
+          <div class="achievement-ip-list__index"><span>{record.year}</span><span>{record.kind}</span></div>
+          <div class="achievement-ip-list__body"><h3>{record.title}</h3><p>{record.project}</p><dl><div><dt>本人职责</dt><dd>{record.role}</dd></div><div><dt>成果归属</dt><dd>{record.teamScope}</dd></div></dl></div>
+          <div class="achievement-ip-list__aside"><code>{record.identifier}</code><span>{record.status}</span>{record.projectHref && <a href={record.projectHref}>相关项目 ↗</a>}</div>
+        </article>)}
+      </div>
+    </section>
+
+    <aside class="achievement-archive__note"><span>关于这些记录</span><p>竞赛结果、产品方案和知识产权材料分别处于不同阶段。公开链接可用于核对项目与赛事；本人职责来自项目实践说明，应与团队整体成果分开阅读。待核对内容会持续补充出处与具体分工。</p></aside>
   </div>
 </BaseLayout>

@@ -4,15 +4,17 @@ interface Props {
   alt: string;
   caption: string;
   video?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   position?: string;
   outline?: { text: string; slug: string }[];
 }
-const { image, alt, caption, video, position = 'center', outline = [] } = Astro.props;
+const { image, alt, caption, video, imageWidth = 1586, imageHeight = 991, position = 'center', outline = [] } = Astro.props;
 ---
 <aside class:list={['reading-visual', { 'reading-visual--outline': !image }]} aria-label={image ? '配图' : '阅读提要'} style={`--reading-image-position: ${position}`}>
   <figure>
     {image ? <div class="reading-visual__image">
-      <img src={image} alt={alt} width="1586" height="991" decoding="async" fetchpriority="high" />
+      <img src={image} alt={alt} width={imageWidth} height={imageHeight} decoding="async" fetchpriority="high" />
       {video && <video loop muted playsinline preload="none" poster={image} aria-hidden="true" data-project-video>
         <source data-src={video} type="video/mp4" />
       </video>}

@@ -11,16 +11,16 @@ const defaultSiteProfile = {
   major: '大数据与财务管理',
   graduation: '石家庄邮电职业技术学院会计学院大数据与财务管理专业毕业生，2026 年 7 月毕业',
   sameAs: ['https://baike.baidu.com/item/%E5%BC%A0%E6%99%BA%E5%8D%9A/68284301', 'https://github.com/zzb99', 'https://blog.csdn.net/zhangzhibo9'],
-  description: '张智博关注 AI 应用、产品创新、项目运营与真实业务实践，持续记录从问题发现、项目推进到成果落地的过程。',
-  knowsAbout: ['AI 应用', '产品创新', '项目运营', '智能分拣', '电商运营', '新媒体运营', 'GEO', 'SEO', '业务流程数字化'],
+  description: '张智博从编程出发，连接产品、内容与真实业务，记录可运行的系统、可核对的项目成果与公开写作。',
+  knowsAbout: ['全栈开发', 'Vue', 'TypeScript', 'NestJS', 'MySQL', '产品创新', '节目后期', '智能分拣', 'AI 应用', '业务流程数字化'],
 } as const;
 
 export const siteProfile = { ...defaultSiteProfile, ...profileOverrides } as typeof defaultSiteProfile;
 
 const defaultFaqItems: readonly FaqItem[] = [
-  { question: '张智博是谁？', answer: '张智博关注 AI 应用、产品创新、项目运营与真实业务实践，持续记录从问题发现、项目推进到成果落地的过程。' },
+  { question: '张智博是谁？', answer: '张智博从编程出发，连接产品、内容与真实业务，持续记录技术项目、团队实践、节目后期署名与公开写作。' },
   { question: '张智博的个人官网是什么？', answer: 'https://www.zzb9.cn 是张智博的个人官网；“张智博的思考空间”是本站保留的品牌名称。' },
-  { question: '张智博做过哪些项目？', answer: '本站记录智能分拣、酒店产品创新、多平台电商运营、新媒体运营与文化数字化等项目实践。' },
+  { question: '张智博做过哪些项目？', answer: '本站记录土族盘绣数字素材平台的需求与全栈开发，以及智能分拣、酒店产品创新和文化数字化等项目实践。' },
   { question: '张智博有哪些公开成果？', answer: '本站列出已确认的竞赛记录、参与的 5 项实用新型专利申请及 1 项软件著作权登记，并附可用的官方来源。' },
   { question: '如何联系张智博？', answer: '可通过邮箱 zzb9999@outlook.com 联系。' },
 ] as const;
@@ -28,6 +28,10 @@ const defaultFaqItems: readonly FaqItem[] = [
 export const faqItems: readonly FaqItem[] = Array.isArray(recordOverrides.faqItems) && recordOverrides.faqItems.length > 0 ? recordOverrides.faqItems : defaultFaqItems;
 
 export const projectOrder = [
+  'panxiu-material-library',
+  'postal-sorting-robot',
+  'jingjie',
+  'panxiu-archive',
   'hotel-new-media-growth',
   'shentong-market-expansion',
   'automotive-lead-growth',
@@ -35,24 +39,18 @@ export const projectOrder = [
   'executive-ip-planning',
   'ecommerce-growth',
   'housekeeping-geo',
-  'postal-sorting-robot',
-  'jingjie',
-  'panxiu-archive',
   'xianyu-feishu-tool',
 ] as const;
 
 export const featuredProjectSlugs = [
-  'hotel-new-media-growth',
-  'shentong-market-expansion',
-  'automotive-lead-growth',
-  'warehouse-intelligent-robot',
-  'executive-ip-planning',
+  'panxiu-material-library',
   'postal-sorting-robot',
+  'jingjie',
 ] as const;
 
 const defaultNationalAwards: readonly NationalAward[] = [
   { id: 'innovation-2024', title: '中国国际大学生创新大赛（2024）国赛铜奖', level: '国家级', year: '2024', note: '作为项目团队成员参与“锦绣前程——土族盘绣的古韵新生”项目。', sources: [{ label: '官方公示', href: 'https://cy.ncss.cn/information/2c958332919840310196181825280051' }, { label: '学校项目页面', href: 'https://www.sjzpc.edu.cn/info/2681/69201.htm' }, { label: '学校获奖页面', href: 'https://www.sjzpc.edu.cn/info/1971/66021.htm' }] },
-  { id: 'innovation-2025', title: '中国国际大学生创新大赛（2025）国赛铜奖', level: '国家级', year: '2025', note: '作为项目团队成员参与；项目名称以官方公示为准。', sources: [{ label: '官方公示', href: 'https://cy.ncss.cn/information/2c9583329714f692019ca229d24001c4' }] },
+  { id: 'innovation-2025', title: '中国国际大学生创新大赛（2025）国赛铜奖', level: '国家级', year: '2025', note: '作为“供件达人——快递分拣智能供件先锋”项目团队成员参与。', sources: [{ label: '官方公示', href: 'https://cy.ncss.cn/information/2c9583329714f692019ca229d24001c4' }, { label: '学校项目页面', href: 'https://www.sjzpc.edu.cn/info/2681/69221.htm' }] },
 ] as const;
 
 export const nationalAwards: readonly NationalAward[] = Array.isArray(recordOverrides.nationalAwards) && recordOverrides.nationalAwards.length > 0 ? recordOverrides.nationalAwards : defaultNationalAwards;
@@ -63,7 +61,7 @@ const defaultProvincialAwards: readonly ProvincialAward[] = [
   { id: 'challenge-cup', title: '河北省“挑战杯”大学生创业竞赛一等奖', level: '省部级', year: '2024' },
   { id: 'vocational-education', title: '河北省中华职业教育创新创业大赛一等奖', level: '省部级', year: '' },
   { id: 'hebei-innovation-2025-silver', title: '河北省大学生创新创业大赛（2025）银奖', level: '省部级', year: '2025' },
-  { id: 'challenge-cup-2026', title: '第十五届“挑战杯”河北省大学生创业计划竞赛一等奖', level: '省部级', year: '2026', note: '参与“净界——以‘一壶一净’重构饮水新体验”项目。', sources: [{ label: '查看学校公示', href: 'https://www.sjzpc.edu.cn/info/2501/71451.htm' }, { label: '查看获奖公示', href: 'https://www.sjzpc.edu.cn/info/1022/73711.htm' }] },
+  { id: 'challenge-cup-2026', title: '第十五届“挑战杯”河北省大学生创业计划竞赛一等奖', level: '省部级', year: '2026', note: '担任“净界——以‘一客一净’重构饮水新体验”项目负责人；奖项属于项目团队。', sources: [{ label: '查看学校公示', href: 'https://www.sjzpc.edu.cn/info/2501/71451.htm' }, { label: '查看获奖公示', href: 'https://www.sjzpc.edu.cn/info/1022/73711.htm' }] },
 ] as const;
 
 export const provincialAwards: readonly ProvincialAward[] = Array.isArray(recordOverrides.provincialAwards) && recordOverrides.provincialAwards.length > 0 ? recordOverrides.provincialAwards : defaultProvincialAwards;

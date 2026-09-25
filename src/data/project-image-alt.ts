@@ -1,4 +1,5 @@
 export const projectImageAlt: Record<string, string> = {
+  'panxiu-material-library': '土族盘绣数字素材平台系统结构图，展示前台、后台、接口和数据库之间的关系',
   'hotel-new-media-growth': '酒店客房内的手机拍摄支架、补光镜和内容创作桌面',
   'shentong-market-expansion': '快递分拣传送带上连续运输的纸箱',
   'automotive-lead-growth': '汽车展厅中用于广告投放展示的银色 SUV',

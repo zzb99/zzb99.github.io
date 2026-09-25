@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { programCredits } from '../../data/media';
+import '../../styles/capabilities-page.css';
+
+const projects = await getCollection('projects');
+const getProject = (slug: string) => projects.find((project) => project.data.slug === slug);
+const platform = getProject('panxiu-material-library');
+const postal = getProject('postal-sorting-robot');
+const jingjie = getProject('jingjie');
+const projectHighlights = [postal, jingjie].filter((project): project is NonNullable<typeof project> => Boolean(project));
+const articles = (await getCollection('articles')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 3);
+---
+<BaseLayout title="能力与方法｜张智博" description="从全栈开发到项目推进、节目后期与公开写作，查看张智博的能力如何在具体作品中形成。" >
+  <header class="cap-hero"><p class="eyebrow">CAPABILITIES / WORKING METHOD</p><h1>能力的边界，<br /><span>由作品来说明。</span></h1><p>编程是我的主要构建方式。项目推进、内容制作与持续研究，让技术进入场景，也让结果被理解。</p><div><span>01 — 04</span><a href="#technology">开始阅读 ↓</a></div></header>
+  <div class="cap-layout">
+    <nav class="cap-rail" aria-label="能力章节"><span>INDEX</span><a href="#technology" aria-current="true">01 <b>技术</b></a><a href="#projects">02 <b>项目</b></a><a href="#content">03 <b>内容</b></a><a href="#research">04 <b>研究</b></a></nav>
+    <div class="cap-content">
+      <section id="technology" class="cap-section" data-cap-section><div class="cap-section__intro"><span>01 / TECHNOLOGY</span><h2>把想法写成<br />真正能运行的系统。</h2><p>需求、界面、接口与数据并不孤立。一个产品是否站得住脚，取决于它们能否连接成完整的使用路径。</p></div>
+        {platform && <div class="cap-feature"><div class="cap-feature__top"><span>FEATURED BUILD</span><span>公开代码 · 持续迭代</span></div><img src={platform.data.hero} width="1200" height="900" alt="土族盘绣数字素材平台系统结构图，展示前台、后台、接口与数据库的关系" /><div class="cap-feature__bottom"><div><h3>{platform.data.title}</h3><p>需求与全栈开发：Vue 前台、内容后台、NestJS 接口及 MySQL 数据库。</p><small>画面为依据公开仓库绘制的系统结构图，并非产品界面截图。</small></div><a href="/projects/panxiu-material-library/">查看技术案例 ↗</a></div></div>}
+        <div class="cap-method"><div><span>01</span><b>组织需求</b><p>先确定用户要找什么、管理者需要维护什么，再划分界面与字段。</p></div><div><span>02</span><b>连接系统</b><p>把前台、管理端、接口和数据库接成一条可以检验的内容流程。</p></div><div><span>03</span><b>留下证据</b><p>公开代码和本地运行说明；不以代码仓库推断部署规模或业务效果。</p></div></div>
+      </section>
+      <section id="projects" class="cap-section" data-cap-section><div class="cap-section__intro"><span>02 / PROJECTS</span><h2>让方案经得起<br />现场的约束。</h2><p>把验证过程、个人职责与团队成果放在同一页上，避免让漂亮结论盖过真实分工。</p></div><div class="cap-projects">{projectHighlights.map((project, index) => <a href={'/projects/' + project.data.slug + '/'}><span>0{index + 1}</span><div><small>{project.data.category} / {project.data.year}</small><h3>{project.data.title}</h3><p>{project.data.role}</p></div><em aria-hidden="true">↗</em></a>)}</div><a class="cap-link" href="/projects/">查看全部项目 ↗</a></section>
+      <section id="content" class="cap-section" data-cap-section><div class="cap-section__intro"><span>03 / CONTENT</span><h2>让信息拥有<br />可以传播的形状。</h2><p>我参与过节目后期与剪辑。这里按原节目页面的署名逐条列出，不把团队作品写成个人独作。</p></div><div class="cap-credits">{programCredits.map((credit) => <a href={credit.href} target="_blank" rel="noopener noreferrer"><span>{credit.year}</span><div><h3>《{credit.series}》</h3><p>{credit.episode}</p></div><b>{credit.credit}</b><em aria-hidden="true">↗</em></a>)}</div><a class="cap-link" href="/media/">查看影像作品与出处 ↗</a></section>
+      <section id="research" class="cap-section" data-cap-section><div class="cap-section__intro"><span>04 / RESEARCH</span><h2>把过程写下来，<br />让判断可以追溯。</h2><p>公开写作记录观察、方法与复盘。它不是成果数字的附属品，而是下一次构建的起点。</p></div><div class="cap-writing">{articles.map((article) => <a href={'/articles/' + article.data.slug + '/'}><span>{article.data.pubDate.toLocaleDateString('zh-CN')}</span><h3>{article.data.title}</h3><em aria-hidden="true">↗</em></a>)}</div><a class="cap-link" href="/articles/">查看全部文章 ↗</a></section>
+    </div>
+  </div>
+  <aside class="cap-close"><div><p class="eyebrow">START WITH A PROBLEM</p><h2>有值得解决的问题，<br />我们就有聊的起点。</h2></div><a href="mailto:zzb9999@outlook.com?subject=%E9%A1%B9%E7%9B%AE%E5%90%88%E4%BD%9C%E4%BA%A4%E6%B5%81">联系合作 ↗</a></aside>
+  <script>
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-cap-section]'));
+    const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.cap-rail a'));
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        links.forEach((link) => {
+          if (link.hash === '#' + entry.target.id) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
+      }
+    }, { rootMargin: '-20% 0px -55% 0px' });
+    sections.forEach((section) => observer.observe(section));
+  </script>
+</BaseLayout>
