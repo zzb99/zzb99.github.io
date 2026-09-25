@@ -28,31 +28,31 @@ const errors = [];
 page.on('pageerror', error => errors.push(error.message));
 
 for (const route of routes) {
-  const response = await page.goto(`${baseURL}${route}`, { waitUntil: 'networkidle' });
+  const response = await page.goto(`${baseURL}${route}`, { waitUntil: 'load' });
   const expectedStatus = route === '/not-found/' ? 404 : 200;
   if (!response || response.status() !== expectedStatus) throw new Error(`${route} returned ${response?.status()}`);
   if (!textRoutes.includes(route) && await page.locator('main h1').count() !== 1) throw new Error(`${route} must have exactly one main H1.`);
 }
 
-await page.goto(baseURL, { waitUntil: 'networkidle' });
+await page.goto(baseURL, { waitUntil: 'load' });
 const desktopAxe = await new AxeBuilder({ page }).analyze();
 if (desktopAxe.violations.length) {
   const detail = desktopAxe.violations.map(violation => `${violation.id}: ${violation.nodes.map(node => node.target.join(' ')).join(', ')}`).join('; ');
   throw new Error(`Desktop axe violations: ${detail}`);
 }
-await page.locator('[data-capability="content"]').scrollIntoViewIfNeeded();
+await page.locator('[data-capability="content"]').evaluate((chapter) => chapter.scrollIntoView({ block: 'center', behavior: 'instant' }));
 await page.waitForFunction(() => document.querySelector('[data-capability-panel="content"]')?.classList.contains('is-active'));
 if (await page.locator('[data-capability-count]').textContent() !== '02 — 04') throw new Error('Scroll chapter counter did not track the active capability.');
 
 const reducedContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
 const reducedPage = await reducedContext.newPage();
-await reducedPage.goto(baseURL, { waitUntil: 'networkidle' });
+await reducedPage.goto(baseURL, { waitUntil: 'load' });
 if (await reducedPage.locator('.motion-reveal').count()) throw new Error('Reduced-motion users still receive reveal motion.');
 await reducedContext.close();
 
 const mobileContext = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true });
 const mobile = await mobileContext.newPage();
-await mobile.goto(baseURL, { waitUntil: 'networkidle' });
+await mobile.goto(baseURL, { waitUntil: 'load' });
 const menu = mobile.getByRole('button', { name: '打开导航菜单' });
 await menu.click();
 if (await mobile.getByRole('navigation', { name: '主导航' }).count() !== 1) throw new Error('Mobile navigation did not open.');
@@ -70,11 +70,11 @@ if (mobileAxe.violations.length) {
   throw new Error(`Mobile axe violations: ${detail}`);
 }
 for (const route of ['/capabilities/', '/media/', '/achievements/']) {
-  await mobile.goto(`${baseURL}${route}`, { waitUntil: 'networkidle' });
+  await mobile.goto(`${baseURL}${route}`, { waitUntil: 'load' });
   if (await mobile.evaluate(() => document.documentElement.scrollWidth > innerWidth)) throw new Error(`Mobile horizontal overflow: ${route}`);
 }
 
-await page.goto(`${baseURL}/articles/`, { waitUntil: 'networkidle' });
+await page.goto(`${baseURL}/articles/`, { waitUntil: 'load' });
 const search = page.getByRole('searchbox', { name: '搜索文章' });
 const articleItems = page.locator('.searchable-article');
 const totalArticles = await articleItems.count();
@@ -89,9 +89,9 @@ await page.waitForFunction(() => document.querySelector('.article-result-count')
 const filteredURL = page.url();
 await page.locator('.searchable-article:visible a').click();
 await page.waitForURL('**/articles/ai-search-and-enterprise-content/');
-await page.goBack({ waitUntil: 'networkidle' });
+await page.goBack({ waitUntil: 'load' });
 if (page.url() !== filteredURL || await search.inputValue() !== 'ＡＩ 搜索' || await page.locator('.searchable-article:visible').count() !== 1) throw new Error('Returning from an article lost search state.');
-await page.reload({ waitUntil: 'networkidle' });
+await page.reload({ waitUntil: 'load' });
 if (await page.locator('.searchable-article:visible').count() !== 1) throw new Error('Reload lost search state.');
 if (await page.locator('.searchable-article[aria-pressed]').count()) throw new Error('Article cards must not receive filter button state.');
 await page.getByRole('button', { name: '清除搜索与筛选', exact: true }).click();
@@ -106,7 +106,7 @@ const readingRoutes = [
   '/articles/ai-search-and-enterprise-content/',
 ];
 for (const route of readingRoutes) {
-  await page.goto(`${baseURL}${route}`, { waitUntil: 'networkidle' });
+  await page.goto(`${baseURL}${route}`, { waitUntil: 'load' });
   const layout = await page.evaluate(() => {
     const text = document.querySelector('.reading-main').getBoundingClientRect();
     const rail = document.querySelector('.reading-visual').getBoundingClientRect();
@@ -128,7 +128,7 @@ for (const route of readingRoutes) {
     await page.locator('.article-toc-mobile nav a').first().click();
     await page.waitForFunction(hash => decodeURIComponent(location.hash) === hash && !document.querySelector('.article-toc-mobile').open, destination);
   }
-  await mobile.goto(`${baseURL}${route}`, { waitUntil: 'networkidle' });
+  await mobile.goto(`${baseURL}${route}`, { waitUntil: 'load' });
   const narrow = await mobile.evaluate(() => {
     const image = document.querySelector('.reading-visual').getBoundingClientRect();
     const header = document.querySelector('.reading-header').getBoundingClientRect();
@@ -142,10 +142,10 @@ for (const route of readingRoutes) {
 }
 
 
-await page.goto(baseURL, { waitUntil: 'networkidle' });
+await page.goto(baseURL, { waitUntil: 'load' });
 await page.evaluate(() => document.fonts.ready);
 if (!await page.evaluate(() => [...document.fonts].some(font => font.family.includes('Site Noto Sans SC') && font.status === 'loaded'))) throw new Error('Bundled font failed to load.');
-await page.goto(baseURL + '/projects/', { waitUntil: 'networkidle' });
+await page.goto(baseURL + '/projects/', { waitUntil: 'load' });
 const coverLayout = await page.locator('.selected-projects .project-card img').evaluateAll(images => images.every(image => { const r = image.getBoundingClientRect(); return image.complete && image.naturalWidth > 0 && r.height < 300 && r.width > 250; }));
 if (!coverLayout) throw new Error('Featured project covers are stretched or missing.');
 await page.locator('a[href="#project-showcase"]').click();
@@ -153,7 +153,7 @@ await page.waitForFunction(() => { const y = document.querySelector('#project-sh
 if (await page.locator('.project-directory__item').count() !== projectSlugs.length) throw new Error('Project directory does not expose all projects.');
 const projectIndexAxe = await new AxeBuilder({ page }).analyze();
 if (projectIndexAxe.violations.length) throw new Error('Project index accessibility: ' + projectIndexAxe.violations.map(v => v.id).join(', '));
-await mobile.goto(baseURL + '/about/', { waitUntil: 'networkidle' });
+await mobile.goto(baseURL + '/about/', { waitUntil: 'load' });
 await mobile.locator('.profile-archive > summary').filter({ hasText: '资料与出处' }).click();
 if (!await mobile.locator('#materials-title').isVisible()) throw new Error('Profile sources cannot be expanded.');
 await browser.close();

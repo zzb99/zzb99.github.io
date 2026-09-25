@@ -43,8 +43,20 @@ jobs:
         env:
           VITE_GITHUB_PAGES: "true"
 
-      - name: Validate generated site
-        run: pnpm test:links && pnpm test:static && pnpm test:preview
+      - name: Validate generated links
+        run: pnpm test:links
+
+      - name: Validate static artifacts
+        run: pnpm test:static
+
+      - name: Validate browser experience
+        shell: bash
+        run: |
+          set -o pipefail
+          pnpm test:preview 2>&1 | tee preview-validation.log || {
+            echo "::error title=Browser preview failed::$(tail -n 25 preview-validation.log | tr '\n' ' ')"
+            exit 1
+          }
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
