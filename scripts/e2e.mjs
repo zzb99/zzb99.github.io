@@ -40,14 +40,13 @@ if (desktopAxe.violations.length) {
   const detail = desktopAxe.violations.map(violation => `${violation.id}: ${violation.nodes.map(node => node.target.join(' ')).join(', ')}`).join('; ');
   throw new Error(`Desktop axe violations: ${detail}`);
 }
-await page.locator('[data-capability="content"]').evaluate((chapter) => chapter.scrollIntoView({ block: 'center', behavior: 'instant' }));
-await page.waitForFunction(() => document.querySelector('[data-capability-panel="content"]')?.classList.contains('is-active'));
-if (await page.locator('[data-capability-count]').textContent() !== '02 — 04') throw new Error('Scroll chapter counter did not track the active capability.');
+await page.evaluate(() => window.scrollTo({ top: 100, behavior: 'instant' }));
+await page.waitForFunction(() => document.body.classList.contains('home-header-scrolled'));
 
 const reducedContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
 const reducedPage = await reducedContext.newPage();
 await reducedPage.goto(baseURL, { waitUntil: 'load' });
-if (await reducedPage.locator('.motion-reveal').count()) throw new Error('Reduced-motion users still receive reveal motion.');
+if (await reducedPage.locator('.hero__scenery').evaluate((element) => getComputedStyle(element).transform !== 'none')) throw new Error('Reduced-motion users still receive hero motion.');
 await reducedContext.close();
 
 const mobileContext = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true });

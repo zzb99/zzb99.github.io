@@ -56,7 +56,7 @@ const capabilities = await readFile(join(dist, 'capabilities/index.html'), 'utf8
 const achievements = await readFile(join(dist, 'achievements/index.html'), 'utf8');
 
 if (!home.includes('application/ld+json') || !home.includes('canonical') || !home.includes('"@type":"WebSite"') || !home.includes('twitter:card') || !home.includes('张智博的思考空间')) throw new Error('Home metadata is incomplete.');
-if (!home.includes('把复杂问题，做成') || !home.includes('/projects/panxiu-material-library/') || !home.includes('/media/')) throw new Error('Redesigned home is missing its project-first narrative or media path.');
+if (!home.includes('hero--editorial') || !home.includes('保持好奇，也保持探索。') || !home.includes('/projects/postal-sorting-robot/')) throw new Error('Previous editorial homepage is incomplete.');
 if (!capabilities.includes('技术') || !capabilities.includes('data-cap-section') || !capabilities.includes('系统结构图')) throw new Error('Capabilities page is incomplete.');
 if (!media.includes('品质中国') || !media.includes('攀登者') || !media.includes('见解') || !media.includes('百度百科')) throw new Error('Media and public-source index is incomplete.');
 if (!achievements.includes('团队成果') || !achievements.includes('申请记录不等于专利授权')) throw new Error('Achievement scope labels are incomplete.');

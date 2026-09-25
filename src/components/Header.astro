@@ -65,4 +65,7 @@ const isCurrent = (href: string) => href === '/' ? path === '/' : path.startsWit
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
   });
+  const syncHomeHeader = () => document.body.classList.toggle('home-header-scrolled', Boolean(document.querySelector('.hero--editorial')) && window.scrollY > 12);
+  syncHomeHeader();
+  window.addEventListener('scroll', syncHomeHeader, { passive: true });
 </script>
